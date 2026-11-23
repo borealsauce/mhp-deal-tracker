@@ -396,9 +396,8 @@ function fillStates() {
 
 function initMap() {
   map = L.map("map", { scrollWheelZoom: true, zoomControl: true });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    attribution: "&copy; OpenStreetMap &copy; CARTO",
-    subdomains: "abcd",
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors",
     maxZoom: 19,
   }).addTo(map);
   map.setView([39.5, -98.35], 4);
