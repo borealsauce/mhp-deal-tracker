@@ -49,25 +49,20 @@
         <button type="button" class="btn" id="modeSingle">Single sort</button>
         <button type="button" class="btn ghost" id="clearSorts">Clear sorts</button>
         <button type="button" class="btn ghost" id="exportCsv">Export CSV</button>
-        <button type="button" class="btn" id="toggleMap">Hide map</button>
         <span class="seg" id="cardSizeWrap" title="Card size">
           <span class="seg-label">Cards</span>
           <button type="button" class="btn size" data-card-size="s">S</button>
           <button type="button" class="btn size" data-card-size="m">M</button>
           <button type="button" class="btn size" data-card-size="l">L</button>
         </span>
-        <label class="map-width-ctrl" id="mapWidthWrap">Map
-          <input id="mapWidth" type="range" min="20" max="70" step="1" value="48" aria-label="Map width">
-        </label>
       </div>
     </div>
     <div class="sort-mode" id="sortState"></div>
   </div>
 
-  <div class="split" id="split">
+  <div class="split">
     <div class="list-pane" id="list"></div>
-    <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Resize map" tabindex="0"></div>
-    <div class="map-pane" id="mapPane">
+    <div class="map-pane">
       <div id="map"></div>
       <div class="map-legend">
         <div><i class="dot" style="background:#12875A"></i>Seller financing</div>
