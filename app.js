@@ -10,6 +10,9 @@ const LS = {
   score: "mhpDealTracker.scoreOverride.v1",
   colOrder: "mhpDealTracker.colOrder.v1",
   colWidths: "mhpDealTracker.colWidths.v1",
+  showMap: "mhpDealTracker.showMap.v1",
+  cardSize: "mhpDealTracker.cardSize.v1",
+  mapWidth: "mhpDealTracker.mapWidth.v1",
 };
 
 const GROUPS = {
@@ -84,6 +87,9 @@ let view = "cards";
 let tab = "all_qualified";
 let colOrder = { main: null, miss: null };
 let colWidths = {};
+let showMap = true;
+let cardSize = "m";
+let mapWidth = 48;
 
 function loadJSON(key, fallback) {
   try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
@@ -560,6 +566,15 @@ function cardHTML(row) {
   </article>`;
 }
 
+function nameCellHTML(row) {
+  const src = row.thumbnail || "";
+  const thumbCls = "row-thumb" + (src ? "" : " no-photo");
+  const img = src
+    ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer">`
+    : "";
+  return `<div class="name"><a class="${thumbCls}" href="${esc(row.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open on Crexi">${img}</a><a href="${esc(row.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(row.name)}</a></div>`;
+}
+
 function tableHTML(rows) {
   const cols = currentCols();
   const head = cols.map(k => {
@@ -577,7 +592,7 @@ function tableHTML(rows) {
 function cellHTML(row, k) {
   if (k === "status") return statusSelect(row.id, "status");
   if (k === "chase") return statusSelect(row.id, "chase");
-  if (k === "name") return `<div class="name"><a href="${esc(row.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(row.name)}</a></div>`;
+  if (k === "name") return nameCellHTML(row);
   if (k === "price") return `<span class="p">${money(row.price)}</span>`;
   if (k === "pop3") return popFmt(row.pop3);
   if (k === "is_new") return row.is_new ? "New" : "Seen";
@@ -640,6 +655,12 @@ function bindListEvents(root) {
     img.addEventListener("load", () => {
       const media = img.closest(".card-media");
       if (media) media.classList.add("has-photo");
+    });
+  });
+  root.querySelectorAll(".row-thumb img").forEach(img => {
+    img.addEventListener("error", () => {
+      const a = img.closest(".row-thumb");
+      if (a) a.classList.add("no-photo");
     });
   });
   bindTableChrome(root);
@@ -845,6 +866,37 @@ function renderCounts() {
     `<span><i class="dot" style="background:#6B4C9A"></i>Crexi saved ${(DATA.saved || []).length}</span>`;
 }
 
+function clampMapWidth(n) {
+  const v = Number(n);
+  if (!isFinite(v)) return 48;
+  return Math.min(70, Math.max(20, Math.round(v)));
+}
+
+function applyLayout() {
+  document.body.classList.toggle("map-hidden", !showMap);
+  document.body.classList.remove("card-s", "card-m", "card-l");
+  document.body.classList.add("card-" + (cardSize === "s" || cardSize === "l" ? cardSize : "m"));
+  const split = document.getElementById("split");
+  if (split) split.style.setProperty("--map-width", mapWidth + "%");
+  const btn = document.getElementById("toggleMap");
+  if (btn) {
+    btn.textContent = showMap ? "Hide map" : "Show map";
+    btn.classList.toggle("active", !showMap);
+  }
+  const widthWrap = document.getElementById("mapWidthWrap");
+  if (widthWrap) widthWrap.hidden = !showMap;
+  const slider = document.getElementById("mapWidth");
+  if (slider && String(slider.value) !== String(mapWidth)) slider.value = mapWidth;
+  const sizeWrap = document.getElementById("cardSizeWrap");
+  if (sizeWrap) sizeWrap.hidden = view !== "cards";
+  document.querySelectorAll("[data-card-size]").forEach(b => {
+    b.classList.toggle("active", b.dataset.cardSize === cardSize);
+  });
+  if (map && showMap) {
+    setTimeout(() => map.invalidateSize(), 60);
+  }
+}
+
 function renderToolbarState() {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
   document.getElementById("viewCards").classList.toggle("active", view === "cards");
@@ -857,6 +909,7 @@ function renderToolbarState() {
     ? sorts.map((s,i) => `${i+1}. ${COLS[s.key]?.label || s.key} ${s.dir==="asc"?"↑":"↓"}`).join(" · ")
     : "Default: price (high to low)";
   document.getElementById("sortState").textContent = (sortMode === "multi" ? "Multi-sort: " : "Single sort: ") + label;
+  applyLayout();
 }
 
 function render() {
@@ -864,7 +917,7 @@ function render() {
   const rows = filtered();
   document.getElementById("shown").textContent = `${rows.length} shown`;
   renderList(rows);
-  updateMap(rows);
+  if (showMap) updateMap(rows);
 }
 
 function fillStates() {
@@ -889,6 +942,39 @@ function initMap() {
   markersLayer = L.layerGroup().addTo(map);
 }
 
+function bindSplitter() {
+  const split = document.getElementById("split");
+  const handle = document.getElementById("splitter");
+  if (!split || !handle) return;
+  const setFromClientX = (clientX) => {
+    const rect = split.getBoundingClientRect();
+    if (!rect.width) return;
+    mapWidth = clampMapWidth(((rect.right - clientX) / rect.width) * 100);
+    applyLayout();
+  };
+  handle.addEventListener("pointerdown", ev => {
+    if (!showMap || ev.button !== 0) return;
+    ev.preventDefault();
+    handle.classList.add("dragging");
+    handle.setPointerCapture(ev.pointerId);
+    const onMove = e => setFromClientX(e.clientX);
+    const onUp = () => {
+      handle.classList.remove("dragging");
+      handle.removeEventListener("pointermove", onMove);
+      handle.removeEventListener("pointerup", onUp);
+      saveJSON(LS.mapWidth, mapWidth);
+    };
+    handle.addEventListener("pointermove", onMove);
+    handle.addEventListener("pointerup", onUp);
+  });
+  handle.addEventListener("keydown", ev => {
+    if (!showMap) return;
+    const step = ev.shiftKey ? 5 : 2;
+    if (ev.key === "ArrowLeft") { mapWidth = clampMapWidth(mapWidth + step); applyLayout(); saveJSON(LS.mapWidth, mapWidth); ev.preventDefault(); }
+    if (ev.key === "ArrowRight") { mapWidth = clampMapWidth(mapWidth - step); applyLayout(); saveJSON(LS.mapWidth, mapWidth); ev.preventDefault(); }
+  });
+}
+
 function bindChrome() {
   document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
     tab = t.dataset.tab; saveJSON(LS.tab, tab); selectedId = null; fillStates(); render();
@@ -906,6 +992,36 @@ function bindChrome() {
   document.getElementById("clearSorts").addEventListener("click", clearSorts);
   const exp = document.getElementById("exportCsv");
   if (exp) exp.addEventListener("click", exportCsv);
+  const toggle = document.getElementById("toggleMap");
+  if (toggle) toggle.addEventListener("click", () => {
+    showMap = !showMap;
+    saveJSON(LS.showMap, showMap);
+    applyLayout();
+    if (showMap) {
+      const rows = filtered();
+      updateMap(rows);
+      setTimeout(() => { if (map) map.invalidateSize(); }, 80);
+    }
+  });
+  document.querySelectorAll("[data-card-size]").forEach(b => {
+    b.addEventListener("click", () => {
+      cardSize = b.dataset.cardSize;
+      saveJSON(LS.cardSize, cardSize);
+      applyLayout();
+    });
+  });
+  const slider = document.getElementById("mapWidth");
+  if (slider) {
+    slider.addEventListener("input", () => {
+      mapWidth = clampMapWidth(slider.value);
+      applyLayout();
+    });
+    slider.addEventListener("change", () => saveJSON(LS.mapWidth, mapWidth));
+  }
+  bindSplitter();
+  window.addEventListener("resize", () => {
+    if (map && showMap) map.invalidateSize();
+  });
 }
 
 function main() {
@@ -915,6 +1031,10 @@ function main() {
   tab = loadJSON(LS.tab, "all_qualified") || "all_qualified";
   colOrder = loadJSON(LS.colOrder, { main: null, miss: null, saved: null }) || { main: null, miss: null, saved: null };
   colWidths = loadJSON(LS.colWidths, {}) || {};
+  showMap = loadJSON(LS.showMap, true) !== false;
+  const savedSize = loadJSON(LS.cardSize, "m");
+  cardSize = (savedSize === "s" || savedSize === "l") ? savedSize : "m";
+  mapWidth = clampMapWidth(loadJSON(LS.mapWidth, 48));
   return Promise.all([
     fetch(DATA_URL).then(res => {
       if (!res.ok) throw new Error(res.status + " " + res.statusText);
