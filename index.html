@@ -24,11 +24,19 @@
       <button type="button" class="tab" data-tab="seller_financing">Seller financing <span class="n" id="n-sf">0</span></button>
       <button type="button" class="tab" data-tab="other_passes">Other passes <span class="n" id="n-pass">0</span></button>
       <button type="button" class="tab" data-tab="missing_info">Missing info — chase broker <span class="n" id="n-miss">0</span></button>
+      <button type="button" class="tab" data-tab="crexi_saved">Crexi Saved <span class="n" id="n-saved">0</span></button>
     </div>
     <div class="filters">
       <input id="q" type="search" placeholder="Search parks, cities, notes…">
       <label>State
         <select id="state"><option value="">All states</option></select>
+      </label>
+      <label id="savedGroupWrap" hidden>Group
+        <select id="savedGroup">
+          <option value="MHP" selected>MHP</option>
+          <option value="Gas stations NNN">Gas stations NNN</option>
+          <option value="">All saved</option>
+        </select>
       </label>
       <label>Min price <input id="pmin" type="number" min="0" step="50000" placeholder="800000"></label>
       <label>Max price <input id="pmax" type="number" min="0" step="50000" placeholder="3800000"></label>
@@ -40,6 +48,7 @@
         <button type="button" class="btn" id="modeMulti">Multi-sort</button>
         <button type="button" class="btn" id="modeSingle">Single sort</button>
         <button type="button" class="btn ghost" id="clearSorts">Clear sorts</button>
+        <button type="button" class="btn ghost" id="exportCsv">Export CSV</button>
       </div>
     </div>
     <div class="sort-mode" id="sortState"></div>
@@ -53,6 +62,8 @@
         <div><i class="dot" style="background:#12875A"></i>Seller financing</div>
         <div><i class="dot" style="background:#2B6CB0"></i>Other passes</div>
         <div><i class="dot" style="background:#C05621"></i>Missing info — chase broker</div>
+        <div><i class="dot" style="background:#12875A"></i>Crexi saved — MHP</div>
+        <div><i class="dot" style="background:#6B4C9A"></i>Crexi saved — NNN</div>
       </div>
     </div>
   </div>
