@@ -11,6 +11,10 @@ const LS = {
   colOrder: "mhpDealTracker.colOrder.v1",
   colWidths: "mhpDealTracker.colWidths.v1",
   cardSize: "mhpDealTracker.cardSize.v1",
+  notes: "mhpDealTracker.notes.v1",
+  cap: "mhpDealTracker.capOverride.v1",
+  deleted: "mhpDealTracker.deleted.v1",
+  showDeleted: "mhpDealTracker.showDeleted.v1",
 };
 
 const GROUPS = {
@@ -70,11 +74,17 @@ const COLS = {
   email: { label: "Email", type: "text" },
   note: { label: "Note", type: "text" },
   type: { label: "Type", type: "text" },
+  est_value: { label: "Est. Value", type: "num" },
+  vs_ask: { label: "Value vs Ask", type: "num" },
+  mynotes: { label: "My Notes", type: "notes" },
+  sel: { label: "", type: "sel" },
+  act: { label: "", type: "act" },
 };
 
-const MAIN_COLS = ["status","name","city","state","price","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","is_new","note"];
-const MISS_COLS = ["chase","name","city","state","price","missing","broker","phone","email","pads","toh","poh","score","occupancy","utilities","pop3","is_new","note"];
-const SAVED_COLS = ["status","name","type","city","state","price","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","note"];
+const MAIN_COLS = ["sel","status","name","city","state","price","est_value","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","is_new","note","mynotes","act"];
+const MISS_COLS = ["sel","chase","name","city","state","price","est_value","vs_ask","missing","broker","phone","email","pads","toh","poh","score","occupancy","utilities","pop3","is_new","note","mynotes","act"];
+const SAVED_COLS = ["sel","status","name","type","city","state","price","est_value","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","note","mynotes","act"];
+const SKIP_SORT = { sel: true, act: true };
 
 let DATA = { listings: [], saved: [], as_of_label: "" };
 let map, markersLayer, markerById = {};
@@ -86,6 +96,10 @@ let tab = "all_qualified";
 let colOrder = { main: null, miss: null };
 let colWidths = {};
 let cardSize = "m";
+let showDeleted = false;
+let selectedKeys = new Set();
+let toastTimer = null;
+let lastDeleted = [];
 
 function loadJSON(key, fallback) {
   try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
@@ -115,6 +129,332 @@ function money(p) {
   if (p == null || p === "") return "Unpriced";
   return "$" + Number(p).toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
+function listingKey(row) {
+  if (row && row.id != null && row.id !== "") return String(row.id);
+  return String((row && (row.url || row.name)) || "");
+}
+function findRow(id) {
+  const k = String(id);
+  const lists = [DATA.listings || [], DATA.saved || []];
+  for (const list of lists) {
+    const hit = list.find(x => String(x.id) === k);
+    if (hit) return hit;
+  }
+  return null;
+}
+function notesMap() { return loadJSON(LS.notes, {}); }
+function getNotes(row) {
+  const m = notesMap();
+  const key = listingKey(row);
+  if (m[key]) return m[key];
+  if (row && row.url && m[row.url]) return m[row.url];
+  return "";
+}
+function setNotes(row, text) {
+  const m = notesMap();
+  const key = listingKey(row);
+  const v = String(text || "");
+  if (v) m[key] = v;
+  else delete m[key];
+  if (row && row.url && row.url !== key) {
+    if (v) m[row.url] = v;
+    else delete m[row.url];
+  }
+  saveJSON(LS.notes, m);
+}
+function capOverrideMap() { return loadJSON(LS.cap, {}); }
+function getCapOverride(row) {
+  const m = capOverrideMap();
+  const v = m[listingKey(row)];
+  return (typeof v === "number" && !isNaN(v) && v > 0) ? v : null;
+}
+function setCapOverride(row, v) {
+  const m = capOverrideMap();
+  const key = listingKey(row);
+  if (v == null) delete m[key];
+  else m[key] = v;
+  saveJSON(LS.cap, m);
+}
+function deletedState() {
+  const raw = loadJSON(LS.deleted, { keys: [] });
+  if (Array.isArray(raw)) return { keys: raw.map(String) };
+  return { keys: Array.isArray(raw.keys) ? raw.keys.map(String) : [] };
+}
+function deletedKeySet() { return new Set(deletedState().keys); }
+function persistDeleted(set) { saveJSON(LS.deleted, { keys: Array.from(set) }); }
+function isDeleted(row) {
+  const d = deletedKeySet();
+  if (d.has(listingKey(row))) return true;
+  if (row && row.url && d.has(String(row.url))) return true;
+  return false;
+}
+function markDeleted(rows) {
+  const d = deletedKeySet();
+  const batch = [];
+  rows.forEach(row => {
+    const keys = [];
+    const k = listingKey(row);
+    if (k) { d.add(k); keys.push(k); }
+    if (row.url) { d.add(String(row.url)); keys.push(String(row.url)); }
+    batch.push({ keys, name: row.name || k });
+    selectedKeys.delete(k);
+  });
+  persistDeleted(d);
+  return batch;
+}
+function unmarkDeleted(batch) {
+  const d = deletedKeySet();
+  (batch || []).forEach(item => (item.keys || []).forEach(k => d.delete(String(k))));
+  persistDeleted(d);
+}
+function deletedInUniverse() {
+  return activeUniverse().filter(isDeleted);
+}
+
+function parseMoneyish(s) {
+  if (s == null || s === "") return null;
+  if (typeof s === "number" && !isNaN(s)) return s;
+  const m = String(s).replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
+  return m ? parseFloat(m[0]) : null;
+}
+function lotRentInfo(row) {
+  if (row && row.lot_rent != null && row.lot_rent !== "") {
+    const n = parseMoneyish(row.lot_rent);
+    if (n != null) return { rent: n, detail: "stated lot rent $" + n };
+  }
+  const blob = [row && row.note, row && row.sf_terms].filter(Boolean).join(" ");
+  if (!blob) return null;
+  let m = blob.match(/\$\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:[-–]|to)\s*\$?\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:avg(?:erage)?\s+)?(?:monthly\s+)?lot rents?/i);
+  if (m) {
+    const a = parseMoneyish(m[1]), b = parseMoneyish(m[2]);
+    return { rent: (a + b) / 2, detail: "midpoint of $" + m[1] + "–$" + m[2] + " lot rent (from notes)" };
+  }
+  m = blob.match(/\$\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:avg(?:erage)?\s+)?(?:monthly\s+)?(?:in\s+)?lot rents?/i);
+  if (m) return { rent: parseMoneyish(m[1]), detail: "$" + m[1] + " lot rent (from notes)" };
+  m = blob.match(/lot rents?\s*(?:of|is|are|:)?\s*\$\s*([0-9][0-9,]*(?:\.\d+)?)/i);
+  if (m) return { rent: parseMoneyish(m[1]), detail: "$" + m[1] + " lot rent (from notes)" };
+  return null;
+}
+function occupiedPadsInfo(row) {
+  const pads = firstNum(row.pads);
+  const occRaw = String(row.occupancy || row.note || "");
+  const of = occRaw.match(/(\d+)\s+of\s+(\d+)/i);
+  if (of) return { n: +of[1], detail: of[1] + " of " + of[2] + " occupied" };
+  const vacant = occRaw.match(/(\d+)\s+vacant/i);
+  if (vacant && pads != null) return { n: pads - +vacant[1], detail: pads + " pads − " + vacant[1] + " vacant" };
+  const occupied = occRaw.match(/(\d+)\s+occupied/i);
+  if (occupied && firstNum(row.occupancy) == null) return { n: +occupied[1], detail: occupied[1] + " occupied" };
+  const occ = firstNum(row.occupancy);
+  if (pads == null || occ == null || pads <= 0) return null;
+  const pct = occ > 1.5 ? occ : occ * 100;
+  const n = Math.round(pads * pct / 100);
+  return { n, detail: n + " occupied (" + dash(row.occupancy) + ")" };
+}
+function isWellSeptic(row) {
+  const u = String((row && row.utilities) || "").toLowerCase();
+  return /\bwell\b|private well|septic/.test(u);
+}
+function pohShare(row) {
+  const toh = typeof row.toh === "number" ? row.toh : null;
+  const poh = typeof row.poh === "number" ? row.poh : null;
+  if (toh != null && poh != null && toh + poh > 0) return poh / (toh + poh);
+  return null;
+}
+function tohShareApprox(row) {
+  const toh = typeof row.toh === "number" ? row.toh : null;
+  const poh = typeof row.poh === "number" ? row.poh : null;
+  const pads = firstNum(row.pads);
+  if (toh != null && poh != null && toh + poh > 0) return toh / (toh + poh);
+  if (toh != null && pads) return toh / pads;
+  return null;
+}
+function expenseRatio(row) {
+  const well = isWellSeptic(row);
+  const poh = pohShare(row);
+  const toh = tohShareApprox(row);
+  const util = factorUtilities(row);
+  const city = !!(util && util.points === 10);
+  if (poh != null && poh > 0.5) {
+    return { ratio: 0.45, detail: "45% expense (POH share " + Math.round(poh * 100) + "%)" };
+  }
+  if (well) return { ratio: 0.45, detail: "45% expense (well/septic)" };
+  if (toh != null && toh >= 0.5 && city) {
+    return { ratio: 0.35, detail: "35% expense (TOH-heavy, city utilities)" };
+  }
+  return { ratio: 0.45, detail: "45% expense default (need TOH-heavy city-utility mix for 35%)" };
+}
+function marketCapInfo(row) {
+  const p = row.pop3 == null || row.pop3 === "" ? null : Number(row.pop3);
+  let base, reason;
+  if (p == null || isNaN(p)) {
+    base = 9;
+    reason = "3-mi pop unknown — used 9% secondary-metro default";
+  } else if (p < 5000) {
+    base = 10.5;
+    reason = "rural/small town (3-mi pop " + p.toLocaleString("en-US") + ")";
+  } else if (p <= 50000) {
+    base = 9;
+    reason = "small metro/secondary (3-mi pop " + p.toLocaleString("en-US") + ")";
+  } else {
+    base = 7.5;
+    reason = "larger metro/suburban (3-mi pop " + p.toLocaleString("en-US") + ")";
+  }
+  const poh = pohShare(row);
+  const pohAdj = (poh != null && poh > 0.5) ? 1 : 0;
+  const utilAdj = isWellSeptic(row) ? 0.5 : 0;
+  return {
+    cap: base + pohAdj + utilAdj,
+    base, pohAdj, utilAdj, reason,
+    pohNote: pohAdj ? ("+1% because POH share is " + Math.round(poh * 100) + "%") : null,
+    utilNote: utilAdj ? "+0.5% because utilities are well/septic" : null,
+  };
+}
+function derivedNoi(row) {
+  const occ = occupiedPadsInfo(row);
+  const rent = lotRentInfo(row);
+  if (!occ || !rent || occ.n <= 0 || rent.rent <= 0) return null;
+  const exp = expenseRatio(row);
+  const gi = occ.n * rent.rent * 12;
+  const noi = gi * (1 - exp.ratio);
+  return {
+    noi,
+    detail: occ.detail + " × " + rent.detail + " × 12 × (1 − " + exp.detail + ") = " + money(Math.round(noi)),
+  };
+}
+function estValueInfo(row) {
+  const stated = parseMoneyish(row && row.noi);
+  const derived = stated == null ? derivedNoi(row) : null;
+  const noi = stated != null ? stated : (derived ? derived.noi : null);
+  const noiSource = stated != null
+    ? "Stated NOI " + money(stated)
+    : (derived ? "Derived NOI " + derived.detail : null);
+  if (noi == null || noi <= 0) {
+    return {
+      value: null, vsAsk: null, color: null, cap: null, capOverride: null,
+      insufficient: true,
+      tooltip: "Need stated NOI or a lot-rent plus occupancy/pads to estimate value.",
+    };
+  }
+  const mkt = marketCapInfo(row);
+  const capOverride = getCapOverride(row);
+  const cap = capOverride != null ? capOverride : mkt.cap;
+  const value = noi / (cap / 100);
+  const ask = (row.price == null || row.price === "") ? null : Number(row.price);
+  let vsAsk = null, color = null;
+  if (ask != null && ask > 0) {
+    vsAsk = ((value - ask) / ask) * 100;
+    if (value >= ask) color = "up";
+    else if (ask > value * 1.2) color = "down";
+    else color = "mid";
+  }
+  const lines = [
+    "Est. Value = adjusted NOI ÷ market cap rate.",
+    noiSource + ".",
+    capOverride != null
+      ? ("Your cap-rate override: " + cap.toFixed(2) + "%.")
+      : ("Market cap " + cap.toFixed(2) + "% (" + mkt.reason
+        + (mkt.pohNote ? "; " + mkt.pohNote : "")
+        + (mkt.utilNote ? "; " + mkt.utilNote : "") + ")."),
+    "Est. Value: " + money(Math.round(value)) + ".",
+  ];
+  if (ask != null && ask > 0) {
+    lines.push("Ask: " + money(ask) + ". Value vs ask: " + (vsAsk >= 0 ? "+" : "") + vsAsk.toFixed(1) + "%.");
+    if (color === "down") lines.push("Ask is more than 20% above estimated value.");
+  } else {
+    lines.push("No asking price, so Value vs Ask is blank.");
+  }
+  lines.push("Click the value to set or clear a cap-rate override.");
+  return {
+    value, vsAsk, color, cap, capOverride, noi, noiSource,
+    insufficient: false, tooltip: lines.join("\n"),
+  };
+}
+function promptCap(row) {
+  const info = estValueInfo(row);
+  const current = info.capOverride != null ? String(info.capOverride) : "";
+  const computed = marketCapInfo(row).cap;
+  const hint = "Computed market cap is " + computed.toFixed(2) + "%. Enter a cap rate % to override, or leave blank to use the computed cap.";
+  const raw = window.prompt(hint, current);
+  if (raw == null) return;
+  const trimmed = String(raw).trim().replace(/%$/, "");
+  if (!trimmed) {
+    setCapOverride(row, null);
+    render();
+    return;
+  }
+  const n = parseFloat(trimmed);
+  if (isNaN(n) || n <= 0 || n >= 40) {
+    window.alert("Enter a cap rate between 0 and 40, as a percent (for example 9.5).");
+    return;
+  }
+  setCapOverride(row, Math.round(n * 100) / 100);
+  render();
+}
+function vsAskLabel(info) {
+  if (info.insufficient || info.vsAsk == null) return "—";
+  const n = info.vsAsk;
+  const sign = n > 0 ? "+" : "";
+  return sign + (Math.abs(n) >= 10 ? n.toFixed(0) : n.toFixed(1)) + "%";
+}
+
+function enrichFromSaved() {
+  const byId = {};
+  (DATA.saved || []).forEach(s => { if (s && s.id != null) byId[String(s.id)] = s; });
+  (DATA.listings || []).forEach(r => {
+    const s = byId[String(r.id)];
+    if (!s) return;
+    if ((r.noi == null || r.noi === "") && s.noi) r.noi = s.noi;
+    if ((r.acres == null || r.acres === "") && s.acres) r.acres = s.acres;
+  });
+}
+
+function showToast(msg, undoFn) {
+  const el = document.getElementById("toast");
+  const msgEl = document.getElementById("toastMsg");
+  const undo = document.getElementById("toastUndo");
+  if (!el || !msgEl || !undo) return;
+  if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+  msgEl.textContent = msg;
+  el.hidden = false;
+  undo.onclick = ev => {
+    ev.preventDefault();
+    el.hidden = true;
+    if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+    if (undoFn) undoFn();
+  };
+  toastTimer = setTimeout(() => {
+    el.hidden = true;
+    toastTimer = null;
+  }, 6000);
+}
+
+function deleteRows(rows) {
+  const list = (rows || []).filter(r => r && !isDeleted(r));
+  if (!list.length) return;
+  const batch = markDeleted(list);
+  lastDeleted = batch;
+  const names = list.map(r => r.name).filter(Boolean);
+  const msg = list.length === 1
+    ? ("Deleted " + (names[0] || "listing"))
+    : ("Deleted " + list.length + " listings");
+  showToast(msg, () => {
+    unmarkDeleted(batch);
+    render();
+    renderCounts();
+  });
+  render();
+  renderCounts();
+}
+function restoreRows(rows) {
+  const batch = (rows || []).map(r => ({
+    keys: [listingKey(r), r.url].filter(Boolean).map(String),
+    name: r.name,
+  }));
+  unmarkDeleted(batch);
+  render();
+  renderCounts();
+}
+
 function popFmt(n) { return n == null ? "n/a" : Number(n).toLocaleString("en-US"); }
 function dash(s) { return s && String(s).trim() && String(s).toLowerCase() !== "n/a" ? s : "n/a"; }
 function countFmt(v) { return v == null || v === "" ? "n/a" : String(v); }
@@ -201,9 +541,11 @@ function filtered() {
   if (st) list = list.filter(x => x.state === st);
   if (pmin != null) list = list.filter(x => x.price != null && x.price >= pmin);
   if (pmax != null) list = list.filter(x => x.price != null && x.price <= pmax);
+  if (showDeleted) list = list.filter(isDeleted);
+  else list = list.filter(x => !isDeleted(x));
   if (q) {
     list = list.filter(x => {
-      const blob = [x.name, x.city, x.state, x.note, x.sf_terms, x.broker_name, x.brokerage, x.utilities, x.property_type, x.saved_group, (x.missing_fields||[]).join(" "), x.toh, x.poh].join(" ").toLowerCase();
+      const blob = [x.name, x.city, x.state, x.note, getNotes(x), x.sf_terms, x.broker_name, x.brokerage, x.utilities, x.property_type, x.saved_group, (x.missing_fields||[]).join(" "), x.toh, x.poh].join(" ").toLowerCase();
       return blob.includes(q);
     });
   }
@@ -427,6 +769,15 @@ function sortValue(row, key) {
   if (key === "toh" || key === "poh") return typeof row[key] === "number" ? row[key] : null;
   if (key === "pads" || key === "cap" || key === "occupancy") return firstNum(row[key === "pads" ? "pads" : key === "cap" ? "cap" : "occupancy"]);
   if (key === "price" || key === "pop3") return row[key];
+  if (key === "est_value") {
+    const info = estValueInfo(row);
+    return info.value;
+  }
+  if (key === "vs_ask") {
+    const info = estValueInfo(row);
+    return info.vsAsk;
+  }
+  if (key === "mynotes") return (getNotes(row) || "").toLowerCase();
   const v = row[key];
   return v == null ? "" : String(v).toLowerCase();
 }
@@ -456,6 +807,7 @@ function sortList(list) {
 }
 
 function onHeaderClick(key) {
+  if (SKIP_SORT[key]) return;
   if (sortMode === "single") {
     if (sorts.length === 1 && sorts[0].key === key) {
       sorts[0].dir = sorts[0].dir === "asc" ? "desc" : "asc";
@@ -472,7 +824,7 @@ function onHeaderClick(key) {
 }
 
 function defaultDir(key) {
-  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh") ? "desc" : "asc";
+  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask") ? "desc" : "asc";
 }
 function clearSorts() { sorts = []; saveJSON(LS.sorts, sorts); render(); }
 function setSortMode(mode) {
@@ -541,37 +893,61 @@ function cardHTML(row) {
   if (row.noi) facts.push("NOI " + row.noi);
   if (row.acres) facts.push(row.acres + " ac");
   const flagLines = (row.score_flags || []).map(f => `<div class="flag-line">${esc(f)}</div>`).join("");
-  return `<article class="card g-${row.group}${selectedId===row.id?" selected":""}" data-id="${row.id}">
+  const ev = estValueInfo(row);
+  const vs = ev.insufficient ? "" : `<span class="vs-ask ${ev.color || ""}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
+  const estLine = ev.insufficient
+    ? `<div class="est-line" title="${esc(ev.tooltip)}">Est. value —</div>`
+    : `<div class="est-line"><button type="button" class="est-val" data-cap-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">Est. ${esc(money(Math.round(ev.value)))}</button> <span class="est-cap">@ ${esc(ev.cap.toFixed(1))}%</span></div>`;
+  const deleted = isDeleted(row);
+  const delBtn = deleted
+    ? `<button type="button" class="icon-btn restore card-delete" data-restore="${esc(listingKey(row))}" title="Restore listing" onclick="event.stopPropagation()">Restore</button>`
+    : `<button type="button" class="icon-btn card-delete" data-delete="${esc(listingKey(row))}" title="Delete listing" onclick="event.stopPropagation()" aria-label="Delete">×</button>`;
+  const checked = selectedKeys.has(listingKey(row)) ? " checked" : "";
+  return `<article class="card g-${row.group}${selectedId==row.id?" selected":""}${deleted?" deleted":""}" data-id="${row.id}">
     <div class="card-media">
       ${cardPhoto(row)}
       ${scoreBadgeHTML(row, "on-photo")}
+      ${delBtn}
       <div class="card-media-pills">${pills(row)}</div>
     </div>
     <div class="card-body">
-      <div class="price">${money(row.price)}</div>
+      <div class="price-row"><div class="price">${money(row.price)}</div>${vs}</div>
       <h3><a href="${esc(row.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(row.name)}</a></h3>
       <div class="meta">${esc(row.city)}, ${esc(row.state)}${row.address ? " · " + esc(row.address) : ""}</div>
       <div class="facts">${facts.map(f => `<span>${esc(f)}</span>`).join("")}</div>
+      ${estLine}
       ${row.sf_terms ? `<div class="sf-line"><strong>Seller financing:</strong> ${esc(row.sf_terms)}</div>` : ""}
       ${row.group === "missing_info" && miss ? `<div class="missing-line"><strong>Missing:</strong> ${miss}</div>` : ""}
       ${brokerBits.length || contact.length ? `<div class="broker"><strong>Broker:</strong> ${brokerBits.join(" — ") || "n/a"}${contact.length ? " · " + contact.join(" · ") : " · contact n/a on the public listing"}</div>` : (row.group==="missing_info" ? `<div class="broker"><strong>Broker:</strong> n/a on the public listing</div>` : "")}
       ${row.note ? `<div class="note">${esc(row.note)}</div>` : ""}
       ${flagLines}
-      <div class="row-status">${row.group==="missing_info" ? statusSelect(row.id,"chase") : statusSelect(row.id,"status")}</div>
+      <div class="card-notes"><textarea class="my-notes" data-notes="${esc(listingKey(row))}" rows="2" placeholder="Your notes…" onclick="event.stopPropagation()">${esc(getNotes(row))}</textarea></div>
+      <div class="row-status"><label class="chk" onclick="event.stopPropagation()"><input type="checkbox" class="row-check" data-select="${esc(listingKey(row))}"${checked}> Select</label>${row.group==="missing_info" ? statusSelect(row.id,"chase") : statusSelect(row.id,"status")}</div>
     </div>
   </article>`;
 }
 
 function tableHTML(rows) {
   const cols = currentCols();
+  const allSelected = rows.length && rows.every(r => selectedKeys.has(listingKey(r)));
   const head = cols.map(k => {
     const w = colWidths[k];
     const style = w ? ` style="width:${w}px"` : "";
-    return `<th data-key="${k}"${style}><span class="th-label">${esc(COLS[k].label)}${headerIndicator(k)}</span><span class="col-resizer" data-resize="${k}"></span></th>`;
+    let label;
+    if (k === "sel") {
+      label = `<input type="checkbox" class="row-check" id="selectAll"${allSelected ? " checked" : ""} title="Select all visible">`;
+    } else {
+      label = `${esc(COLS[k].label)}${headerIndicator(k)}`;
+    }
+    return `<th data-key="${k}"${style}><span class="th-label">${label}</span><span class="col-resizer" data-resize="${k}"></span></th>`;
   }).join("");
   const body = rows.map(row => {
-    const cells = cols.map(k => `<td>${cellHTML(row, k)}</td>`).join("");
-    return `<tr class="tr g-${row.group}${selectedId===row.id?" selected":""}" data-id="${row.id}">${cells}</tr>`;
+    const cells = cols.map(k => {
+      const cls = (k === "sel") ? ' class="sel-cell"' : (k === "act" ? ' class="act-cell"' : "");
+      return `<td${cls}>${cellHTML(row, k)}</td>`;
+    }).join("");
+    const deleted = isDeleted(row) ? " deleted" : "";
+    return `<tr class="tr g-${row.group}${selectedId==row.id?" selected":""}${deleted}" data-id="${row.id}">${cells}</tr>`;
   }).join("");
   return `<div class="table-wrap"><table class="grid"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
@@ -598,6 +974,29 @@ function cellHTML(row, k) {
   if (k === "city") return esc(row.city || "");
   if (k === "state") return esc(row.state || "");
   if (k === "type") return esc(row.property_type || row.type || "");
+  if (k === "est_value") {
+    const ev = estValueInfo(row);
+    if (ev.insufficient) return `<span title="${esc(ev.tooltip)}">—</span>`;
+    return `<button type="button" class="est-btn" data-cap-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">${esc(money(Math.round(ev.value)))}</button><div class="est-cap">@ ${esc(ev.cap.toFixed(1))}%</div>`;
+  }
+  if (k === "vs_ask") {
+    const ev = estValueInfo(row);
+    if (ev.insufficient || ev.vsAsk == null) return `<span title="${esc(ev.tooltip)}">—</span>`;
+    return `<span class="vs-ask ${ev.color || ""}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
+  }
+  if (k === "mynotes") {
+    return `<textarea class="my-notes" data-notes="${esc(listingKey(row))}" rows="2" placeholder="Your notes…" onclick="event.stopPropagation()">${esc(getNotes(row))}</textarea>`;
+  }
+  if (k === "sel") {
+    const checked = selectedKeys.has(listingKey(row)) ? " checked" : "";
+    return `<input type="checkbox" class="row-check" data-select="${esc(listingKey(row))}"${checked} onclick="event.stopPropagation()">`;
+  }
+  if (k === "act") {
+    if (isDeleted(row)) {
+      return `<button type="button" class="icon-btn restore" data-restore="${esc(listingKey(row))}" title="Restore listing" onclick="event.stopPropagation()">Restore</button>`;
+    }
+    return `<button type="button" class="icon-btn" data-delete="${esc(listingKey(row))}" title="Delete listing" onclick="event.stopPropagation()" aria-label="Delete">×</button>`;
+  }
   return esc(row[k] ?? "");
 }
 
@@ -609,7 +1008,7 @@ function popupHTML(row) {
     <div class="p">${money(row.price)}</div>
     <div class="n">${esc(row.name)}</div>
     <div class="meta">${esc(row.city)}, ${esc(row.state)}</div>
-    <div class="facts"><span>${dash(row.pads)} pads</span><span>TOH ${countFmt(row.toh)}</span><span>POH ${countFmt(row.poh)}</span><span>Score ${esc(score)}</span></div>
+    <div class="facts"><span>${dash(row.pads)} pads</span><span>TOH ${countFmt(row.toh)}</span><span>POH ${countFmt(row.poh)}</span><span>Score ${esc(score)}</span>${estValueInfo(row).value!=null?`<span>Est. ${esc(money(Math.round(estValueInfo(row).value)))}</span>`:""}</div>
     ${miss}
     <div style="margin-top:6px"><a href="${esc(row.url)}" target="_blank" rel="noopener">Open on Crexi</a></div>
   </div>`;
@@ -617,7 +1016,10 @@ function popupHTML(row) {
 
 function bindListEvents(root) {
   root.querySelectorAll("[data-id]").forEach(el => {
-    el.addEventListener("click", () => selectListing(+el.dataset.id, true));
+    el.addEventListener("click", ev => {
+      if (ev.target.closest("a, button, select, textarea, input, label, .my-notes, .icon-btn")) return;
+      selectListing(+el.dataset.id, true);
+    });
   });
   root.querySelectorAll("select[data-status]").forEach(s => {
     s.addEventListener("change", () => { setStatus(+s.dataset.status, s.value); });
@@ -628,9 +1030,58 @@ function bindListEvents(root) {
   root.querySelectorAll("[data-score-edit]").forEach(btn => {
     btn.addEventListener("click", ev => {
       ev.stopPropagation();
-      const id = +btn.dataset.scoreEdit;
-      const row = DATA.listings.find(x => x.id === id);
+      const row = findRow(btn.dataset.scoreEdit);
       if (row) promptScore(row);
+    });
+  });
+  root.querySelectorAll("[data-cap-edit]").forEach(btn => {
+    btn.addEventListener("click", ev => {
+      ev.stopPropagation();
+      const row = findRow(btn.dataset.capEdit);
+      if (row) promptCap(row);
+    });
+  });
+  root.querySelectorAll("[data-delete]").forEach(btn => {
+    btn.addEventListener("click", ev => {
+      ev.stopPropagation();
+      const row = findRow(btn.dataset.delete);
+      if (row) deleteRows([row]);
+    });
+  });
+  root.querySelectorAll("[data-restore]").forEach(btn => {
+    btn.addEventListener("click", ev => {
+      ev.stopPropagation();
+      const row = findRow(btn.dataset.restore);
+      if (row) restoreRows([row]);
+    });
+  });
+  root.querySelectorAll("[data-select]").forEach(box => {
+    box.addEventListener("click", ev => ev.stopPropagation());
+    box.addEventListener("change", ev => {
+      ev.stopPropagation();
+      const key = box.dataset.select;
+      if (box.checked) selectedKeys.add(key);
+      else selectedKeys.delete(key);
+      renderToolbarState();
+    });
+  });
+  const selectAll = root.querySelector("#selectAll");
+  if (selectAll) {
+    selectAll.addEventListener("click", ev => ev.stopPropagation());
+    selectAll.addEventListener("change", ev => {
+      ev.stopPropagation();
+      const rows = filtered();
+      if (selectAll.checked) rows.forEach(r => selectedKeys.add(listingKey(r)));
+      else rows.forEach(r => selectedKeys.delete(listingKey(r)));
+      render();
+    });
+  }
+  root.querySelectorAll("[data-notes]").forEach(ta => {
+    ta.addEventListener("click", ev => ev.stopPropagation());
+    ta.addEventListener("pointerdown", ev => ev.stopPropagation());
+    ta.addEventListener("input", () => {
+      const row = findRow(ta.dataset.notes);
+      if (row) setNotes(row, ta.value);
     });
   });
   root.querySelectorAll(".card-img").forEach(img => {
@@ -653,7 +1104,7 @@ function bindTableChrome(root) {
   table.querySelectorAll("th[data-key]").forEach(th => {
     const key = th.dataset.key;
     th.addEventListener("pointerdown", ev => {
-      if (ev.target.closest(".col-resizer")) return;
+      if (ev.target.closest(".col-resizer, input, button, textarea, a")) return;
       if (ev.button !== 0) return;
       ev.preventDefault();
       const startX = ev.clientX;
@@ -726,7 +1177,7 @@ function csvEscape(v) {
 
 function exportCsv() {
   const rows = filtered();
-  const cols = currentCols();
+  const cols = currentCols().filter(k => k !== "sel" && k !== "act");
   const headers = cols.map(k => COLS[k].label).concat(["URL"]);
   const lines = [headers.map(csvEscape).join(",")];
   rows.forEach(row => {
@@ -762,6 +1213,16 @@ function exportCell(row, k) {
     return info.value == null ? "" : info.value;
   }
   if (k === "type") return row.property_type || row.type || "";
+  if (k === "est_value") {
+    const ev = estValueInfo(row);
+    return ev.value == null ? "" : Math.round(ev.value);
+  }
+  if (k === "vs_ask") {
+    const ev = estValueInfo(row);
+    return ev.vsAsk == null ? "" : Math.round(ev.vsAsk * 10) / 10;
+  }
+  if (k === "mynotes") return getNotes(row) || "";
+  if (k === "sel" || k === "act") return "";
   if (k === "pads" || k === "cap" || k === "occupancy" || k === "utilities" || k === "sf_terms" || k === "note" || k === "city" || k === "state") {
     const v = row[k];
     return v == null ? "" : v;
@@ -772,7 +1233,7 @@ function exportCell(row, k) {
 function renderList(rows) {
   const pane = document.getElementById("list");
   if (!rows.length) {
-    pane.innerHTML = `<div class="empty">No listings match these filters.</div>`;
+    pane.innerHTML = `<div class="empty">${showDeleted ? "No deleted listings in this view." : "No listings match these filters."}</div>`;
     return;
   }
   pane.innerHTML = view === "table" ? tableHTML(rows) : `<div class="cards">${rows.map(cardHTML).join("")}</div>`;
@@ -808,22 +1269,22 @@ function updateMap(rows) {
     if (!selectedId) map.fitBounds(b.pad(0.15));
   }
   if (selectedId && markerById[selectedId]) {
-    markerById[selectedId].setIcon(pinIcon((GROUPS[(DATA.listings.find(x=>x.id===selectedId)||{}).group]||{}).color || "#666", true));
+    markerById[selectedId].setIcon(pinIcon((GROUPS[(findRow(selectedId)||{}).group]||{}).color || "#666", true));
   }
 }
 
 function selectListing(id, fromList) {
   selectedId = id;
   document.querySelectorAll(".card, .tr").forEach(el => el.classList.toggle("selected", +el.dataset.id === id));
-  const row = DATA.listings.find(x => x.id === id);
+  const row = findRow(id);
   const m = markerById[id];
-  if (row && m) {
+  if (row && m && row.lat != null && row.lng != null) {
     if (fromList) {
       map.setView([row.lat, row.lng], Math.max(map.getZoom(), 8), { animate: true });
       m.openPopup();
     }
     Object.entries(markerById).forEach(([k, mk]) => {
-      const r = DATA.listings.find(x => x.id === +k);
+      const r = findRow(k);
       mk.setIcon(pinIcon((GROUPS[(r||{}).group]||{}).color || "#666", +k === id));
     });
   }
@@ -832,19 +1293,20 @@ function selectListing(id, fromList) {
 }
 
 function renderCounts() {
-  const all = DATA.listings;
+  const all = (DATA.listings || []).filter(x => !isDeleted(x));
   const n = g => all.filter(x => x.group === g).length;
   document.getElementById("n-all").textContent = n("seller_financing") + n("other_passes");
   document.getElementById("n-sf").textContent = n("seller_financing");
   document.getElementById("n-pass").textContent = n("other_passes");
   document.getElementById("n-miss").textContent = n("missing_info");
+  const savedCount = (DATA.saved || []).filter(x => !isDeleted(x)).length;
   const savedEl = document.getElementById("n-saved");
-  if (savedEl) savedEl.textContent = (DATA.saved || []).length;
+  if (savedEl) savedEl.textContent = savedCount;
   document.getElementById("hdr-counts").innerHTML =
     `<span><i class="dot" style="background:#12875A"></i>Seller financing ${n("seller_financing")}</span>` +
     `<span><i class="dot" style="background:#2B6CB0"></i>Other passes ${n("other_passes")}</span>` +
     `<span><i class="dot" style="background:#C05621"></i>Missing info ${n("missing_info")}</span>` +
-    `<span><i class="dot" style="background:#6B4C9A"></i>Crexi saved ${(DATA.saved || []).length}</span>`;
+    `<span><i class="dot" style="background:#6B4C9A"></i>Crexi saved ${savedCount}</span>`;
 }
 
 function applyCardSize() {
@@ -869,6 +1331,19 @@ function renderToolbarState() {
     ? sorts.map((s,i) => `${i+1}. ${COLS[s.key]?.label || s.key} ${s.dir==="asc"?"↑":"↓"}`).join(" · ")
     : "Default: price (high to low)";
   document.getElementById("sortState").textContent = (sortMode === "multi" ? "Multi-sort: " : "Single sort: ") + label;
+  const nDel = deletedInUniverse().length;
+  const showDel = document.getElementById("showDeleted");
+  if (showDel) {
+    showDel.textContent = (showDeleted ? "Hide deleted" : "Show deleted") + " (" + nDel + ")";
+    showDel.classList.toggle("active", showDeleted);
+    showDel.hidden = nDel === 0 && !showDeleted;
+  }
+  const delSel = document.getElementById("deleteSelected");
+  if (delSel) {
+    const nSel = selectedKeys.size;
+    delSel.textContent = nSel ? ("Delete selected (" + nSel + ")") : "Delete selected";
+    delSel.hidden = showDeleted;
+  }
   applyCardSize();
 }
 
@@ -926,6 +1401,102 @@ function bindChrome() {
       applyCardSize();
     });
   });
+  const showDel = document.getElementById("showDeleted");
+  if (showDel) {
+    showDel.addEventListener("click", () => {
+      showDeleted = !showDeleted;
+      saveJSON(LS.showDeleted, showDeleted);
+      render();
+    });
+  }
+  const delSel = document.getElementById("deleteSelected");
+  if (delSel) {
+    delSel.addEventListener("click", () => {
+      const rows = (showDeleted ? [] : activeUniverse()).filter(r => selectedKeys.has(listingKey(r)) && !isDeleted(r));
+      if (!rows.length) {
+        window.alert("Select one or more listings first.");
+        return;
+      }
+      deleteRows(rows);
+    });
+  }
+  const expNotes = document.getElementById("exportNotes");
+  if (expNotes) expNotes.addEventListener("click", exportNotesJson);
+  const impNotes = document.getElementById("importNotes");
+  const impFile = document.getElementById("importNotesFile");
+  if (impNotes && impFile) {
+    impNotes.addEventListener("click", () => impFile.click());
+    impFile.addEventListener("change", () => {
+      const file = impFile.files && impFile.files[0];
+      if (file) importNotesJson(file);
+      impFile.value = "";
+    });
+  }
+}
+
+function exportNotesJson() {
+  const payload = {
+    version: 1,
+    exported_at: new Date().toISOString(),
+    notes: notesMap(),
+    deleted: deletedState().keys,
+    capOverrides: capOverrideMap(),
+    scoreOverrides: scoreOverrideMap(),
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "mhp-deal-tracker-notes.json";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function importNotesJson(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!data || typeof data !== "object") throw new Error("Not a JSON object");
+      const notes = (data.notes && typeof data.notes === "object") ? data.notes : data;
+      if (notes && typeof notes === "object" && !Array.isArray(notes)) {
+        const m = notesMap();
+        Object.keys(notes).forEach(k => {
+          if (k === "version" || k === "exported_at" || k === "deleted" || k === "capOverrides" || k === "scoreOverrides") return;
+          const v = notes[k];
+          if (v == null || v === "") delete m[k];
+          else if (typeof v === "string" || typeof v === "number") m[k] = String(v);
+        });
+        saveJSON(LS.notes, m);
+      }
+      if (data.deleted) {
+        const d = deletedKeySet();
+        const incoming = Array.isArray(data.deleted) ? data.deleted : (data.deleted.keys || []);
+        incoming.forEach(k => { if (k != null && k !== "") d.add(String(k)); });
+        persistDeleted(d);
+      }
+      if (data.capOverrides && typeof data.capOverrides === "object") {
+        const m = capOverrideMap();
+        Object.keys(data.capOverrides).forEach(k => {
+          const v = Number(data.capOverrides[k]);
+          if (!isNaN(v) && v > 0) m[k] = v;
+        });
+        saveJSON(LS.cap, m);
+      }
+      if (data.scoreOverrides && typeof data.scoreOverrides === "object") {
+        const m = scoreOverrideMap();
+        Object.keys(data.scoreOverrides).forEach(k => {
+          const v = Number(data.scoreOverrides[k]);
+          if (!isNaN(v)) m[k] = v;
+        });
+        saveJSON(LS.score, m);
+      }
+      render();
+      renderCounts();
+    } catch (err) {
+      window.alert("Could not import notes: " + err.message);
+    }
+  };
+  reader.readAsText(file);
 }
 
 function main() {
@@ -941,6 +1512,7 @@ function main() {
   } catch (e) {}
   const savedSize = loadJSON(LS.cardSize, "m");
   cardSize = (savedSize === "s" || savedSize === "l") ? savedSize : "m";
+  showDeleted = loadJSON(LS.showDeleted, false) === true;
   return Promise.all([
     fetch(DATA_URL).then(res => {
       if (!res.ok) throw new Error(res.status + " " + res.statusText);
@@ -950,6 +1522,7 @@ function main() {
   ]).then(([data, saved]) => {
       DATA = data;
       DATA.saved = saved.listings || saved.saved || [];
+      enrichFromSaved();
       document.getElementById("asof").textContent = "As of " + (DATA.as_of_label || DATA.as_of || "");
       fillStates();
       renderCounts();

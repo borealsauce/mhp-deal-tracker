@@ -49,6 +49,11 @@
         <button type="button" class="btn" id="modeSingle">Single sort</button>
         <button type="button" class="btn ghost" id="clearSorts">Clear sorts</button>
         <button type="button" class="btn ghost" id="exportCsv">Export CSV</button>
+        <button type="button" class="btn ghost" id="deleteSelected">Delete selected</button>
+        <button type="button" class="btn ghost" id="showDeleted">Show deleted (0)</button>
+        <button type="button" class="btn ghost" id="exportNotes">Export notes</button>
+        <button type="button" class="btn ghost" id="importNotes">Import notes</button>
+        <input type="file" id="importNotesFile" accept="application/json,.json" hidden>
         <span class="seg" id="cardSizeWrap" title="Card size">
           <span class="seg-label">Cards</span>
           <button type="button" class="btn size" data-card-size="s">S</button>
@@ -58,6 +63,11 @@
       </div>
     </div>
     <div class="sort-mode" id="sortState"></div>
+  </div>
+
+  <div id="toast" class="toast" hidden>
+    <span id="toastMsg"></span>
+    <button type="button" class="btn" id="toastUndo">Undo</button>
   </div>
 
   <div class="split">
