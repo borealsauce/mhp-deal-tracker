@@ -362,6 +362,63 @@ table.grid tbody tr.deleted { opacity: .7; background: #faf7f5; }
 .toast[hidden] { display: none !important; }
 .toast .btn { background: #fff; color: #0f1720; border-color: #fff; padding: 4px 10px; }
 
+
+.est-cell, .est-line { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 6px; }
+.conf-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.conf-high { background: var(--score-green); }
+.conf-medium { background: var(--score-yellow); }
+.conf-low { background: var(--miss); }
+.est-edited, .est-cell.est-edited, .est-line.est-edited, .est-cap-btn.est-edited, span.est-edited {
+  color: #4c2fb0;
+  background: #f1ecfb;
+  border-radius: 6px;
+  padding: 1px 6px;
+}
+.vs-ask.edited {
+  color: #4c2fb0;
+  background: #f1ecfb;
+  border-radius: 6px;
+  padding: 1px 6px;
+}
+.edited-mark {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #4c2fb0;
+}
+.reset-est {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #4c2fb0;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+  padding: 0 2px;
+  text-decoration: underline;
+}
+.reset-est:hover { color: #2c1578; }
+.est-cap-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 650;
+}
+.est-cap-btn:hover { text-decoration: underline; color: var(--ink); }
+
 #savedGroupWrap[hidden] { display: none !important; }
 
 @media (max-width: 900px) {

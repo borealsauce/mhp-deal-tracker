@@ -1,5 +1,6 @@
 const DATA_URL = "data/listings.json";
 const SAVED_URL = "data/saved.json";
+const EST_URL = "data/est_inputs.json";
 const LS = {
   status: "mhpDealTracker.status.v1",
   chase: "mhpDealTracker.chase.v1",
@@ -15,6 +16,7 @@ const LS = {
   cap: "mhpDealTracker.capOverride.v1",
   deleted: "mhpDealTracker.deleted.v1",
   showDeleted: "mhpDealTracker.showDeleted.v1",
+  value: "mhpDealTracker.valueOverride.v1",
 };
 
 const GROUPS = {
@@ -75,18 +77,21 @@ const COLS = {
   note: { label: "Note", type: "text" },
   type: { label: "Type", type: "text" },
   est_value: { label: "Est. Value", type: "num" },
+  purchase_cap: { label: "Purchase Cap", type: "pct" },
+  market_cap: { label: "Market Cap", type: "pct" },
   vs_ask: { label: "Value vs Ask", type: "num" },
   mynotes: { label: "My Notes", type: "notes" },
   sel: { label: "", type: "sel" },
   act: { label: "", type: "act" },
 };
 
-const MAIN_COLS = ["sel","status","name","city","state","price","est_value","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","is_new","note","mynotes","act"];
-const MISS_COLS = ["sel","chase","name","city","state","price","est_value","vs_ask","missing","broker","phone","email","pads","toh","poh","score","occupancy","utilities","pop3","is_new","note","mynotes","act"];
-const SAVED_COLS = ["sel","status","name","type","city","state","price","est_value","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","note","mynotes","act"];
+const MAIN_COLS = ["sel","status","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","is_new","note","mynotes","act"];
+const MISS_COLS = ["sel","chase","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","missing","broker","phone","email","pads","toh","poh","score","occupancy","utilities","pop3","is_new","note","mynotes","act"];
+const SAVED_COLS = ["sel","status","name","type","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","note","mynotes","act"];
 const SKIP_SORT = { sel: true, act: true };
 
 let DATA = { listings: [], saved: [], as_of_label: "" };
+let EST = { listings: {}, defaults: { occupancy_pct: 85, tier_caps: { rural: 10.5, secondary: 9, metro: 7.5 } } };
 let map, markersLayer, markerById = {};
 let selectedId = null;
 let sorts = [];
@@ -217,55 +222,151 @@ function parseMoneyish(s) {
   const m = String(s).replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
   return m ? parseFloat(m[0]) : null;
 }
+function isMhpRow(row) {
+  if (row && row.saved_group && row.saved_group !== "MHP") return false;
+  return true;
+}
+function normCity(c) {
+  if (!c) return "";
+  const s = String(c).trim().replace(/\s+/g, " ");
+  if (/^ca[nñ]on city$/i.test(s)) return "Canon City";
+  if (s === s.toUpperCase() || s === s.toLowerCase()) {
+    return s.toLowerCase().replace(/\b[a-z]/g, ch => ch.toUpperCase());
+  }
+  return s;
+}
+function cityKey(row) { return normCity(row && row.city) + "|" + (row && row.state || ""); }
+function listingFacts(row) {
+  const m = (EST.listings || {});
+  return m[listingKey(row)] || m[String(row && row.id)] || {};
+}
+function valueOverrideMap() { return loadJSON(LS.value, {}); }
+function getValueOverride(row) {
+  const v = valueOverrideMap()[listingKey(row)];
+  return (typeof v === "number" && !isNaN(v) && v > 0) ? v : null;
+}
+function setValueOverride(row, v) {
+  const m = valueOverrideMap();
+  const key = listingKey(row);
+  if (v == null) delete m[key];
+  else m[key] = v;
+  saveJSON(LS.value, m);
+}
+function clearEstOverrides(row) {
+  setValueOverride(row, null);
+  setCapOverride(row, null);
+}
+
+function numericPadsField(row) {
+  const facts = listingFacts(row);
+  if (facts.pads != null && facts.pads > 0) {
+    return { n: Number(facts.pads), detail: facts.pads_source || ("pads from listing details: " + facts.pads), assumed: false };
+  }
+  const raw = row && row.pads;
+  if (typeof raw === "number" && raw > 0) return { n: raw, detail: raw + " pads (listing field)", assumed: false };
+  const s = String(raw == null ? "" : raw).trim();
+  if (!s || /^n\/a/i.test(s)) return null;
+  const n = firstNum(s);
+  if (n != null && n > 0) return { n, detail: s, assumed: false };
+  return null;
+}
+
 function lotRentInfo(row) {
+  const facts = listingFacts(row);
+  if (facts.lot_rent != null && facts.lot_rent > 0) {
+    return { rent: Number(facts.lot_rent), detail: facts.lot_rent_source || ("stated lot rent $" + facts.lot_rent), assumed: false, comps: [] };
+  }
   if (row && row.lot_rent != null && row.lot_rent !== "") {
     const n = parseMoneyish(row.lot_rent);
-    if (n != null) return { rent: n, detail: "stated lot rent $" + n };
+    if (n != null) return { rent: n, detail: "stated lot rent $" + n, assumed: false, comps: [] };
   }
   const blob = [row && row.note, row && row.sf_terms].filter(Boolean).join(" ");
-  if (!blob) return null;
-  let m = blob.match(/\$\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:[-–]|to)\s*\$?\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:avg(?:erage)?\s+)?(?:monthly\s+)?lot rents?/i);
-  if (m) {
-    const a = parseMoneyish(m[1]), b = parseMoneyish(m[2]);
-    return { rent: (a + b) / 2, detail: "midpoint of $" + m[1] + "–$" + m[2] + " lot rent (from notes)" };
+  if (blob) {
+    let m = blob.match(/\$\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:[-–]|to)\s*\$?\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:avg(?:erage)?\s+)?(?:monthly\s+)?lot rents?/i);
+    if (m) return { rent: (parseMoneyish(m[1]) + parseMoneyish(m[2])) / 2, detail: "midpoint of $" + m[1] + "–$" + m[2] + " lot rent (from notes)", assumed: false, comps: [] };
+    m = blob.match(/\$\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:avg(?:erage)?\s+)?(?:monthly\s+)?(?:in\s+)?lot rents?/i);
+    if (m) return { rent: parseMoneyish(m[1]), detail: "$" + m[1] + " lot rent (from notes)", assumed: false, comps: [] };
+    m = blob.match(/lot rents?\s*(?:of|is|are|:)?\s*\$\s*([0-9][0-9,]*(?:\.\d+)?)/i);
+    if (m) return { rent: parseMoneyish(m[1]), detail: "$" + m[1] + " lot rent (from notes)", assumed: false, comps: [] };
   }
-  m = blob.match(/\$\s*([0-9][0-9,]*(?:\.\d+)?)\s*(?:avg(?:erage)?\s+)?(?:monthly\s+)?(?:in\s+)?lot rents?/i);
-  if (m) return { rent: parseMoneyish(m[1]), detail: "$" + m[1] + " lot rent (from notes)" };
-  m = blob.match(/lot rents?\s*(?:of|is|are|:)?\s*\$\s*([0-9][0-9,]*(?:\.\d+)?)/i);
-  if (m) return { rent: parseMoneyish(m[1]), detail: "$" + m[1] + " lot rent (from notes)" };
+  const ck = cityKey(row);
+  const city = (EST.city_lot_rent || {})[ck];
+  if (city && city.rent) {
+    return { rent: Number(city.rent), detail: "Area lot-rent estimate $" + Math.round(city.rent) + " (" + (city.source || "city comps") + ")", assumed: true, comps: city.comps || [] };
+  }
+  const st = (EST.state_lot_rent || {})[row && row.state];
+  if (st && st.rent) {
+    return { rent: Number(st.rent), detail: "State lot-rent estimate $" + Math.round(st.rent) + " for " + row.state + " (" + (st.source || "state comps") + ")", assumed: true, comps: st.comps || [] };
+  }
   return null;
 }
 function occupiedPadsInfo(row) {
-  const pads = firstNum(row.pads);
-  const occRaw = String(row.occupancy || row.note || "");
+  const facts = listingFacts(row);
+  if (facts.occupied != null && facts.occupied > 0) {
+    return { n: Number(facts.occupied), detail: facts.occupied_source || (facts.occupied + " occupied (listing details)"), assumed: false };
+  }
+  const pads = numericPadsField(row);
+  if (facts.occupancy_pct != null && pads) {
+    const n = Math.round(pads.n * Number(facts.occupancy_pct) / 100);
+    return { n, detail: n + " occupied (" + facts.occupancy_pct + "% × " + pads.n + " pads)", assumed: false };
+  }
+  const occRaw = String((row && row.occupancy) || (row && row.note) || "");
   const of = occRaw.match(/(\d+)\s+of\s+(\d+)/i);
-  if (of) return { n: +of[1], detail: of[1] + " of " + of[2] + " occupied" };
+  if (of) return { n: +of[1], detail: of[1] + " of " + of[2] + " occupied", assumed: false };
   const vacant = occRaw.match(/(\d+)\s+vacant/i);
-  if (vacant && pads != null) return { n: pads - +vacant[1], detail: pads + " pads − " + vacant[1] + " vacant" };
+  if (vacant && pads) return { n: pads.n - +vacant[1], detail: pads.n + " pads − " + vacant[1] + " vacant", assumed: false };
   const occupied = occRaw.match(/(\d+)\s+occupied/i);
-  if (occupied && firstNum(row.occupancy) == null) return { n: +occupied[1], detail: occupied[1] + " occupied" };
-  const occ = firstNum(row.occupancy);
-  if (pads == null || occ == null || pads <= 0) return null;
-  const pct = occ > 1.5 ? occ : occ * 100;
-  const n = Math.round(pads * pct / 100);
-  return { n, detail: n + " occupied (" + dash(row.occupancy) + ")" };
+  if (occupied) {
+    const occNum = firstNum(row && row.occupancy);
+    // "n/a (19 occupied)" or occupancy that is a count, not a percent
+    if (occNum == null || occNum === +occupied[1] || /^n\/a/i.test(occRaw) || occNum > 100) {
+      return { n: +occupied[1], detail: occupied[1] + " occupied", assumed: false };
+    }
+  }
+  const occ = firstNum(row && row.occupancy);
+  if (pads && occ != null && occ > 0) {
+    const pct = occ > 1.5 ? occ : occ * 100;
+    if (pct <= 100) {
+      const n = Math.round(pads.n * pct / 100);
+      return { n, detail: n + " occupied (" + dash(row.occupancy) + ")", assumed: false };
+    }
+  }
+  if (pads) {
+    const pct = (EST.defaults && EST.defaults.occupancy_pct) || 85;
+    const n = Math.round(pads.n * pct / 100);
+    return { n, detail: n + " occupied (assumed " + pct + "% of " + pads.n + " pads — occupancy not stated)", assumed: true };
+  }
+  return null;
+}
+function padEstimateLastResort(row) {
+  const pads = numericPadsField(row);
+  if (pads) return pads;
+  const price = row && row.price != null && row.price !== "" ? Number(row.price) : null;
+  if (price == null || !(price > 0)) return null;
+  const st = (EST.state_ppl || {})[row.state];
+  const ppl = st && st.ppl ? st.ppl : ((EST.defaults && EST.defaults.overall_ppl) || 75000);
+  const n = Math.max(1, Math.round(price / ppl));
+  const src = st && st.source ? st.source : ((EST.defaults && EST.defaults.overall_ppl_note) || "overall median price/pad");
+  return { n, detail: n + " pads estimated as ask " + money(price) + " ÷ " + money(ppl) + "/pad (" + src + ")", assumed: true, lastResort: true };
 }
 function isWellSeptic(row) {
   const u = String((row && row.utilities) || "").toLowerCase();
   return /\bwell\b|private well|septic/.test(u);
 }
 function pohShare(row) {
-  const toh = typeof row.toh === "number" ? row.toh : null;
-  const poh = typeof row.poh === "number" ? row.poh : null;
+  const facts = listingFacts(row);
+  const toh = typeof row.toh === "number" ? row.toh : (typeof facts.toh === "number" ? facts.toh : null);
+  const poh = typeof row.poh === "number" ? row.poh : (typeof facts.poh === "number" ? facts.poh : null);
   if (toh != null && poh != null && toh + poh > 0) return poh / (toh + poh);
   return null;
 }
 function tohShareApprox(row) {
-  const toh = typeof row.toh === "number" ? row.toh : null;
-  const poh = typeof row.poh === "number" ? row.poh : null;
-  const pads = firstNum(row.pads);
+  const facts = listingFacts(row);
+  const toh = typeof row.toh === "number" ? row.toh : (typeof facts.toh === "number" ? facts.toh : null);
+  const poh = typeof row.poh === "number" ? row.poh : (typeof facts.poh === "number" ? facts.poh : null);
+  const pads = numericPadsField(row);
   if (toh != null && poh != null && toh + poh > 0) return toh / (toh + poh);
-  if (toh != null && pads) return toh / pads;
+  if (toh != null && pads) return toh / pads.n;
   return null;
 }
 function expenseRatio(row) {
@@ -283,63 +384,164 @@ function expenseRatio(row) {
   }
   return { ratio: 0.45, detail: "45% expense default (need TOH-heavy city-utility mix for 35%)" };
 }
+function popTierName(pop3) {
+  if (pop3 == null || pop3 === "") return "secondary";
+  const p = Number(pop3);
+  if (isNaN(p)) return "secondary";
+  if (p < 5000) return "rural";
+  if (p <= 50000) return "secondary";
+  return "metro";
+}
 function marketCapInfo(row) {
   const p = row.pop3 == null || row.pop3 === "" ? null : Number(row.pop3);
-  let base, reason;
-  if (p == null || isNaN(p)) {
-    base = 9;
-    reason = "3-mi pop unknown — used 9% secondary-metro default";
-  } else if (p < 5000) {
-    base = 10.5;
-    reason = "rural/small town (3-mi pop " + p.toLocaleString("en-US") + ")";
-  } else if (p <= 50000) {
-    base = 9;
-    reason = "small metro/secondary (3-mi pop " + p.toLocaleString("en-US") + ")";
+  const tier = popTierName(p);
+  const defaults = (EST.defaults && EST.defaults.tier_caps) || { rural: 10.5, secondary: 9, metro: 7.5 };
+  let base = defaults[tier] != null ? defaults[tier] : 9;
+  let reason;
+  let comps = [];
+  const stTier = (EST.state_tier_caps || {})[(row.state || "") + "|" + tier];
+  const stCap = (EST.state_caps || {})[row.state || ""];
+  if (stTier && stTier.n >= 2 && stTier.cap) {
+    base = Number(stTier.cap);
+    reason = stTier.source + (p != null && !isNaN(p) ? " 3-mi pop " + p.toLocaleString("en-US") + "." : "");
+    comps = stTier.comps || [];
+  } else if (stCap && stCap.n >= 3 && stCap.cap) {
+    base = Number(stCap.cap);
+    reason = stCap.source + " Used in place of the " + base + "% " + tier + " default because city-tier comps were thin.";
+    comps = stCap.comps || [];
+  } else if (p == null || isNaN(p)) {
+    reason = "3-mi pop unknown — used " + base + "% " + tier + " default" + (stTier && stTier.n ? " (only " + stTier.n + " listed cap in this state/tier)" : "");
+    comps = (stTier && stTier.comps) || (stCap && stCap.comps) || [];
   } else {
-    base = 7.5;
-    reason = "larger metro/suburban (3-mi pop " + p.toLocaleString("en-US") + ")";
+    const label = tier === "rural" ? "rural/small town" : (tier === "metro" ? "larger metro/suburban" : "small metro/secondary");
+    reason = label + " default " + base + "% (3-mi pop " + p.toLocaleString("en-US") + ")" + (stTier && stTier.n ? "; only " + stTier.n + " listed cap in this state/tier, so the default was kept" : "; not enough listed caps in this state/tier");
+    comps = (stTier && stTier.comps) || (stCap && stCap.comps) || [];
   }
   const poh = pohShare(row);
   const pohAdj = (poh != null && poh > 0.5) ? 1 : 0;
   const utilAdj = isWellSeptic(row) ? 0.5 : 0;
   return {
     cap: base + pohAdj + utilAdj,
-    base, pohAdj, utilAdj, reason,
+    base, pohAdj, utilAdj, reason, comps, tier,
     pohNote: pohAdj ? ("+1% because POH share is " + Math.round(poh * 100) + "%") : null,
     utilNote: utilAdj ? "+0.5% because utilities are well/septic" : null,
   };
 }
+function formatCompLine(c, kind) {
+  if (!c) return "";
+  const where = [c.name, (c.city ? c.city + ", " + (c.state || "") : c.state)].filter(Boolean).join(" — ");
+  const fig = kind === "cap"
+    ? ((c.cap != null ? c.cap + "%" : "") + " listed cap")
+    : (c.rent != null ? ("$" + Math.round(c.rent) + " lot rent") : (c.detail || ""));
+  return [where, fig, c.detail].filter((x, i, a) => x && a.indexOf(x) === i).join(", ");
+}
+function statedNoi(row) {
+  const facts = listingFacts(row);
+  const fromFacts = facts.noi != null ? Number(facts.noi) : null;
+  const fromRow = parseMoneyish(row && row.noi);
+  if (fromRow != null && fromRow > 0) return { noi: fromRow, detail: "Stated NOI " + money(fromRow), confidence: "high" };
+  if (fromFacts != null && fromFacts > 0) return { noi: fromFacts, detail: facts.noi_source || ("Stated NOI " + money(fromFacts) + " (from listing text)"), confidence: "high" };
+  return null;
+}
 function derivedNoi(row) {
-  const occ = occupiedPadsInfo(row);
+  const facts = listingFacts(row);
+  if (facts.gross_annual != null && facts.gross_annual > 0) {
+    const exp = expenseRatio(row);
+    const noi = Number(facts.gross_annual) * (1 - exp.ratio);
+    return {
+      noi,
+      detail: "Stated gross " + money(facts.gross_annual) + " (" + (facts.gross_source || "listing text") + ") × (1 − " + exp.detail + ") = " + money(Math.round(noi)),
+      confidence: "medium",
+      assumedRent: false,
+      assumedOcc: false,
+    };
+  }
+  let occ = occupiedPadsInfo(row);
+  let pads = numericPadsField(row);
+  let lastResortPads = false;
+  if (!occ) {
+    const est = padEstimateLastResort(row);
+    if (est) {
+      pads = est;
+      lastResortPads = !!est.lastResort;
+      const pct = (EST.defaults && EST.defaults.occupancy_pct) || 85;
+      occ = { n: Math.round(est.n * pct / 100), detail: Math.round(est.n * pct / 100) + " occupied (assumed " + pct + "% of " + est.detail + ")", assumed: true };
+    }
+  }
   const rent = lotRentInfo(row);
-  if (!occ || !rent || occ.n <= 0 || rent.rent <= 0) return null;
+  function impliedFromListedCap() {
+    const cap = facts.listing_cap != null ? Number(facts.listing_cap) : firstNum(row && row.cap);
+    const ask = row && row.price != null && row.price !== "" ? Number(row.price) : null;
+    if (cap != null && cap > 0 && ask != null && ask > 0) {
+      const noi = ask * (cap / 100);
+      return {
+        noi,
+        detail: "NOI implied from the listing’s " + cap + "% cap × ask " + money(ask) + " = " + money(Math.round(noi)) + (facts.listing_cap_source ? " (" + facts.listing_cap_source + ")" : "") + ". Lot-rent comps were not used as the main income, because this looks POH-heavy or mixed-use.",
+        confidence: "low",
+        assumedRent: true,
+        assumedOcc: true,
+        impliedFromCap: true,
+      };
+    }
+    return null;
+  }
+  const pohHeavy = (pohShare(row) != null && pohShare(row) > 0.5) || !!facts.mixed_use;
+  if (pohHeavy && (!rent || rent.assumed)) {
+    const implied = impliedFromListedCap();
+    if (implied) return implied;
+  }
+  if (!occ || !rent || occ.n <= 0 || rent.rent <= 0) {
+    const implied = impliedFromListedCap();
+    if (implied) return implied;
+    return null;
+  }
   const exp = expenseRatio(row);
   const gi = occ.n * rent.rent * 12;
   const noi = gi * (1 - exp.ratio);
+  const assumedRent = !!rent.assumed;
+  const assumedOcc = !!occ.assumed;
+  let confidence = "medium";
+  if (assumedRent || lastResortPads) confidence = "low";
+  else if (!assumedOcc && !rent.assumed) confidence = "medium";
   return {
     noi,
     detail: occ.detail + " × " + rent.detail + " × 12 × (1 − " + exp.detail + ") = " + money(Math.round(noi)),
+    confidence,
+    assumedRent,
+    assumedOcc,
+    lastResortPads,
+    comps: rent.comps || [],
   };
 }
 function estValueInfo(row) {
-  const stated = parseMoneyish(row && row.noi);
-  const derived = stated == null ? derivedNoi(row) : null;
-  const noi = stated != null ? stated : (derived ? derived.noi : null);
-  const noiSource = stated != null
-    ? "Stated NOI " + money(stated)
-    : (derived ? "Derived NOI " + derived.detail : null);
+  if (!isMhpRow(row)) {
+    return {
+      value: null, calculatedValue: null, vsAsk: null, color: null, cap: null, capOverride: null,
+      purchaseCap: null, insufficient: true, edited: false, confidence: null,
+      tooltip: "Estimated value is for mobile home parks only. NNN / retail rows are left blank.",
+    };
+  }
+  const stated = statedNoi(row);
+  const derived = stated ? null : derivedNoi(row);
+  const noi = stated ? stated.noi : (derived ? derived.noi : null);
+  const noiSource = stated ? stated.detail : (derived ? derived.detail : null);
+  const confidence = stated ? "high" : (derived ? derived.confidence : null);
   if (noi == null || noi <= 0) {
     return {
-      value: null, vsAsk: null, color: null, cap: null, capOverride: null,
-      insufficient: true,
-      tooltip: "Need stated NOI or a lot-rent plus occupancy/pads to estimate value.",
+      value: null, calculatedValue: null, vsAsk: null, color: null, cap: null, capOverride: null,
+      purchaseCap: null, insufficient: true, edited: false, confidence: null,
+      tooltip: "Still not enough data to estimate a value (need NOI, lot rent, or pads/price).",
     };
   }
   const mkt = marketCapInfo(row);
   const capOverride = getCapOverride(row);
   const cap = capOverride != null ? capOverride : mkt.cap;
-  const value = noi / (cap / 100);
+  const calculatedValue = noi / (cap / 100);
+  const valueOverride = getValueOverride(row);
+  const edited = valueOverride != null || capOverride != null;
+  const value = valueOverride != null ? valueOverride : calculatedValue;
   const ask = (row.price == null || row.price === "") ? null : Number(row.price);
+  const purchaseCap = (ask != null && ask > 0) ? (noi / ask) * 100 : null;
   let vsAsk = null, color = null;
   if (ask != null && ask > 0) {
     vsAsk = ((value - ask) / ask) * 100;
@@ -349,24 +551,36 @@ function estValueInfo(row) {
   }
   const lines = [
     "Est. Value = adjusted NOI ÷ market cap rate.",
-    noiSource + ".",
+    "Basis: " + noiSource + ".",
+    "Confidence: " + (confidence === "high" ? "High (stated NOI)" : confidence === "medium" ? "Medium (stated rent, occupancy, or gross income)" : "Low (area lot-rent, assumed occupancy, pad estimate, or cap-implied NOI)") + ".",
     capOverride != null
-      ? ("Your cap-rate override: " + cap.toFixed(2) + "%.")
+      ? ("Your cap-rate override: " + cap.toFixed(2) + "% (computed market cap was " + mkt.cap.toFixed(2) + "%).")
       : ("Market cap " + cap.toFixed(2) + "% (" + mkt.reason
         + (mkt.pohNote ? "; " + mkt.pohNote : "")
         + (mkt.utilNote ? "; " + mkt.utilNote : "") + ")."),
-    "Est. Value: " + money(Math.round(value)) + ".",
   ];
+  const capComps = (mkt.comps || []).slice(0, 4);
+  if (capComps.length) {
+    lines.push("Cap comps: " + capComps.map(c => formatCompLine(c, "cap")).join("; ") + ".");
+  }
+  const rentComps = ((derived && derived.comps) || lotRentInfo(row) && lotRentInfo(row).comps || []).slice(0, 4);
+  if (!stated && rentComps.length) {
+    lines.push("Rent comps: " + rentComps.map(c => formatCompLine(c, "rent")).join("; ") + ".");
+  }
+  lines.push("Calculated Est. Value: " + money(Math.round(calculatedValue)) + ".");
+  if (valueOverride != null) lines.push("Your value override: " + money(Math.round(valueOverride)) + ".");
+  if (purchaseCap != null) lines.push("Purchase cap (adjusted NOI ÷ ask): " + purchaseCap.toFixed(2) + "%.");
   if (ask != null && ask > 0) {
     lines.push("Ask: " + money(ask) + ". Value vs ask: " + (vsAsk >= 0 ? "+" : "") + vsAsk.toFixed(1) + "%.");
-    if (color === "down") lines.push("Ask is more than 20% above estimated value.");
+    if (color === "down" && !edited) lines.push("Ask is more than 20% above estimated value.");
   } else {
-    lines.push("No asking price, so Value vs Ask is blank.");
+    lines.push("No asking price, so Purchase Cap and Value vs Ask are blank.");
   }
-  lines.push("Click the value to set or clear a cap-rate override.");
+  lines.push("Click the value to type your own dollar estimate, click Market Cap to change the cap rate, or reset to the calculated value.");
   return {
-    value, vsAsk, color, cap, capOverride, noi, noiSource,
-    insufficient: false, tooltip: lines.join("\n"),
+    value, calculatedValue, vsAsk, color, cap, capOverride, valueOverride,
+    purchaseCap, noi, noiSource, confidence, edited, insufficient: false,
+    tooltip: lines.join("\n"),
   };
 }
 function promptCap(row) {
@@ -390,12 +604,44 @@ function promptCap(row) {
   setCapOverride(row, Math.round(n * 100) / 100);
   render();
 }
+function promptValue(row) {
+  const info = estValueInfo(row);
+  const computed = info.calculatedValue != null ? Math.round(info.calculatedValue) : null;
+  const current = info.valueOverride != null ? String(Math.round(info.valueOverride)) : (computed != null ? String(computed) : "");
+  const hint = (computed != null ? ("Calculated value is " + money(computed) + ". ") : "") + "Enter your estimated value in dollars, or leave blank to reset to the calculated value.";
+  const raw = window.prompt(hint, current);
+  if (raw == null) return;
+  const trimmed = String(raw).trim().replace(/[$,]/g, "");
+  if (!trimmed) {
+    setValueOverride(row, null);
+    render();
+    return;
+  }
+  const n = parseFloat(trimmed);
+  if (isNaN(n) || n <= 0) {
+    window.alert("Enter a positive dollar amount (for example 725000).");
+    return;
+  }
+  setValueOverride(row, Math.round(n));
+  render();
+}
 function vsAskLabel(info) {
   if (info.insufficient || info.vsAsk == null) return "—";
   const n = info.vsAsk;
   const sign = n > 0 ? "+" : "";
   return sign + (Math.abs(n) >= 10 ? n.toFixed(0) : n.toFixed(1)) + "%";
 }
+function pctLabel(n, digits) {
+  if (n == null || isNaN(n)) return "—";
+  const d = digits == null ? 1 : digits;
+  return n.toFixed(d) + "%";
+}
+function confDot(conf) {
+  if (!conf) return "";
+  const label = conf === "high" ? "High confidence (stated NOI)" : conf === "medium" ? "Medium confidence (stated rent or income)" : "Low confidence (assumed rent, occupancy, or pads)";
+  return `<span class="conf-dot conf-${conf}" title="${esc(label)}"></span>`;
+}
+function editedClass(info) { return info && info.edited ? " est-edited" : ""; }
 
 function enrichFromSaved() {
   const byId = {};
@@ -403,8 +649,13 @@ function enrichFromSaved() {
   (DATA.listings || []).forEach(r => {
     const s = byId[String(r.id)];
     if (!s) return;
-    if ((r.noi == null || r.noi === "") && s.noi) r.noi = s.noi;
-    if ((r.acres == null || r.acres === "") && s.acres) r.acres = s.acres;
+    ["noi", "acres", "cap", "thumbnail", "utilities", "sf_terms"].forEach(k => {
+      if ((r[k] == null || r[k] === "" || String(r[k]).toLowerCase() === "n/a") && s[k]) r[k] = s[k];
+    });
+    if ((r.pads == null || r.pads === "" || String(r.pads).toLowerCase().startsWith("n/a")) && s.pads && !String(s.pads).toLowerCase().startsWith("n/a")) r.pads = s.pads;
+    if ((r.occupancy == null || r.occupancy === "" || String(r.occupancy).toLowerCase().startsWith("n/a")) && s.occupancy && !String(s.occupancy).toLowerCase().startsWith("n/a")) r.occupancy = s.occupancy;
+    if (typeof r.toh !== "number" && typeof s.toh === "number") r.toh = s.toh;
+    if (typeof r.poh !== "number" && typeof s.poh === "number") r.poh = s.poh;
   });
 }
 
@@ -773,6 +1024,14 @@ function sortValue(row, key) {
     const info = estValueInfo(row);
     return info.value;
   }
+  if (key === "purchase_cap") {
+    const info = estValueInfo(row);
+    return info.purchaseCap;
+  }
+  if (key === "market_cap") {
+    const info = estValueInfo(row);
+    return info.cap;
+  }
   if (key === "vs_ask") {
     const info = estValueInfo(row);
     return info.vsAsk;
@@ -824,7 +1083,7 @@ function onHeaderClick(key) {
 }
 
 function defaultDir(key) {
-  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask") ? "desc" : "asc";
+  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask" || key === "purchase_cap" || key === "market_cap") ? "desc" : "asc";
 }
 function clearSorts() { sorts = []; saveJSON(LS.sorts, sorts); render(); }
 function setSortMode(mode) {
@@ -894,10 +1153,13 @@ function cardHTML(row) {
   if (row.acres) facts.push(row.acres + " ac");
   const flagLines = (row.score_flags || []).map(f => `<div class="flag-line">${esc(f)}</div>`).join("");
   const ev = estValueInfo(row);
-  const vs = ev.insufficient ? "" : `<span class="vs-ask ${ev.color || ""}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
+  const vsCls = ev.insufficient ? "" : ("vs-ask " + (ev.edited ? "edited" : (ev.color || "")));
+  const vs = ev.insufficient ? "" : `<span class="${vsCls}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
+  const resetBtn = ev.edited ? ` <button type="button" class="reset-est" data-est-reset="${esc(listingKey(row))}" title="Reset to calculated value" onclick="event.stopPropagation()">Reset</button>` : "";
+  const editedMark = ev.edited ? ` <span class="edited-mark">edited</span>` : "";
   const estLine = ev.insufficient
     ? `<div class="est-line" title="${esc(ev.tooltip)}">Est. value —</div>`
-    : `<div class="est-line"><button type="button" class="est-val" data-cap-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">Est. ${esc(money(Math.round(ev.value)))}</button> <span class="est-cap">@ ${esc(ev.cap.toFixed(1))}%</span></div>`;
+    : `<div class="est-line${editedClass(ev)}">${confDot(ev.confidence)}<button type="button" class="est-val" data-value-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">Est. ${esc(money(Math.round(ev.value)))}</button>${editedMark}<span class="est-cap">Purchase ${esc(pctLabel(ev.purchaseCap))}</span><button type="button" class="est-cap-btn" data-cap-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">Mkt ${esc(pctLabel(ev.cap))}</button>${resetBtn}</div>`;
   const deleted = isDeleted(row);
   const delBtn = deleted
     ? `<button type="button" class="icon-btn restore card-delete" data-restore="${esc(listingKey(row))}" title="Restore listing" onclick="event.stopPropagation()">Restore</button>`
@@ -977,12 +1239,25 @@ function cellHTML(row, k) {
   if (k === "est_value") {
     const ev = estValueInfo(row);
     if (ev.insufficient) return `<span title="${esc(ev.tooltip)}">—</span>`;
-    return `<button type="button" class="est-btn" data-cap-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">${esc(money(Math.round(ev.value)))}</button><div class="est-cap">@ ${esc(ev.cap.toFixed(1))}%</div>`;
+    const reset = ev.edited ? ` <button type="button" class="reset-est" data-est-reset="${esc(listingKey(row))}" title="Reset to calculated value" onclick="event.stopPropagation()">Reset</button>` : "";
+    const mark = ev.edited ? ` <span class="edited-mark">edited</span>` : "";
+    return `<div class="est-cell${editedClass(ev)}">${confDot(ev.confidence)}<button type="button" class="est-btn" data-value-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">${esc(money(Math.round(ev.value)))}</button>${mark}${reset}</div>`;
+  }
+  if (k === "purchase_cap") {
+    const ev = estValueInfo(row);
+    if (ev.insufficient || ev.purchaseCap == null) return `<span title="${esc(ev.tooltip)}">—</span>`;
+    return `<span class="${ev.edited ? "est-edited" : ""}" title="${esc("Purchase cap = adjusted NOI ÷ asking price. " + ev.tooltip)}">${esc(pctLabel(ev.purchaseCap, 2))}</span>`;
+  }
+  if (k === "market_cap") {
+    const ev = estValueInfo(row);
+    if (ev.insufficient || ev.cap == null) return `<span title="${esc(ev.tooltip)}">—</span>`;
+    return `<button type="button" class="est-cap-btn${ev.capOverride != null ? " est-edited" : ""}" data-cap-edit="${esc(listingKey(row))}" title="${esc(ev.tooltip)}" onclick="event.stopPropagation()">${esc(pctLabel(ev.cap, 2))}</button>`;
   }
   if (k === "vs_ask") {
     const ev = estValueInfo(row);
     if (ev.insufficient || ev.vsAsk == null) return `<span title="${esc(ev.tooltip)}">—</span>`;
-    return `<span class="vs-ask ${ev.color || ""}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
+    const cls = ev.edited ? "vs-ask edited" : ("vs-ask " + (ev.color || ""));
+    return `<span class="${cls}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
   }
   if (k === "mynotes") {
     return `<textarea class="my-notes" data-notes="${esc(listingKey(row))}" rows="2" placeholder="Your notes…" onclick="event.stopPropagation()">${esc(getNotes(row))}</textarea>`;
@@ -1039,6 +1314,20 @@ function bindListEvents(root) {
       ev.stopPropagation();
       const row = findRow(btn.dataset.capEdit);
       if (row) promptCap(row);
+    });
+  });
+  root.querySelectorAll("[data-value-edit]").forEach(btn => {
+    btn.addEventListener("click", ev => {
+      ev.stopPropagation();
+      const row = findRow(btn.dataset.valueEdit);
+      if (row) promptValue(row);
+    });
+  });
+  root.querySelectorAll("[data-est-reset]").forEach(btn => {
+    btn.addEventListener("click", ev => {
+      ev.stopPropagation();
+      const row = findRow(btn.dataset.estReset);
+      if (row) { clearEstOverrides(row); render(); }
     });
   });
   root.querySelectorAll("[data-delete]").forEach(btn => {
@@ -1216,6 +1505,14 @@ function exportCell(row, k) {
   if (k === "est_value") {
     const ev = estValueInfo(row);
     return ev.value == null ? "" : Math.round(ev.value);
+  }
+  if (k === "purchase_cap") {
+    const ev = estValueInfo(row);
+    return ev.purchaseCap == null ? "" : Math.round(ev.purchaseCap * 100) / 100;
+  }
+  if (k === "market_cap") {
+    const ev = estValueInfo(row);
+    return ev.cap == null ? "" : Math.round(ev.cap * 100) / 100;
   }
   if (k === "vs_ask") {
     const ev = estValueInfo(row);
@@ -1441,6 +1738,7 @@ function exportNotesJson() {
     notes: notesMap(),
     deleted: deletedState().keys,
     capOverrides: capOverrideMap(),
+    valueOverrides: valueOverrideMap(),
     scoreOverrides: scoreOverrideMap(),
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -1461,7 +1759,7 @@ function importNotesJson(file) {
       if (notes && typeof notes === "object" && !Array.isArray(notes)) {
         const m = notesMap();
         Object.keys(notes).forEach(k => {
-          if (k === "version" || k === "exported_at" || k === "deleted" || k === "capOverrides" || k === "scoreOverrides") return;
+          if (k === "version" || k === "exported_at" || k === "deleted" || k === "capOverrides" || k === "valueOverrides" || k === "scoreOverrides") return;
           const v = notes[k];
           if (v == null || v === "") delete m[k];
           else if (typeof v === "string" || typeof v === "number") m[k] = String(v);
@@ -1481,6 +1779,14 @@ function importNotesJson(file) {
           if (!isNaN(v) && v > 0) m[k] = v;
         });
         saveJSON(LS.cap, m);
+      }
+      if (data.valueOverrides && typeof data.valueOverrides === "object") {
+        const m = valueOverrideMap();
+        Object.keys(data.valueOverrides).forEach(k => {
+          const v = Number(data.valueOverrides[k]);
+          if (!isNaN(v) && v > 0) m[k] = v;
+        });
+        saveJSON(LS.value, m);
       }
       if (data.scoreOverrides && typeof data.scoreOverrides === "object") {
         const m = scoreOverrideMap();
@@ -1519,9 +1825,11 @@ function main() {
       return res.json();
     }),
     fetch(SAVED_URL).then(res => res.ok ? res.json() : { listings: [] }).catch(() => ({ listings: [] })),
-  ]).then(([data, saved]) => {
+    fetch(EST_URL).then(res => res.ok ? res.json() : {}).catch(() => ({})),
+  ]).then(([data, saved, est]) => {
       DATA = data;
       DATA.saved = saved.listings || saved.saved || [];
+      if (est && typeof est === "object") EST = Object.assign(EST, est);
       enrichFromSaved();
       document.getElementById("asof").textContent = "As of " + (DATA.as_of_label || DATA.as_of || "");
       fillStates();

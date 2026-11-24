@@ -1,0 +1,6067 @@
+{
+  "as_of": "2026-11-24",
+  "notes": "Lot-rent and cap-rate assumptions for estimated values. Prefer facts stated on the subject listing. Area lot rents use on-market Crexi comps first, then published city comps, then the RealMobileHomes 2026 state average. Market caps use the median listed cap of on-market MHPs in the same state and 3-mile-pop tier when at least two comps exist; otherwise the rural 10.5% / secondary 9% / metro 7.5% tier default, plus +1% if POH share >50% and +0.5% if well/septic. Assumptions are labeled and must not be presented as listing facts.",
+  "defaults": {
+    "occupancy_pct": 85,
+    "occupancy_note": "Assume 85% occupancy when the listing does not state occupancy or an occupied-unit count.",
+    "expense_toh_city": 0.35,
+    "expense_other": 0.45,
+    "tier_caps": {
+      "rural": 10.5,
+      "secondary": 9.0,
+      "metro": 7.5
+    },
+    "tier_note": "Rural = 3-mi pop under 5,000 (10.5%). Secondary = 5,000–50,000 (9%). Metro = over 50,000 (7.5%).",
+    "overall_ppl": 75781,
+    "overall_ppl_note": "Last-resort pad count = ask ÷ $75,781 overall median price/pad when pads and unit counts are both unknown."
+  },
+  "rmh_source": {
+    "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+    "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+  },
+  "city_lot_rent": {
+    "Breaux Bridge|LA": {
+      "rent": 400.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2740809,
+          "name": "1033 Leblanc Drive",
+          "city": "Breaux Bridge",
+          "state": "LA",
+          "rent": 400.0,
+          "detail": "lot rents are $400",
+          "url": "https://www.crexi.com/properties/2740809/louisiana-1033-leblanc-drive",
+          "pop3": 5690
+        }
+      ]
+    },
+    "Myrtle Beach|SC": {
+      "rent": 450.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2736683,
+          "name": "43-Lot Mobile Home Park with Development Upside",
+          "city": "Myrtle Beach",
+          "state": "SC",
+          "rent": 450.0,
+          "detail": "lot rent $450",
+          "url": "https://www.crexi.com/properties/2736683/new-jersey-43-lot-mobile-home-park-with-development-upside",
+          "pop3": 47133
+        }
+      ]
+    },
+    "West Middlesex|PA": {
+      "rent": 425.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 1937028,
+          "name": "West Middlesex Estates MHC",
+          "city": "West Middlesex",
+          "state": "PA",
+          "rent": 425.0,
+          "detail": "$425 per month in lot rent",
+          "url": "https://www.crexi.com/properties/1937028/pennsylvania-west-middlesex-estates-mhc",
+          "pop3": 10015
+        }
+      ]
+    },
+    "Livingston|LA": {
+      "rent": 450.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2712600,
+          "name": "Willow Springs Mobile Home Court",
+          "city": "Livingston",
+          "state": "LA",
+          "rent": 450.0,
+          "detail": "lot rents at $450",
+          "url": "https://www.crexi.com/properties/2712600/louisiana-willow-springs-mobile-home-court",
+          "pop3": 8087
+        }
+      ]
+    },
+    "Brunswick|GA": {
+      "rent": 450.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2745572,
+          "name": "Acre MHP",
+          "city": "Brunswick",
+          "state": "GA",
+          "rent": 450.0,
+          "detail": "$450 Monthly Lot Rent",
+          "url": "https://www.crexi.com/properties/2745572/georgia-acre-mhp",
+          "pop3": 23667
+        }
+      ]
+    },
+    "Andrews|SC": {
+      "rent": 312.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2783340,
+          "name": "Black River MHP",
+          "city": "Andrews",
+          "state": "SC",
+          "rent": 312.0,
+          "detail": "$312/month in lot rent",
+          "url": "https://www.crexi.com/properties/2783340/south-carolina-black-river-mhp",
+          "pop3": 5537
+        }
+      ]
+    },
+    "Hawesville|KY": {
+      "rent": 200.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2811304,
+          "name": "109 Snyder Court",
+          "city": "Hawesville",
+          "state": "KY",
+          "rent": 200.0,
+          "detail": "$200 per month in lot rent",
+          "url": "https://www.crexi.com/properties/2811304/kentucky-109-snyder-court",
+          "pop3": 5037
+        }
+      ]
+    },
+    "Apache Junction|AZ": {
+      "rent": 650.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2141128,
+          "name": "Mesquite Ranch RV Park",
+          "city": "Apache Junction",
+          "state": "AZ",
+          "rent": 650.0,
+          "detail": "Site Rent of $650",
+          "url": "https://www.crexi.com/properties/2141128/arizona-mesquite-ranch-rv-park",
+          "pop3": 75291
+        }
+      ]
+    },
+    "Lake City|FL": {
+      "rent": 500.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2626641,
+          "name": "Cedar Pines Mobile Home Park",
+          "city": "Lake City",
+          "state": "FL",
+          "rent": 500.0,
+          "detail": "$500 per month in lot rent",
+          "url": "https://www.crexi.com/properties/2626641/florida-cedar-pines-mobile-home-park",
+          "pop3": 15241
+        }
+      ]
+    },
+    "Suffolk|VA": {
+      "rent": 610.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2759056,
+          "name": "2957 KINGS HWY SUFFOLK VA 23435",
+          "city": "Suffolk",
+          "state": "VA",
+          "rent": 610.0,
+          "detail": "$610 lot rents",
+          "url": "https://www.crexi.com/properties/2759056/virginia-2957-kings-hwy-suffolk-va-23435",
+          "pop3": 12714
+        }
+      ]
+    },
+    "Presque Isle|ME": {
+      "rent": 350.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2634837,
+          "name": "Presque Isle MHP",
+          "city": "Presque Isle",
+          "state": "ME",
+          "rent": 350.0,
+          "detail": "$350 lot rents",
+          "url": "https://www.crexi.com/properties/2634837/maine-presque-isle-mhp",
+          "pop3": 7829
+        }
+      ]
+    },
+    "Cuero|TX": {
+      "rent": 375.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2655575,
+          "name": "Sun Creek RV Park",
+          "city": "Cuero",
+          "state": "TX",
+          "rent": 375.0,
+          "detail": "site rents of $375,",
+          "url": "https://www.crexi.com/properties/2655575/texas-sun-creek-rv-park",
+          "pop3": 6961
+        }
+      ]
+    },
+    "Ottawa|KS": {
+      "rent": 437.5,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2448130,
+          "name": "Well-Located, Stabilized Kansas MHC - 46 Spaces",
+          "city": "Ottawa",
+          "state": "KS",
+          "rent": 437.5,
+          "detail": "Lot Rents are $425 to $450",
+          "url": "https://www.crexi.com/properties/2448130/kansas-well-located-stabilized-kansas-mhc---46-spaces",
+          "pop3": 13107
+        }
+      ]
+    },
+    "Geneseo|IL": {
+      "rent": 346.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2697128,
+          "name": "Maple City MHP",
+          "city": "Geneseo",
+          "state": "IL",
+          "rent": 346.0,
+          "detail": "lot rent of $346",
+          "url": "https://www.crexi.com/properties/2697128/illinois-maple-city-mhp",
+          "pop3": 7175
+        }
+      ]
+    },
+    "Martinsville|VA": {
+      "rent": 250.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2827186,
+          "name": "Edgewood MHP & Apartments",
+          "city": "Martinsville",
+          "state": "VA",
+          "rent": 250.0,
+          "detail": "lot rents are $250",
+          "url": "https://www.crexi.com/properties/2827186/virginia-edgewood-mhp-and-apartments",
+          "pop3": 14335
+        }
+      ]
+    },
+    "Robinson|IL": {
+      "rent": 347.5,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2657251,
+          "name": "Southwind Estates MHP",
+          "city": "Robinson",
+          "state": "IL",
+          "rent": 347.5,
+          "detail": "Lot Rents: $310–$385",
+          "url": "https://www.crexi.com/properties/2657251/illinois-southwind-estates-mhp",
+          "pop3": 8156
+        }
+      ]
+    },
+    "Trussville|AL": {
+      "rent": 430.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2778547,
+          "name": "Alabama 5-Park Portfolio",
+          "city": "Trussville",
+          "state": "AL",
+          "rent": 430.0,
+          "detail": "lot rent of $430",
+          "url": "https://www.crexi.com/properties/2778547/alabama-alabama-5-park-portfolio",
+          "pop3": 12923
+        }
+      ]
+    },
+    "Brigham City|UT": {
+      "rent": 675.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2783182,
+          "name": "410 N Main St",
+          "city": "Brigham City",
+          "state": "UT",
+          "rent": 675.0,
+          "detail": "Lot rent is $675",
+          "url": "https://www.crexi.com/properties/2783182/utah-410-n-main-st",
+          "pop3": 19898
+        }
+      ]
+    },
+    "San Antonio|TX": {
+      "rent": 450.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2440154,
+          "name": "Capital Mobile Home Park",
+          "city": "San Antonio",
+          "state": "TX",
+          "rent": 450.0,
+          "detail": "$450 per month in lot rent",
+          "url": "https://www.crexi.com/properties/2440154/texas-mobile-home-capital-mhp",
+          "pop3": 99786
+        }
+      ]
+    },
+    "Sabattus|ME": {
+      "rent": 550.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2745322,
+          "name": "Sabattus Estates",
+          "city": "Sabattus",
+          "state": "ME",
+          "rent": 550.0,
+          "detail": "lot rent of $550",
+          "url": "https://www.crexi.com/properties/2745322/maine-4-houle-street",
+          "pop3": 12000
+        }
+      ]
+    },
+    "Lakeland|FL": {
+      "rent": 627.0,
+      "n": 2,
+      "source": "Median of 2 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2747792,
+          "name": "Tenoroc Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "rent": 729.0,
+          "detail": "lot rent of $729",
+          "url": "https://www.crexi.com/properties/2747792/florida-tenoroc-park",
+          "pop3": 15799
+        },
+        {
+          "id": 2716444,
+          "name": "Happy Hollow MH & RV Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "rent": 525.0,
+          "detail": "lot rents of $525",
+          "url": "https://www.crexi.com/properties/2716444/florida-happy-hollow-mh-rv-park",
+          "pop3": 26243
+        }
+      ]
+    },
+    "Mountain Home|AR": {
+      "rent": 375.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2516294,
+          "name": "Buffalo River Mobile Home Community",
+          "city": "Mountain Home",
+          "state": "AR",
+          "rent": 375.0,
+          "detail": "lot rent of $375",
+          "url": "https://www.crexi.com/properties/2516294/arkansas-buffalo-river-mobile-home-community",
+          "pop3": 14810
+        }
+      ]
+    },
+    "Apopka|FL": {
+      "rent": 750.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2684066,
+          "name": "Victoria Gardens MHP",
+          "city": "Apopka",
+          "state": "FL",
+          "rent": 750.0,
+          "detail": "lot rent of $750",
+          "url": "https://www.crexi.com/properties/2684066/florida-victoria-gardens-mhp",
+          "pop3": 61269
+        }
+      ]
+    },
+    "Oroville|CA": {
+      "rent": 445.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2722591,
+          "name": "Rambling Rose MP & Knotty Estates",
+          "city": "Oroville",
+          "state": "CA",
+          "rent": 445.0,
+          "detail": "site rents are $445,",
+          "url": "https://www.crexi.com/properties/2722591/california-rambling-rose-mp-knotty-estates",
+          "pop3": 18344
+        }
+      ]
+    },
+    "Anchorage|AK": {
+      "rent": 620.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2646954,
+          "name": "Chateau Mobile Home Community",
+          "city": "Anchorage",
+          "state": "AK",
+          "rent": 620.0,
+          "detail": "Lot rent $620",
+          "url": "https://www.crexi.com/properties/2646954/alaska-chateau-mobile-home-community",
+          "pop3": 93218
+        }
+      ]
+    },
+    "Chicago|IL": {
+      "rent": 711.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2654055,
+          "name": "Specialville Estates",
+          "city": "Chicago",
+          "state": "IL",
+          "rent": 711.0,
+          "detail": "$711/month in lot rent",
+          "url": "https://www.crexi.com/properties/2654055/illinois-specialville-estates",
+          "pop3": 99872
+        }
+      ]
+    },
+    "Rockingham|NC": {
+      "rent": 275.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2370616,
+          "name": "5 Points Mobile Home Park For Sale",
+          "city": "Rockingham",
+          "state": "NC",
+          "rent": 275.0,
+          "detail": "Lot Rent: $275",
+          "url": "https://www.crexi.com/properties/2370616/north-carolina-5-points-mobile-home-park-for-sale",
+          "pop3": 13858
+        }
+      ]
+    },
+    "Berwick|PA": {
+      "rent": 460.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2827170,
+          "name": "Wicklin Main Mobile Home Park",
+          "city": "Berwick",
+          "state": "PA",
+          "rent": 460.0,
+          "detail": "lot rents at $460",
+          "url": "https://www.crexi.com/properties/2827170/pennsylvania-wicklin-main-mobile-home-park",
+          "pop3": 15787
+        }
+      ]
+    },
+    "Sylvester|GA": {
+      "rent": 365.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2759011,
+          "name": "Sylvester, GA 2-Park Portfolio",
+          "city": "Sylvester",
+          "state": "GA",
+          "rent": 365.0,
+          "detail": "lot rents are $365",
+          "url": "https://www.crexi.com/properties/2759011/georgia-sylvester-ga-2-park-portfolio",
+          "pop3": 7208
+        }
+      ]
+    },
+    "Flint|MI": {
+      "rent": 500.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 1913521,
+          "name": "Genesee Forest Estates",
+          "city": "Flint",
+          "state": "MI",
+          "rent": 500.0,
+          "detail": "$500/month in pad rent",
+          "url": "https://www.crexi.com/properties/1913521/michigan-genesee-forest-estates",
+          "pop3": 37765
+        }
+      ]
+    },
+    "Nauvoo|IL": {
+      "rent": 300.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2232027,
+          "name": "Nauvoo Mobile Home Park",
+          "city": "Nauvoo",
+          "state": "IL",
+          "rent": 300.0,
+          "detail": "pad rent is $300",
+          "url": "https://www.crexi.com/properties/2232027/illinois-nauvoo-mobile-home-park",
+          "pop3": 1672
+        }
+      ]
+    },
+    "Ulysses|KS": {
+      "rent": 265.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2467812,
+          "name": "Bedrock MHC",
+          "city": "Ulysses",
+          "state": "KS",
+          "rent": 265.0,
+          "detail": "$265 Lot Rent",
+          "url": "https://www.crexi.com/properties/2467812/kansas-bedrock-mhc",
+          "pop3": 5975
+        }
+      ]
+    },
+    "Catawba|SC": {
+      "rent": 600.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2759093,
+          "name": "York County SC 2-Park Portfolio",
+          "city": "Catawba",
+          "state": "SC",
+          "rent": 600.0,
+          "detail": "$600 lot rents",
+          "url": "https://www.crexi.com/properties/2759093/south-carolina-york-county-sc-2-park-portfolio",
+          "pop3": 6483
+        }
+      ]
+    },
+    "Rocky Mount|NC": {
+      "rent": 300.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2784899,
+          "name": "Rocky Mount, NC MHP",
+          "city": "Rocky Mount",
+          "state": "NC",
+          "rent": 300.0,
+          "detail": "Lot rent is $300",
+          "url": "https://www.crexi.com/properties/2784899/north-carolina-rocky-mount-nc-mhp",
+          "pop3": 13772
+        }
+      ]
+    },
+    "Jacksonville|NC": {
+      "rent": 250.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2739940,
+          "name": "Three Bridges Estates MHP",
+          "city": "Jacksonville",
+          "state": "NC",
+          "rent": 250.0,
+          "detail": "$250 lot rent",
+          "url": "https://www.crexi.com/properties/2739940/north-carolina-three-bridges-estates-mhp",
+          "pop3": 8839
+        }
+      ]
+    },
+    "Terre Haute|IN": {
+      "rent": 400.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2657252,
+          "name": "Vista Grande MHP",
+          "city": "Terre Haute",
+          "state": "IN",
+          "rent": 400.0,
+          "detail": "Lot Rent: $400",
+          "url": "https://www.crexi.com/properties/2657252/indiana-vista-grande-mhp",
+          "pop3": 19734
+        }
+      ]
+    },
+    "Erie|PA": {
+      "rent": 491.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2722914,
+          "name": "Wesleyville MHP",
+          "city": "Erie",
+          "state": "PA",
+          "rent": 491.0,
+          "detail": "site rent of $491",
+          "url": "https://www.crexi.com/properties/2722914/pennsylvania-wesleyville-mhp",
+          "pop3": 53803
+        }
+      ]
+    },
+    "Weaver|AL": {
+      "rent": 350.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2724459,
+          "name": "Anniston Oxford AL 2-Park Portfolio",
+          "city": "Weaver",
+          "state": "AL",
+          "rent": 350.0,
+          "detail": "lot rents are $350",
+          "url": "https://www.crexi.com/properties/2724459/alabama-anniston-oxford-al-2-park-portfolio",
+          "pop3": 17665
+        }
+      ]
+    },
+    "Odessa|TX": {
+      "rent": 480.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2780624,
+          "name": "Northgate Mobile Home Park",
+          "city": "Odessa",
+          "state": "TX",
+          "rent": 480.0,
+          "detail": "lot rent is $480",
+          "url": "https://www.crexi.com/properties/2780624/texas-northgate-mobile-home-park",
+          "pop3": 58090
+        }
+      ]
+    },
+    "Jacksonville|AR": {
+      "rent": 425.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2719492,
+          "name": "Lamplighter Village Mobile Home Park",
+          "city": "Jacksonville",
+          "state": "AR",
+          "rent": 425.0,
+          "detail": "$425/month in lot rent",
+          "url": "https://www.crexi.com/properties/2719492/arkansas-lamplighter-village-mobile-home-park",
+          "pop3": 23448
+        }
+      ]
+    },
+    "Adel|GA": {
+      "rent": 350.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2299707,
+          "name": "Adel Manufactured Housing Community",
+          "city": "Adel",
+          "state": "GA",
+          "rent": 350.0,
+          "detail": "Tracker note: $350 lot rent",
+          "url": "https://www.crexi.com/properties/2299707/georgia-adel-manufactured-housing-community",
+          "pop3": 5030
+        }
+      ]
+    },
+    "Collinsville|VA": {
+      "rent": 270.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in this city with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2759893,
+          "name": "Collinsville Mobile Home Park",
+          "city": "Collinsville",
+          "state": "VA",
+          "rent": 270.0,
+          "detail": "Tracker note: $270 lot rent",
+          "url": "https://www.crexi.com/properties/2759893/virginia-collinsville-mobile-home-park",
+          "pop3": 13481
+        }
+      ]
+    },
+    "Greeley|CO": {
+      "rent": 600,
+      "n": 3,
+      "source": "Used $600 midpoint of Greeley Mobile Manor ($475–$725), a smaller park closer in scale than 170–400+ lot institutional communities listing $800–$1,200.",
+      "comps": [
+        {
+          "name": "Greeley Mobile Manor",
+          "city": "Greeley",
+          "state": "CO",
+          "rent": 600,
+          "detail": "MHBO lot-rent range $475–$725 (midpoint $600), water/sewer included",
+          "url": "https://www.mhbo.com/mobile-home-park/89746-greeley-mobile-manor-1107-30th-street-rd-greeley-co-80631"
+        },
+        {
+          "name": "Villa West CO MHC",
+          "city": "Greeley",
+          "state": "CO",
+          "rent": 1000,
+          "detail": "MHBO lot-rent range $800–$1,200 (midpoint $1,000); large institutional park",
+          "url": "https://www.mhbo.com/mobile-home-park/38164-villa-west-co-mhc-2700-west-c-st-greeley-co-80631"
+        },
+        {
+          "name": "Countryside of Greeley MHC",
+          "city": "Greeley",
+          "state": "CO",
+          "rent": 1000,
+          "detail": "MHBO lot-rent range $800–$1,200 (midpoint $1,000)",
+          "url": "https://www.mhbo.com/mobile-home-park/38162-countryside-of-greeley-mhc-2036-1st-ave-greeley-co-80631"
+        }
+      ]
+    },
+    "Aurora|CO": {
+      "rent": 600,
+      "n": 2,
+      "source": "Subject listings are small (9–15 lots) and one is described as below-market; used $600 (Greeley small-park midpoint) rather than $1,000 mid of 285–439 lot Aurora parks.",
+      "comps": [
+        {
+          "name": "Friendly Village of Aurora",
+          "city": "Aurora",
+          "state": "CO",
+          "rent": 1000,
+          "detail": "MHBO lot-rent range $800–$1,200 (midpoint $1,000), utilities included; 439-lot park",
+          "url": "https://www.mhbo.com/mobile-home-park/60422-friendly-village-of-aurora-1711-roosevelt-way-aurora-co-80011"
+        },
+        {
+          "name": "Denver Meadows Mobile Home Park",
+          "city": "Aurora",
+          "state": "CO",
+          "rent": 1000,
+          "detail": "MHBO lot-rent range $800–$1,200 (midpoint $1,000); 285-lot park",
+          "url": "https://www.mhbo.com/mobile-home-park/60437-denver-meadows-mobile-home-park-2075-potomac-street-aurora-co-80011"
+        }
+      ]
+    },
+    "Salem|OR": {
+      "rent": 520,
+      "n": 3,
+      "source": "Midpoint of published Salem lot rents: $410, $460, and $690.",
+      "comps": [
+        {
+          "name": "Center Street Mobile Park",
+          "city": "Salem",
+          "state": "OR",
+          "rent": 690,
+          "detail": "Published space rent $690 (GoOnMLS / park directory, ~March 2026)",
+          "url": "https://goonmls.com/parks/"
+        },
+        {
+          "name": "Shady Acres",
+          "city": "Salem",
+          "state": "OR",
+          "rent": 460,
+          "detail": "MHVillage listed lot rent $460 (55+)",
+          "url": "https://www.mhvillage.com/parks/34395"
+        },
+        {
+          "name": "Paradise Island Park",
+          "city": "Salem",
+          "state": "OR",
+          "rent": 410,
+          "detail": "MHVillage listed lot rent $410 (55+)",
+          "url": "https://www.mhvillage.com/parks/22636"
+        }
+      ]
+    },
+    "Keizer|OR": {
+      "rent": 520,
+      "n": 1,
+      "source": "Salem-Keizer metro; same published Salem lot-rent midpoint $520.",
+      "comps": [
+        {
+          "name": "Center Street Mobile Park",
+          "city": "Salem",
+          "state": "OR",
+          "rent": 690,
+          "detail": "Salem-Keizer metro; published space rent $690",
+          "url": "https://goonmls.com/parks/"
+        }
+      ]
+    },
+    "Bellingham|WA": {
+      "rent": 638,
+      "n": 1,
+      "source": "Midpoint of Bellingham Meadows recorded range $525–$750.",
+      "comps": [
+        {
+          "name": "Bellingham Meadows WA",
+          "city": "Bellingham",
+          "state": "WA",
+          "rent": 638,
+          "detail": "RealMobileHomes recorded lot rent $525–$750 (midpoint $638)",
+          "url": "https://realmobilehomes.com/mobile-home-parks/washington"
+        }
+      ]
+    },
+    "Helenwood|TN": {
+      "rent": 315,
+      "n": 1,
+      "source": "Median of published city comps (see sources).",
+      "comps": [
+        {
+          "name": "Tennessee rural/Tri-Cities range",
+          "city": "Tri-Cities",
+          "state": "TN",
+          "rent": 315,
+          "detail": "Keel Team 2024–25 rural/smaller-market $180–$300 and Tri-Cities $250–$380 (mid used $315)",
+          "url": "https://keelteam.com/mobile-home-park-investing-tennessee/"
+        }
+      ]
+    },
+    "Johnstown|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps; used Colorado RealMobileHomes state average $632 (12 parks). Front Range institutional parks can run $800–$1,200.",
+      "comps": []
+    },
+    "Brush|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps; used Colorado RealMobileHomes state average $632 (12 parks).",
+      "comps": []
+    },
+    "Woodland Park|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps; used Colorado RealMobileHomes state average $632 (12 parks).",
+      "comps": []
+    },
+    "Canon City|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps; used Colorado RealMobileHomes state average $632 (12 parks). Subject also states ~$10,000/month gross for the whole property, which is preferred when valuing that listing.",
+      "comps": []
+    },
+    "Cañon City|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps; used Colorado RealMobileHomes state average $632 (12 parks).",
+      "comps": []
+    },
+    "Salida|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps; used Colorado RealMobileHomes state average $632 (12 parks).",
+      "comps": []
+    },
+    "Bennett|CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "No city comps needed when stated NOI is available; RMH CO average $632 is a fallback only.",
+      "comps": []
+    }
+  },
+  "state_lot_rent": {
+    "LA": {
+      "rent": 425.0,
+      "n": 2,
+      "source": "Median of 2 on-market Crexi listing(s) in LA with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2740809,
+          "name": "1033 Leblanc Drive",
+          "city": "Breaux Bridge",
+          "state": "LA",
+          "rent": 400.0,
+          "detail": "lot rents are $400",
+          "url": "https://www.crexi.com/properties/2740809/louisiana-1033-leblanc-drive",
+          "pop3": 5690
+        },
+        {
+          "id": 2712600,
+          "name": "Willow Springs Mobile Home Court",
+          "city": "Livingston",
+          "state": "LA",
+          "rent": 450.0,
+          "detail": "lot rents at $450",
+          "url": "https://www.crexi.com/properties/2712600/louisiana-willow-springs-mobile-home-court",
+          "pop3": 8087
+        }
+      ],
+      "rmh_avg": 494,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "SC": {
+      "rent": 450.0,
+      "n": 3,
+      "source": "Median of 3 on-market Crexi listing(s) in SC with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2736683,
+          "name": "43-Lot Mobile Home Park with Development Upside",
+          "city": "Myrtle Beach",
+          "state": "SC",
+          "rent": 450.0,
+          "detail": "lot rent $450",
+          "url": "https://www.crexi.com/properties/2736683/new-jersey-43-lot-mobile-home-park-with-development-upside",
+          "pop3": 47133
+        },
+        {
+          "id": 2783340,
+          "name": "Black River MHP",
+          "city": "Andrews",
+          "state": "SC",
+          "rent": 312.0,
+          "detail": "$312/month in lot rent",
+          "url": "https://www.crexi.com/properties/2783340/south-carolina-black-river-mhp",
+          "pop3": 5537
+        },
+        {
+          "id": 2759093,
+          "name": "York County SC 2-Park Portfolio",
+          "city": "Catawba",
+          "state": "SC",
+          "rent": 600.0,
+          "detail": "$600 lot rents",
+          "url": "https://www.crexi.com/properties/2759093/south-carolina-york-county-sc-2-park-portfolio",
+          "pop3": 6483
+        }
+      ],
+      "rmh_avg": 572,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "PA": {
+      "rent": 460.0,
+      "n": 3,
+      "source": "Median of 3 on-market Crexi listing(s) in PA with a stated lot rent.",
+      "comps": [
+        {
+          "id": 1937028,
+          "name": "West Middlesex Estates MHC",
+          "city": "West Middlesex",
+          "state": "PA",
+          "rent": 425.0,
+          "detail": "$425 per month in lot rent",
+          "url": "https://www.crexi.com/properties/1937028/pennsylvania-west-middlesex-estates-mhc",
+          "pop3": 10015
+        },
+        {
+          "id": 2827170,
+          "name": "Wicklin Main Mobile Home Park",
+          "city": "Berwick",
+          "state": "PA",
+          "rent": 460.0,
+          "detail": "lot rents at $460",
+          "url": "https://www.crexi.com/properties/2827170/pennsylvania-wicklin-main-mobile-home-park",
+          "pop3": 15787
+        },
+        {
+          "id": 2722914,
+          "name": "Wesleyville MHP",
+          "city": "Erie",
+          "state": "PA",
+          "rent": 491.0,
+          "detail": "site rent of $491",
+          "url": "https://www.crexi.com/properties/2722914/pennsylvania-wesleyville-mhp",
+          "pop3": 53803
+        }
+      ],
+      "rmh_avg": 630,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "GA": {
+      "rent": 365.0,
+      "n": 3,
+      "source": "Median of 3 on-market Crexi listing(s) in GA with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2745572,
+          "name": "Acre MHP",
+          "city": "Brunswick",
+          "state": "GA",
+          "rent": 450.0,
+          "detail": "$450 Monthly Lot Rent",
+          "url": "https://www.crexi.com/properties/2745572/georgia-acre-mhp",
+          "pop3": 23667
+        },
+        {
+          "id": 2759011,
+          "name": "Sylvester, GA 2-Park Portfolio",
+          "city": "Sylvester",
+          "state": "GA",
+          "rent": 365.0,
+          "detail": "lot rents are $365",
+          "url": "https://www.crexi.com/properties/2759011/georgia-sylvester-ga-2-park-portfolio",
+          "pop3": 7208
+        },
+        {
+          "id": 2299707,
+          "name": "Adel Manufactured Housing Community",
+          "city": "Adel",
+          "state": "GA",
+          "rent": 350.0,
+          "detail": "Tracker note: $350 lot rent",
+          "url": "https://www.crexi.com/properties/2299707/georgia-adel-manufactured-housing-community",
+          "pop3": 5030
+        }
+      ],
+      "rmh_avg": 655,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "KY": {
+      "rent": 200.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in KY with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2811304,
+          "name": "109 Snyder Court",
+          "city": "Hawesville",
+          "state": "KY",
+          "rent": 200.0,
+          "detail": "$200 per month in lot rent",
+          "url": "https://www.crexi.com/properties/2811304/kentucky-109-snyder-court",
+          "pop3": 5037
+        }
+      ],
+      "rmh_avg": 533,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "AZ": {
+      "rent": 650.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in AZ with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2141128,
+          "name": "Mesquite Ranch RV Park",
+          "city": "Apache Junction",
+          "state": "AZ",
+          "rent": 650.0,
+          "detail": "Site Rent of $650",
+          "url": "https://www.crexi.com/properties/2141128/arizona-mesquite-ranch-rv-park",
+          "pop3": 75291
+        }
+      ],
+      "rmh_avg": 642,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "FL": {
+      "rent": 627.0,
+      "n": 4,
+      "source": "Median of 4 on-market Crexi listing(s) in FL with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2626641,
+          "name": "Cedar Pines Mobile Home Park",
+          "city": "Lake City",
+          "state": "FL",
+          "rent": 500.0,
+          "detail": "$500 per month in lot rent",
+          "url": "https://www.crexi.com/properties/2626641/florida-cedar-pines-mobile-home-park",
+          "pop3": 15241
+        },
+        {
+          "id": 2747792,
+          "name": "Tenoroc Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "rent": 729.0,
+          "detail": "lot rent of $729",
+          "url": "https://www.crexi.com/properties/2747792/florida-tenoroc-park",
+          "pop3": 15799
+        },
+        {
+          "id": 2684066,
+          "name": "Victoria Gardens MHP",
+          "city": "Apopka",
+          "state": "FL",
+          "rent": 750.0,
+          "detail": "lot rent of $750",
+          "url": "https://www.crexi.com/properties/2684066/florida-victoria-gardens-mhp",
+          "pop3": 61269
+        },
+        {
+          "id": 2716444,
+          "name": "Happy Hollow MH & RV Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "rent": 525.0,
+          "detail": "lot rents of $525",
+          "url": "https://www.crexi.com/properties/2716444/florida-happy-hollow-mh-rv-park",
+          "pop3": 26243
+        }
+      ],
+      "rmh_avg": 822,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "VA": {
+      "rent": 270.0,
+      "n": 3,
+      "source": "Median of 3 on-market Crexi listing(s) in VA with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2759056,
+          "name": "2957 KINGS HWY SUFFOLK VA 23435",
+          "city": "Suffolk",
+          "state": "VA",
+          "rent": 610.0,
+          "detail": "$610 lot rents",
+          "url": "https://www.crexi.com/properties/2759056/virginia-2957-kings-hwy-suffolk-va-23435",
+          "pop3": 12714
+        },
+        {
+          "id": 2827186,
+          "name": "Edgewood MHP & Apartments",
+          "city": "Martinsville",
+          "state": "VA",
+          "rent": 250.0,
+          "detail": "lot rents are $250",
+          "url": "https://www.crexi.com/properties/2827186/virginia-edgewood-mhp-and-apartments",
+          "pop3": 14335
+        },
+        {
+          "id": 2759893,
+          "name": "Collinsville Mobile Home Park",
+          "city": "Collinsville",
+          "state": "VA",
+          "rent": 270.0,
+          "detail": "Tracker note: $270 lot rent",
+          "url": "https://www.crexi.com/properties/2759893/virginia-collinsville-mobile-home-park",
+          "pop3": 13481
+        }
+      ],
+      "rmh_avg": 638,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "ME": {
+      "rent": 450.0,
+      "n": 2,
+      "source": "Median of 2 on-market Crexi listing(s) in ME with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2634837,
+          "name": "Presque Isle MHP",
+          "city": "Presque Isle",
+          "state": "ME",
+          "rent": 350.0,
+          "detail": "$350 lot rents",
+          "url": "https://www.crexi.com/properties/2634837/maine-presque-isle-mhp",
+          "pop3": 7829
+        },
+        {
+          "id": 2745322,
+          "name": "Sabattus Estates",
+          "city": "Sabattus",
+          "state": "ME",
+          "rent": 550.0,
+          "detail": "lot rent of $550",
+          "url": "https://www.crexi.com/properties/2745322/maine-4-houle-street",
+          "pop3": 12000
+        }
+      ],
+      "rmh_avg": 270,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "TX": {
+      "rent": 450.0,
+      "n": 3,
+      "source": "Median of 3 on-market Crexi listing(s) in TX with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2655575,
+          "name": "Sun Creek RV Park",
+          "city": "Cuero",
+          "state": "TX",
+          "rent": 375.0,
+          "detail": "site rents of $375,",
+          "url": "https://www.crexi.com/properties/2655575/texas-sun-creek-rv-park",
+          "pop3": 6961
+        },
+        {
+          "id": 2440154,
+          "name": "Capital Mobile Home Park",
+          "city": "San Antonio",
+          "state": "TX",
+          "rent": 450.0,
+          "detail": "$450 per month in lot rent",
+          "url": "https://www.crexi.com/properties/2440154/texas-mobile-home-capital-mhp",
+          "pop3": 99786
+        },
+        {
+          "id": 2780624,
+          "name": "Northgate Mobile Home Park",
+          "city": "Odessa",
+          "state": "TX",
+          "rent": 480.0,
+          "detail": "lot rent is $480",
+          "url": "https://www.crexi.com/properties/2780624/texas-northgate-mobile-home-park",
+          "pop3": 58090
+        }
+      ],
+      "rmh_avg": 661,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "KS": {
+      "rent": 351.25,
+      "n": 2,
+      "source": "Median of 2 on-market Crexi listing(s) in KS with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2448130,
+          "name": "Well-Located, Stabilized Kansas MHC - 46 Spaces",
+          "city": "Ottawa",
+          "state": "KS",
+          "rent": 437.5,
+          "detail": "Lot Rents are $425 to $450",
+          "url": "https://www.crexi.com/properties/2448130/kansas-well-located-stabilized-kansas-mhc---46-spaces",
+          "pop3": 13107
+        },
+        {
+          "id": 2467812,
+          "name": "Bedrock MHC",
+          "city": "Ulysses",
+          "state": "KS",
+          "rent": 265.0,
+          "detail": "$265 Lot Rent",
+          "url": "https://www.crexi.com/properties/2467812/kansas-bedrock-mhc",
+          "pop3": 5975
+        }
+      ],
+      "rmh_avg": 701,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "IL": {
+      "rent": 346.75,
+      "n": 4,
+      "source": "Median of 4 on-market Crexi listing(s) in IL with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2697128,
+          "name": "Maple City MHP",
+          "city": "Geneseo",
+          "state": "IL",
+          "rent": 346.0,
+          "detail": "lot rent of $346",
+          "url": "https://www.crexi.com/properties/2697128/illinois-maple-city-mhp",
+          "pop3": 7175
+        },
+        {
+          "id": 2657251,
+          "name": "Southwind Estates MHP",
+          "city": "Robinson",
+          "state": "IL",
+          "rent": 347.5,
+          "detail": "Lot Rents: $310–$385",
+          "url": "https://www.crexi.com/properties/2657251/illinois-southwind-estates-mhp",
+          "pop3": 8156
+        },
+        {
+          "id": 2654055,
+          "name": "Specialville Estates",
+          "city": "Chicago",
+          "state": "IL",
+          "rent": 711.0,
+          "detail": "$711/month in lot rent",
+          "url": "https://www.crexi.com/properties/2654055/illinois-specialville-estates",
+          "pop3": 99872
+        },
+        {
+          "id": 2232027,
+          "name": "Nauvoo Mobile Home Park",
+          "city": "Nauvoo",
+          "state": "IL",
+          "rent": 300.0,
+          "detail": "pad rent is $300",
+          "url": "https://www.crexi.com/properties/2232027/illinois-nauvoo-mobile-home-park",
+          "pop3": 1672
+        }
+      ],
+      "rmh_avg": 555,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "AL": {
+      "rent": 390.0,
+      "n": 2,
+      "source": "Median of 2 on-market Crexi listing(s) in AL with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2778547,
+          "name": "Alabama 5-Park Portfolio",
+          "city": "Trussville",
+          "state": "AL",
+          "rent": 430.0,
+          "detail": "lot rent of $430",
+          "url": "https://www.crexi.com/properties/2778547/alabama-alabama-5-park-portfolio",
+          "pop3": 12923
+        },
+        {
+          "id": 2724459,
+          "name": "Anniston Oxford AL 2-Park Portfolio",
+          "city": "Weaver",
+          "state": "AL",
+          "rent": 350.0,
+          "detail": "lot rents are $350",
+          "url": "https://www.crexi.com/properties/2724459/alabama-anniston-oxford-al-2-park-portfolio",
+          "pop3": 17665
+        }
+      ],
+      "rmh_avg": 492,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "UT": {
+      "rent": 675.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in UT with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2783182,
+          "name": "410 N Main St",
+          "city": "Brigham City",
+          "state": "UT",
+          "rent": 675.0,
+          "detail": "Lot rent is $675",
+          "url": "https://www.crexi.com/properties/2783182/utah-410-n-main-st",
+          "pop3": 19898
+        }
+      ]
+    },
+    "AR": {
+      "rent": 400.0,
+      "n": 2,
+      "source": "Median of 2 on-market Crexi listing(s) in AR with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2516294,
+          "name": "Buffalo River Mobile Home Community",
+          "city": "Mountain Home",
+          "state": "AR",
+          "rent": 375.0,
+          "detail": "lot rent of $375",
+          "url": "https://www.crexi.com/properties/2516294/arkansas-buffalo-river-mobile-home-community",
+          "pop3": 14810
+        },
+        {
+          "id": 2719492,
+          "name": "Lamplighter Village Mobile Home Park",
+          "city": "Jacksonville",
+          "state": "AR",
+          "rent": 425.0,
+          "detail": "$425/month in lot rent",
+          "url": "https://www.crexi.com/properties/2719492/arkansas-lamplighter-village-mobile-home-park",
+          "pop3": 23448
+        }
+      ],
+      "rmh_avg": 383,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "CA": {
+      "rent": 445.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in CA with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2722591,
+          "name": "Rambling Rose MP & Knotty Estates",
+          "city": "Oroville",
+          "state": "CA",
+          "rent": 445.0,
+          "detail": "site rents are $445,",
+          "url": "https://www.crexi.com/properties/2722591/california-rambling-rose-mp-knotty-estates",
+          "pop3": 18344
+        }
+      ],
+      "rmh_avg": 1125,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "AK": {
+      "rent": 620.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in AK with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2646954,
+          "name": "Chateau Mobile Home Community",
+          "city": "Anchorage",
+          "state": "AK",
+          "rent": 620.0,
+          "detail": "Lot rent $620",
+          "url": "https://www.crexi.com/properties/2646954/alaska-chateau-mobile-home-community",
+          "pop3": 93218
+        }
+      ],
+      "rmh_avg": 731,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NC": {
+      "rent": 275.0,
+      "n": 3,
+      "source": "Median of 3 on-market Crexi listing(s) in NC with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2370616,
+          "name": "5 Points Mobile Home Park For Sale",
+          "city": "Rockingham",
+          "state": "NC",
+          "rent": 275.0,
+          "detail": "Lot Rent: $275",
+          "url": "https://www.crexi.com/properties/2370616/north-carolina-5-points-mobile-home-park-for-sale",
+          "pop3": 13858
+        },
+        {
+          "id": 2784899,
+          "name": "Rocky Mount, NC MHP",
+          "city": "Rocky Mount",
+          "state": "NC",
+          "rent": 300.0,
+          "detail": "Lot rent is $300",
+          "url": "https://www.crexi.com/properties/2784899/north-carolina-rocky-mount-nc-mhp",
+          "pop3": 13772
+        },
+        {
+          "id": 2739940,
+          "name": "Three Bridges Estates MHP",
+          "city": "Jacksonville",
+          "state": "NC",
+          "rent": 250.0,
+          "detail": "$250 lot rent",
+          "url": "https://www.crexi.com/properties/2739940/north-carolina-three-bridges-estates-mhp",
+          "pop3": 8839
+        }
+      ],
+      "rmh_avg": 593,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MI": {
+      "rent": 500.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in MI with a stated lot rent.",
+      "comps": [
+        {
+          "id": 1913521,
+          "name": "Genesee Forest Estates",
+          "city": "Flint",
+          "state": "MI",
+          "rent": 500.0,
+          "detail": "$500/month in pad rent",
+          "url": "https://www.crexi.com/properties/1913521/michigan-genesee-forest-estates",
+          "pop3": 37765
+        }
+      ],
+      "rmh_avg": 619,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "IN": {
+      "rent": 400.0,
+      "n": 1,
+      "source": "Median of 1 on-market Crexi listing(s) in IN with a stated lot rent.",
+      "comps": [
+        {
+          "id": 2657252,
+          "name": "Vista Grande MHP",
+          "city": "Terre Haute",
+          "state": "IN",
+          "rent": 400.0,
+          "detail": "Lot Rent: $400",
+          "url": "https://www.crexi.com/properties/2657252/indiana-vista-grande-mhp",
+          "pop3": 19734
+        }
+      ],
+      "rmh_avg": 558,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "CO": {
+      "rent": 632,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $632/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 632,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "CT": {
+      "rent": 725,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $725/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 725,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "DE": {
+      "rent": 700,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $700/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 700,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "ID": {
+      "rent": 544,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $544/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 544,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "IA": {
+      "rent": 488,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $488/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 488,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MD": {
+      "rent": 825,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $825/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 825,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MA": {
+      "rent": 950,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $950/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 950,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MN": {
+      "rent": 663,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $663/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 663,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MS": {
+      "rent": 471,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $471/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 471,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MO": {
+      "rent": 481,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $481/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 481,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "MT": {
+      "rent": 546,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $546/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 546,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NE": {
+      "rent": 538,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $538/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 538,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NV": {
+      "rent": 556,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $556/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 556,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NH": {
+      "rent": 613,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $613/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 613,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NJ": {
+      "rent": 929,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $929/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 929,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NM": {
+      "rent": 435,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $435/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 435,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "NY": {
+      "rent": 634,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $634/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 634,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "ND": {
+      "rent": 563,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $563/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 563,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "OH": {
+      "rent": 511,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $511/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 511,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "OK": {
+      "rent": 454,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $454/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 454,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "OR": {
+      "rent": 663,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $663/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 663,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "SD": {
+      "rent": 483,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $483/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 483,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "TN": {
+      "rent": 584,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $584/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 584,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "VT": {
+      "rent": 406,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $406/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 406,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "WA": {
+      "rent": 778,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $778/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 778,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "WV": {
+      "rent": 463,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $463/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 463,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "WI": {
+      "rent": 594,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $594/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 594,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    },
+    "WY": {
+      "rent": 575,
+      "n": 0,
+      "source": "RealMobileHomes state average lot rent (listed parks, 2026): $575/mo.",
+      "url": "https://realmobilehomes.com/average-lot-rent-by-state",
+      "comps": [],
+      "rmh_avg": 575,
+      "rmh_source": {
+        "label": "RealMobileHomes state average lot rent (listed parks, 2026)",
+        "url": "https://realmobilehomes.com/average-lot-rent-by-state"
+      }
+    }
+  },
+  "state_tier_caps": {
+    "IN|secondary": {
+      "cap": 10.4,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in IN (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2786978,
+          "name": "Shady Rest Mobile Home Community",
+          "city": "Anderson",
+          "state": "IN",
+          "cap": 10.4,
+          "url": "https://www.crexi.com/properties/2786978/indiana-shady-rest-mobile-home-community",
+          "pop3": 33210,
+          "tier": "secondary",
+          "price": 1000000.0
+        }
+      ]
+    },
+    "MI|secondary": {
+      "cap": 8.16,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in MI (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2825959,
+          "name": "Michigan Avenue Estates",
+          "city": "Jackson",
+          "state": "MI",
+          "cap": 8.16,
+          "url": "https://www.crexi.com/properties/2825959/michigan-michigan-avenue-estates",
+          "pop3": 37708,
+          "tier": "secondary",
+          "price": 1750000.0
+        }
+      ]
+    },
+    "CA|secondary": {
+      "cap": 7.49,
+      "n": 11,
+      "source": "Median listed cap of 11 on-market MHP(s) in CA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2492655,
+          "name": "Acton Country Mobile Home Park | 27 Spaces",
+          "city": "Acton",
+          "state": "CA",
+          "cap": 6.09,
+          "url": "https://www.crexi.com/properties/2492655/california-acton-country-mobile-home-park-27-spaces",
+          "pop3": 6676,
+          "tier": "secondary",
+          "price": 2700000.0
+        },
+        {
+          "id": 2649891,
+          "name": "Canyon Creek Mobile Home and RV Park",
+          "city": "Anderson",
+          "state": "CA",
+          "cap": 8.39,
+          "url": "https://www.crexi.com/properties/2649891/california-canyon-creek-mobile-home-and-rv-park",
+          "pop3": 14862,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2517653,
+          "name": "Shafter Mobile Home Park",
+          "city": "Shafter",
+          "state": "CA",
+          "cap": 8.0,
+          "url": "https://www.crexi.com/properties/2517653/california-shafter-mobile-home-park",
+          "pop3": 19296,
+          "tier": "secondary",
+          "price": 1800000.0
+        },
+        {
+          "id": 2356583,
+          "name": "Crystal Mobile Home Community",
+          "city": "Grass Valley",
+          "state": "CA",
+          "cap": 8.43,
+          "url": "https://www.crexi.com/properties/2356583/california-crystal-mobile-home-community",
+          "pop3": 19852,
+          "tier": "secondary",
+          "price": 1350000.0
+        },
+        {
+          "id": 2442228,
+          "name": "Auburn Ridge Woods",
+          "city": "Auburn",
+          "state": "CA",
+          "cap": 13.0,
+          "url": "https://www.crexi.com/properties/2442228/california-auburn-ridge-woods",
+          "pop3": 16192,
+          "tier": "secondary",
+          "price": 3600000.0
+        },
+        {
+          "id": 2722591,
+          "name": "Rambling Rose MP & Knotty Estates",
+          "city": "Oroville",
+          "state": "CA",
+          "cap": 7.49,
+          "url": "https://www.crexi.com/properties/2722591/california-rambling-rose-mp-knotty-estates",
+          "pop3": 18344,
+          "tier": "secondary",
+          "price": 1700000.0
+        },
+        {
+          "id": 2758675,
+          "name": "Corning RV Park",
+          "city": "Corning",
+          "state": "CA",
+          "cap": 7.66,
+          "url": "https://www.crexi.com/properties/2758675/california-corning-rv-park",
+          "pop3": 9912,
+          "tier": "secondary",
+          "price": 2750000.0
+        },
+        {
+          "id": 2491015,
+          "name": "Rancho Valley MHP",
+          "city": "Live Oak",
+          "state": "CA",
+          "cap": 6.72,
+          "url": "https://www.crexi.com/properties/2491015/california-rancho-valley-mhp",
+          "pop3": 11149,
+          "tier": "secondary",
+          "price": 2095000.0
+        }
+      ]
+    },
+    "KY|secondary": {
+      "cap": 10.36,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in KY (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2679326,
+          "name": "Heartland RV Park",
+          "city": "Campbellsville",
+          "state": "KY",
+          "cap": 10.36,
+          "url": "https://www.crexi.com/properties/2679326/kentucky-heartland-rv-park",
+          "pop3": 15317,
+          "tier": "secondary",
+          "price": 1150000.0
+        }
+      ]
+    },
+    "OH|secondary": {
+      "cap": 8.41,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in OH (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2723748,
+          "name": "Johnson's Mobile Home Community",
+          "city": "Gallipolis",
+          "state": "OH",
+          "cap": 8.41,
+          "url": "https://www.crexi.com/properties/2723748/ohio-johnsons-mobile-home-community",
+          "pop3": 5666,
+          "tier": "secondary",
+          "price": 1850000.0
+        }
+      ]
+    },
+    "TX|secondary": {
+      "cap": 8.5,
+      "n": 11,
+      "source": "Median listed cap of 11 on-market MHP(s) in TX (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2161782,
+          "name": "Indian Trails RV/MH Park & Mustang Storage",
+          "city": "Ingleside",
+          "state": "TX",
+          "cap": 9.37,
+          "url": "https://www.crexi.com/properties/2161782/texas-indian-trails-mustang-storage",
+          "pop3": 15158,
+          "tier": "secondary",
+          "price": 1175000.0
+        },
+        {
+          "id": 565571,
+          "name": "Lost Lake RV Park",
+          "city": "Conroe",
+          "state": "TX",
+          "cap": 7.23,
+          "url": "https://www.crexi.com/properties/565571/texas-lost-lake-rv-park",
+          "pop3": 21024,
+          "tier": "secondary",
+          "price": 3500000.0
+        },
+        {
+          "id": 2746880,
+          "name": "Gated RV Park",
+          "city": "Princeton",
+          "state": "TX",
+          "cap": 7.1,
+          "url": "https://www.crexi.com/properties/2746880/texas-gated-rv-park",
+          "pop3": 6620,
+          "tier": "secondary",
+          "price": 2850000.0
+        },
+        {
+          "id": 2778751,
+          "name": "Amarillo Mobile Home Community Investment Opportunity",
+          "city": "Amarillo",
+          "state": "TX",
+          "cap": 8.5,
+          "url": "https://www.crexi.com/properties/2778751/texas-mobile-home-community-investment-opportunity",
+          "pop3": 43933,
+          "tier": "secondary",
+          "price": 2250000.0
+        },
+        {
+          "id": 1756270,
+          "name": "50 site RV Park on 9 acres",
+          "city": "Crosby",
+          "state": "TX",
+          "cap": 8.36,
+          "url": "https://www.crexi.com/properties/1756270/texas-dell-creek-rv-park",
+          "pop3": 21312,
+          "tier": "secondary",
+          "price": 1400000.0
+        },
+        {
+          "id": 2319316,
+          "name": "Seller Financing Carry | Value-Add | Add More Units",
+          "city": "Canyon Lake",
+          "state": "TX",
+          "cap": 6.33,
+          "url": "https://www.crexi.com/properties/2319316/texas-value-add-multifamily-storage-potential-to-add-more-units",
+          "pop3": 10384,
+          "tier": "secondary",
+          "price": 2150000.0
+        },
+        {
+          "id": 2157085,
+          "name": "Green Acres Mobile Home Park",
+          "city": "Burnet",
+          "state": "TX",
+          "cap": 9.5,
+          "url": "https://www.crexi.com/properties/2157085/texas-green-acres-mobile-home-park",
+          "pop3": 7165,
+          "tier": "secondary",
+          "price": 1150000.0
+        },
+        {
+          "id": 2227592,
+          "name": "Harbor RV Park",
+          "city": "Aransas Pass",
+          "state": "TX",
+          "cap": 9.7,
+          "url": "https://www.crexi.com/properties/2227592/texas-harbor-rv-park",
+          "pop3": 9120,
+          "tier": "secondary",
+          "price": 850000.0
+        }
+      ]
+    },
+    "LA|secondary": {
+      "cap": 9.17,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in LA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2712600,
+          "name": "Willow Springs Mobile Home Court",
+          "city": "Livingston",
+          "state": "LA",
+          "cap": 6.0,
+          "url": "https://www.crexi.com/properties/2712600/louisiana-willow-springs-mobile-home-court",
+          "pop3": 8087,
+          "tier": "secondary",
+          "price": 1080000.0
+        },
+        {
+          "id": 2780043,
+          "name": "R & S Mobile Home & RV Park",
+          "city": "La Place",
+          "state": "LA",
+          "cap": 9.17,
+          "url": "https://www.crexi.com/properties/2780043/louisiana-r-and-s-mobile-home-and-rv-park",
+          "pop3": 19157,
+          "tier": "secondary",
+          "price": 3000000.0
+        },
+        {
+          "id": 1918593,
+          "name": "Mobile Home Park with 18 park-owned units Livingston Parish",
+          "city": "Denham Springs",
+          "state": "LA",
+          "cap": 10.2,
+          "url": "https://www.crexi.com/properties/1918593/louisiana-multi-family-trailer-park-for-sale",
+          "pop3": 27276,
+          "tier": "secondary",
+          "price": 1699000.0
+        },
+        {
+          "id": 2519424,
+          "name": "42553 Louisiana 42",
+          "city": "Prairieville",
+          "state": "LA",
+          "cap": 11.0,
+          "url": "https://www.crexi.com/properties/2519424/louisiana-42553-louisiana-42",
+          "pop3": 18546,
+          "tier": "secondary",
+          "price": 3000000.0
+        },
+        {
+          "id": 2634841,
+          "name": "Town & Country Village",
+          "city": "Ruston",
+          "state": "LA",
+          "cap": 7.3,
+          "url": "https://www.crexi.com/properties/2634841/louisiana-town-country-village",
+          "pop3": 16977,
+          "tier": "secondary",
+          "price": 2750000.0
+        }
+      ]
+    },
+    "SC|secondary": {
+      "cap": 8.8,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in SC (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2783340,
+          "name": "Black River MHP",
+          "city": "Andrews",
+          "state": "SC",
+          "cap": 8.8,
+          "url": "https://www.crexi.com/properties/2783340/south-carolina-black-river-mhp",
+          "pop3": 5537,
+          "tier": "secondary",
+          "price": 1400000.0
+        },
+        {
+          "id": 2765404,
+          "name": "MHP: 4790 E Main St Ext",
+          "city": "Spartanburg",
+          "state": "SC",
+          "cap": 5.4,
+          "url": "https://www.crexi.com/properties/2765404/south-carolina-mhp-4790-e-main-st-ext",
+          "pop3": 10545,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2759093,
+          "name": "York County SC 2-Park Portfolio",
+          "city": "Catawba",
+          "state": "SC",
+          "cap": 10.6,
+          "url": "https://www.crexi.com/properties/2759093/south-carolina-york-county-sc-2-park-portfolio",
+          "pop3": 6483,
+          "tier": "secondary",
+          "price": 1975000.0
+        },
+        {
+          "id": 1959528,
+          "name": "9.3% CAP - Mobile Homes/Flea Market/Storage - Hwy 11, SC",
+          "city": "Westminster",
+          "state": "SC",
+          "cap": 9.3,
+          "url": "https://www.crexi.com/properties/1959528/south-carolina-cash-flowing---mobile-homesflea-marketstorage---hwy-11-sc",
+          "pop3": 5624,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2661179,
+          "name": "5 Cedar Ave",
+          "city": "Greenville",
+          "state": "SC",
+          "cap": 7.66,
+          "url": "https://www.crexi.com/properties/2661179/south-carolina-5-cedar-ave",
+          "pop3": 20918,
+          "tier": "secondary",
+          "price": 2250000.0
+        }
+      ]
+    },
+    "CO|rural": {
+      "cap": 6.14,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in CO (rural 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2699591,
+          "name": "White River MHP",
+          "city": "Meeker",
+          "state": "CO",
+          "cap": 6.14,
+          "url": "https://www.crexi.com/properties/2699591/colorado-white-river-mhp",
+          "pop3": 2292,
+          "tier": "rural",
+          "price": 1305000.0
+        }
+      ]
+    },
+    "GA|secondary": {
+      "cap": 8.07,
+      "n": 8,
+      "source": "Median listed cap of 8 on-market MHP(s) in GA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2617638,
+          "name": "Troup County Diversified Residential & Commercial Portfolio",
+          "city": "LaGrange",
+          "state": "GA",
+          "cap": 8.05,
+          "url": "https://www.crexi.com/properties/2617638/georgia-troup-county-diversified-residential-commercial-portfolio",
+          "pop3": 27914,
+          "tier": "secondary",
+          "price": 1360000.0
+        },
+        {
+          "id": 2614466,
+          "name": "Oxford MHP",
+          "city": "Oxford",
+          "state": "GA",
+          "cap": 8.1,
+          "url": "https://www.crexi.com/properties/2614466/georgia-oxford-mhp",
+          "pop3": 8829,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2738987,
+          "name": "Vineyard Way Rentals",
+          "city": "Griffin",
+          "state": "GA",
+          "cap": 11.61,
+          "url": "https://www.crexi.com/properties/2738987/georgia-vineyard-way-rentals",
+          "pop3": 20108,
+          "tier": "secondary",
+          "price": 1600000.0
+        },
+        {
+          "id": 2614504,
+          "name": "Martin MHP",
+          "city": "Blackshear",
+          "state": "GA",
+          "cap": 7.1,
+          "url": "https://www.crexi.com/properties/2614504/georgia-martin-mhp",
+          "pop3": 7041,
+          "tier": "secondary",
+          "price": 1400000.0
+        },
+        {
+          "id": 2415148,
+          "name": "Hillside MHP",
+          "city": "Cartersville",
+          "state": "GA",
+          "cap": 10.36,
+          "url": "https://www.crexi.com/properties/2415148/georgia-hillside-mhp",
+          "pop3": 11812,
+          "tier": "secondary",
+          "price": 900000.0
+        },
+        {
+          "id": 2428630,
+          "name": "Pinederosa Park MHP",
+          "city": "Hephzibah",
+          "state": "GA",
+          "cap": 9.01,
+          "url": "https://www.crexi.com/properties/2428630/georgia-pinederosa-park-mhp",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1900000.0
+        },
+        {
+          "id": 2737086,
+          "name": "Milam Bridge MHP",
+          "city": "Euharlee",
+          "state": "GA",
+          "cap": 8.01,
+          "url": "https://www.crexi.com/properties/2737086/georgia-milam-bridge-mhp",
+          "pop3": 8221,
+          "tier": "secondary",
+          "price": 2700000.0
+        },
+        {
+          "id": 2299707,
+          "name": "Adel Manufactured Housing Community",
+          "city": "Adel",
+          "state": "GA",
+          "cap": 5.22,
+          "url": "https://www.crexi.com/properties/2299707/georgia-adel-manufactured-housing-community",
+          "pop3": 5030,
+          "tier": "secondary",
+          "price": 1250000.0
+        }
+      ]
+    },
+    "TX|metro": {
+      "cap": 8.27,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in TX (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2825629,
+          "name": "Mobile Home Community - 25235 & 25245 Needham Lane",
+          "city": "Porter",
+          "state": "TX",
+          "cap": 8.56,
+          "url": "https://www.crexi.com/properties/2825629/texas-mobile-home-community-25235-and-25245-needham-lane",
+          "pop3": 75484,
+          "tier": "metro",
+          "price": null
+        },
+        {
+          "id": 2624993,
+          "name": "307 E Lawson Rd, Dallas, TX, 75253",
+          "city": "Dallas",
+          "state": "TX",
+          "cap": 5.9,
+          "url": "https://www.crexi.com/properties/2624993/texas-307-e-lawson-rd-dallas-tx-75253",
+          "pop3": 61946,
+          "tier": "metro",
+          "price": 950000.0
+        },
+        {
+          "id": 2440154,
+          "name": "Capital Mobile Home Park",
+          "city": "San Antonio",
+          "state": "TX",
+          "cap": 7.25,
+          "url": "https://www.crexi.com/properties/2440154/texas-mobile-home-capital-mhp",
+          "pop3": 99786,
+          "tier": "metro",
+          "price": 945000.0
+        },
+        {
+          "id": 2769114,
+          "name": "Fair Park Estates",
+          "city": "Harlingen",
+          "state": "TX",
+          "cap": 8.27,
+          "url": "https://www.crexi.com/properties/2769114/texas-fair-park-estates",
+          "pop3": 65818,
+          "tier": "metro",
+          "price": 1500000.0
+        },
+        {
+          "id": 2780624,
+          "name": "Northgate Mobile Home Park",
+          "city": "Odessa",
+          "state": "TX",
+          "cap": 8.31,
+          "url": "https://www.crexi.com/properties/2780624/texas-northgate-mobile-home-park",
+          "pop3": 58090,
+          "tier": "metro",
+          "price": 1650000.0
+        }
+      ]
+    },
+    "NC|secondary": {
+      "cap": 8.86,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in NC (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2464760,
+          "name": "Cardinal Park",
+          "city": "Waxhaw",
+          "state": "NC",
+          "cap": 7.5,
+          "url": "https://www.crexi.com/properties/2464760/north-carolina-cardinal-park",
+          "pop3": 12975,
+          "tier": "secondary",
+          "price": 1590000.0
+        },
+        {
+          "id": 2745693,
+          "name": "Atlantic Mobile Home Park & Apartments",
+          "city": "Jacksonville",
+          "state": "NC",
+          "cap": 9.78,
+          "url": "https://www.crexi.com/properties/2745693/north-carolina-atlantic-mobile-home-park-apartments",
+          "pop3": 23583,
+          "tier": "secondary",
+          "price": 1782550.0
+        },
+        {
+          "id": 2186148,
+          "name": "Cornerstone & Smith Mobile Home Parks",
+          "city": "Jacksonville",
+          "state": "NC",
+          "cap": 11.0,
+          "url": "https://www.crexi.com/properties/2186148/north-carolina-cornerstone-smith-mobile-home-parks",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1147217.0
+        },
+        {
+          "id": 2628170,
+          "name": "37 Hicks Lake Dr - Mobile Home Community",
+          "city": "Hendersonville",
+          "state": "NC",
+          "cap": 7.32,
+          "url": "https://www.crexi.com/properties/2628170/north-carolina-37-hicks-lake-dr-mobile-home-community",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1300000.0
+        },
+        {
+          "id": 2709097,
+          "name": "Whispering Oaks & Washburn Place Portfolio",
+          "city": "Shelby",
+          "state": "NC",
+          "cap": 8.86,
+          "url": "https://www.crexi.com/properties/2709097/north-carolina-2-property-portfolio",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1100000.0
+        }
+      ]
+    },
+    "AZ|metro": {
+      "cap": 6.11,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in AZ (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2141128,
+          "name": "Mesquite Ranch RV Park",
+          "city": "Apache Junction",
+          "state": "AZ",
+          "cap": 6.11,
+          "url": "https://www.crexi.com/properties/2141128/arizona-mesquite-ranch-rv-park",
+          "pop3": 75291,
+          "tier": "metro",
+          "price": 1125000.0
+        }
+      ]
+    },
+    "NM|secondary": {
+      "cap": 8.89,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NM (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2644524,
+          "name": "Alamogordo 3 Park Portfolio",
+          "city": "Alamogordo",
+          "state": "NM",
+          "cap": 8.89,
+          "url": "https://www.crexi.com/properties/2644524/new-mexico-alamogordo-portfolio",
+          "pop3": 26586,
+          "tier": "secondary",
+          "price": 2500000.0
+        }
+      ]
+    },
+    "NC|rural": {
+      "cap": 8.37,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NC (rural 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2771140,
+          "name": "Lunker Lodge and RV Park",
+          "city": "Hertford",
+          "state": "NC",
+          "cap": 8.37,
+          "url": "https://www.crexi.com/properties/2771140/north-carolina-lunker-lodge-and-rv-park",
+          "pop3": 1618,
+          "tier": "rural",
+          "price": 1200000.0
+        }
+      ]
+    },
+    "CA|metro": {
+      "cap": 6.9,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in CA (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2570939,
+          "name": "El Rey Mobile Home Park",
+          "city": "Stockton",
+          "state": "CA",
+          "cap": 5.81,
+          "url": "https://www.crexi.com/properties/2570939/california-el-rey-mobile-home-park",
+          "pop3": 125703,
+          "tier": "metro",
+          "price": 3720000.0
+        },
+        {
+          "id": 2661716,
+          "name": "Sunrise Estates",
+          "city": "Lancaster",
+          "state": "CA",
+          "cap": 5.5,
+          "url": "https://www.crexi.com/properties/2661716/california-sunrise-estates",
+          "pop3": 69922,
+          "tier": "metro",
+          "price": 2375000.0
+        },
+        {
+          "id": 2682838,
+          "name": "California Palms Mobile Home Park",
+          "city": "San Jacinto",
+          "state": "CA",
+          "cap": 7.67,
+          "url": "https://www.crexi.com/properties/2682838/california-california-palms-mobile-home-park",
+          "pop3": 90020,
+          "tier": "metro",
+          "price": 2850000.0
+        },
+        {
+          "id": 2566806,
+          "name": "Marlins RV Park",
+          "city": "Martinez",
+          "state": "CA",
+          "cap": 7.25,
+          "url": "https://www.crexi.com/properties/2566806/california-381-arthur-rd",
+          "pop3": 56168,
+          "tier": "metro",
+          "price": 2450000.0
+        },
+        {
+          "id": 2599499,
+          "name": "Trailerland Trailer Park",
+          "city": "Paramount",
+          "state": "CA",
+          "cap": 6.9,
+          "url": "https://www.crexi.com/properties/2599499/california-trailerland-trailer-park",
+          "pop3": 340512,
+          "tier": "metro",
+          "price": 2300000.0
+        }
+      ]
+    },
+    "IN|metro": {
+      "cap": 8.3,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in IN (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2736859,
+          "name": "Willow Estates",
+          "city": "Hammond",
+          "state": "IN",
+          "cap": 8.3,
+          "url": "https://www.crexi.com/properties/2736859/indiana-willow-estates",
+          "pop3": 98608,
+          "tier": "metro",
+          "price": 2050000.0
+        }
+      ]
+    },
+    "TX|rural": {
+      "cap": 10.11,
+      "n": 2,
+      "source": "Median listed cap of 2 on-market MHP(s) in TX (rural 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2701169,
+          "name": "Bridgeport Manufactured Home Park",
+          "city": "Bridgeport",
+          "state": "TX",
+          "cap": 10.22,
+          "url": "https://www.crexi.com/properties/2701169/texas-bridgeport-manufactured-home-park",
+          "pop3": 0,
+          "tier": "rural",
+          "price": 975000.0
+        },
+        {
+          "id": 2608845,
+          "name": "Eagle's Nest Village RV Park",
+          "city": "Goldthwaite",
+          "state": "TX",
+          "cap": 10.0,
+          "url": "https://www.crexi.com/properties/2608845/texas-eagles-nest-village-rv-park",
+          "pop3": 2704,
+          "tier": "rural",
+          "price": null
+        }
+      ]
+    },
+    "FL|secondary": {
+      "cap": 8.46,
+      "n": 6,
+      "source": "Median listed cap of 6 on-market MHP(s) in FL (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2513477,
+          "name": "Peace River RV & Mobile Home Park",
+          "city": "Punta Gorda",
+          "state": "FL",
+          "cap": 8.14,
+          "url": "https://www.crexi.com/properties/2513477/florida-peace-river-rv-mobile-home-park",
+          "pop3": 7836,
+          "tier": "secondary",
+          "price": 1995000.0
+        },
+        {
+          "id": 2711450,
+          "name": "Aenon Lane Mobile Home Park",
+          "city": "Tallahassee",
+          "state": "FL",
+          "cap": 8.79,
+          "url": "https://www.crexi.com/properties/2711450/florida-confidential-fl-listing-09182026",
+          "pop3": 28928,
+          "tier": "secondary",
+          "price": 1650000.0
+        },
+        {
+          "id": 2747792,
+          "name": "Tenoroc Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "cap": 8.01,
+          "url": "https://www.crexi.com/properties/2747792/florida-tenoroc-park",
+          "pop3": 15799,
+          "tier": "secondary",
+          "price": 2150000.0
+        },
+        {
+          "id": 2449493,
+          "name": "12300 Phillips Lane Mobile Home Park",
+          "city": "Gibsonton",
+          "state": "FL",
+          "cap": 7.8,
+          "url": "https://www.crexi.com/properties/2449493/florida-12300-phillips-lane-mobile-home-park",
+          "pop3": 31962,
+          "tier": "secondary",
+          "price": 1799000.0
+        },
+        {
+          "id": 2432030,
+          "name": "14-Unit Mobile Home Park & RV Park + 2 SFH | 11.6% CAP MHP",
+          "city": "Zephyrhills",
+          "state": "FL",
+          "cap": 11.6,
+          "url": "https://www.crexi.com/properties/2432030/florida-14-unit-mobile-home-park-rv-park-2-sfh-116-cap",
+          "pop3": 36653,
+          "tier": "secondary",
+          "price": 1149000.0
+        },
+        {
+          "id": 2754473,
+          "name": "16-Space MHP! Seller Financing",
+          "city": "Seffner",
+          "state": "FL",
+          "cap": 12.0,
+          "url": "https://www.crexi.com/properties/2754473/florida-16-space-mhp-seller-financing",
+          "pop3": 38475,
+          "tier": "secondary",
+          "price": null
+        }
+      ]
+    },
+    "IL|secondary": {
+      "cap": 11.4,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in IL (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2697128,
+          "name": "Maple City MHP",
+          "city": "Geneseo",
+          "state": "IL",
+          "cap": 11.4,
+          "url": "https://www.crexi.com/properties/2697128/illinois-maple-city-mhp",
+          "pop3": 7175,
+          "tier": "secondary",
+          "price": 890000.0
+        }
+      ]
+    },
+    "AL|secondary": {
+      "cap": 9.65,
+      "n": 2,
+      "source": "Median listed cap of 2 on-market MHP(s) in AL (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2749095,
+          "name": "140 Short Street",
+          "city": "Atmore",
+          "state": "AL",
+          "cap": 8.55,
+          "url": "https://www.crexi.com/properties/2749095/alabama-140-short-street",
+          "pop3": 9219,
+          "tier": "secondary",
+          "price": 1065000.0
+        },
+        {
+          "id": 2774302,
+          "name": "Southern Estates RV Park",
+          "city": "Theodore",
+          "state": "AL",
+          "cap": 10.75,
+          "url": "https://www.crexi.com/properties/2774302/alabama-southern-estates-rv-park",
+          "pop3": 22585,
+          "tier": "secondary",
+          "price": 950000.0
+        }
+      ]
+    },
+    "PA|secondary": {
+      "cap": 9.47,
+      "n": 3,
+      "source": "Median listed cap of 3 on-market MHP(s) in PA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2641585,
+          "name": "Lycoming Creek Portfolio",
+          "city": "Williamsport",
+          "state": "PA",
+          "cap": 9.47,
+          "url": "https://www.crexi.com/properties/2641585/pennsylvania-lycoming-creek-portfolio",
+          "pop3": 32246,
+          "tier": "secondary",
+          "price": 975000.0
+        },
+        {
+          "id": 2827170,
+          "name": "Wicklin Main Mobile Home Park",
+          "city": "Berwick",
+          "state": "PA",
+          "cap": 7.7,
+          "url": "https://www.crexi.com/properties/2827170/pennsylvania-wicklin-main-mobile-home-park",
+          "pop3": 15787,
+          "tier": "secondary",
+          "price": 3600000.0
+        },
+        {
+          "id": 1937028,
+          "name": "West Middlesex Estates MHC",
+          "city": "West Middlesex",
+          "state": "PA",
+          "cap": 10.19,
+          "url": "https://www.crexi.com/properties/1937028/pennsylvania-west-middlesex-estates-mhc",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1400000.0
+        }
+      ]
+    },
+    "CA|rural": {
+      "cap": 8.0,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in CA (rural 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2517752,
+          "name": "Baker Mobile Home Park",
+          "city": "Baker",
+          "state": "CA",
+          "cap": 8.0,
+          "url": "https://www.crexi.com/properties/2517752/california-baker-mobile-home-park",
+          "pop3": 0,
+          "tier": "rural",
+          "price": 2299000.0
+        }
+      ]
+    },
+    "CO|secondary": {
+      "cap": 6.87,
+      "n": 3,
+      "source": "Median listed cap of 3 on-market MHP(s) in CO (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2738724,
+          "name": "Meadows Mobile Home Park",
+          "city": "Brush",
+          "state": "CO",
+          "cap": 5.96,
+          "url": "https://www.crexi.com/properties/2738724/colorado-meadows-mobile-home-park",
+          "pop3": 5882,
+          "tier": "secondary",
+          "price": 1250000.0
+        },
+        {
+          "id": 2824970,
+          "name": "766 1400 LN DELTA CO 81416",
+          "city": "Delta",
+          "state": "CO",
+          "cap": 8.0,
+          "url": "https://www.crexi.com/properties/2824970/colorado-766-1400-ln-a-delta-co-81416",
+          "pop3": 6827,
+          "tier": "secondary",
+          "price": 950000.0
+        },
+        {
+          "id": 1471980,
+          "name": "Bennett Homes & 460 Colfax Ave",
+          "city": "Bennett",
+          "state": "CO",
+          "cap": 6.87,
+          "url": "https://www.crexi.com/properties/1471980/colorado-bennett-homes-460-colfax-ave",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 2330000.0
+        }
+      ]
+    },
+    "GA|metro": {
+      "cap": 9.33,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in GA (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2614507,
+          "name": "Hunter MHP",
+          "city": "Savannah",
+          "state": "GA",
+          "cap": 9.33,
+          "url": "https://www.crexi.com/properties/2614507/georgia-hunter-mhp",
+          "pop3": 67403,
+          "tier": "metro",
+          "price": 1500000.0
+        }
+      ]
+    },
+    "AR|secondary": {
+      "cap": 8.98,
+      "n": 2,
+      "source": "Median listed cap of 2 on-market MHP(s) in AR (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2516294,
+          "name": "Buffalo River Mobile Home Community",
+          "city": "Mountain Home",
+          "state": "AR",
+          "cap": 7.7,
+          "url": "https://www.crexi.com/properties/2516294/arkansas-buffalo-river-mobile-home-community",
+          "pop3": 14810,
+          "tier": "secondary",
+          "price": 1259777.0
+        },
+        {
+          "id": 2448248,
+          "name": "3300 Blue Hill Road",
+          "city": "Rogers",
+          "state": "AR",
+          "cap": 10.27,
+          "url": "https://www.crexi.com/properties/2448248/arkansas-3300-blue-hill-road",
+          "pop3": 20054,
+          "tier": "secondary",
+          "price": 900000.0
+        }
+      ]
+    },
+    "FL|metro": {
+      "cap": 10.15,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in FL (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2603182,
+          "name": "Chestnut Mobile Home Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "cap": 10.15,
+          "url": "https://www.crexi.com/properties/2603182/florida-chestnut-mobile-home-park",
+          "pop3": 58709,
+          "tier": "metro",
+          "price": 1050000.0
+        }
+      ]
+    },
+    "NV|metro": {
+      "cap": 8.22,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NV (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 1010772,
+          "name": "Park Place",
+          "city": "Las Vegas",
+          "state": "NV",
+          "cap": 8.22,
+          "url": "https://www.crexi.com/properties/1010772/nevada-park-place",
+          "pop3": 133357,
+          "tier": "metro",
+          "price": 3750000.0
+        }
+      ]
+    },
+    "WA|secondary": {
+      "cap": 7.7,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in WA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2745663,
+          "name": "Sultan Mobile Home Park - Multifamily",
+          "city": "Sultan",
+          "state": "WA",
+          "cap": 7.7,
+          "url": "https://www.crexi.com/properties/2745663/washington-sultan-mobile-home-park---multifamily",
+          "pop3": 7504,
+          "tier": "secondary",
+          "price": 825000.0
+        }
+      ]
+    },
+    "NY|secondary": {
+      "cap": 7.63,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NY (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 1937165,
+          "name": "Shady Grove Trailer Park",
+          "city": "Rome",
+          "state": "NY",
+          "cap": 7.63,
+          "url": "https://www.crexi.com/properties/1937165/new-york-shady-grove-trailer-park",
+          "pop3": 23423,
+          "tier": "secondary",
+          "price": 1395000.0
+        }
+      ]
+    },
+    "WA|rural": {
+      "cap": 7.13,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in WA (rural 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2715715,
+          "name": "Willows Trailer Village",
+          "city": "Moses Lake",
+          "state": "WA",
+          "cap": 7.13,
+          "url": "https://www.crexi.com/properties/2715715/washington-willows-trailer-village",
+          "pop3": 1010,
+          "tier": "rural",
+          "price": 2595000.0
+        }
+      ]
+    },
+    "IA|secondary": {
+      "cap": 10.57,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in IA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2662970,
+          "name": "The Oaks Mobile Home & RV Park",
+          "city": "Independence",
+          "state": "IA",
+          "cap": 10.57,
+          "url": "https://www.crexi.com/properties/2662970/iowa-the-oaks-mobile-home-rv-park",
+          "pop3": 7272,
+          "tier": "secondary",
+          "price": 1100000.0
+        }
+      ]
+    },
+    "VA|secondary": {
+      "cap": 7.5,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in VA (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2759893,
+          "name": "Collinsville Mobile Home Park",
+          "city": "Collinsville",
+          "state": "VA",
+          "cap": 7.5,
+          "url": "https://www.crexi.com/properties/2759893/virginia-collinsville-mobile-home-park",
+          "pop3": 13481,
+          "tier": "secondary",
+          "price": 2075000.0
+        }
+      ]
+    },
+    "WA|metro": {
+      "cap": 6.0,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in WA (metro 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2567509,
+          "name": "2625 W MAPLEWOOD AVE TRLR 2 BELLINGHAM WA 98225-8805",
+          "city": "Bellingham",
+          "state": "WA",
+          "cap": 6.0,
+          "url": "https://www.crexi.com/properties/2567509/washington-2625-w-maplewood-ave-trlr-2-bellingham-wa-98225-8805",
+          "pop3": 59433,
+          "tier": "metro",
+          "price": 2200000.0
+        }
+      ]
+    },
+    "OR|secondary": {
+      "cap": 7.5,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in OR (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2723241,
+          "name": "Winterview Estates",
+          "city": "Grants Pass",
+          "state": "OR",
+          "cap": 7.5,
+          "url": "https://www.crexi.com/properties/2723241/oregon-winterview-estates",
+          "pop3": 39152,
+          "tier": "secondary",
+          "price": 2950000.0
+        }
+      ]
+    },
+    "TN|secondary": {
+      "cap": 9.39,
+      "n": 3,
+      "source": "Median listed cap of 3 on-market MHP(s) in TN (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2430009,
+          "name": "0 Nicholas Long Drive",
+          "city": "Columbia",
+          "state": "TN",
+          "cap": 7.8,
+          "url": "https://www.crexi.com/properties/2430009/tennessee-0-nicholas-long-drive",
+          "pop3": 26676,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2648773,
+          "name": "Tennessee - Georgia Manufactured Housing Portfolio",
+          "city": "Dayton",
+          "state": "TN",
+          "cap": 11.4,
+          "url": "https://www.crexi.com/properties/2648773/tennessee-dayton-tn-and-armuchee-ga-manufactured-housing-portfolio",
+          "pop3": 8127,
+          "tier": "secondary",
+          "price": 1225000.0
+        },
+        {
+          "id": 2197328,
+          "name": "Mayfield Mobile Home Park",
+          "city": "Helenwood",
+          "state": "TN",
+          "cap": 9.39,
+          "url": "https://www.crexi.com/properties/2197328/tennessee-mayfield-mobile-home-park",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1650000.0
+        }
+      ]
+    },
+    "MT|secondary": {
+      "cap": 6.6,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in MT (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 1982551,
+          "name": "Shady Nook Court",
+          "city": "Dillon",
+          "state": "MT",
+          "cap": 6.6,
+          "url": "https://www.crexi.com/properties/1982551/montana-shady-nook-court",
+          "pop3": 5127,
+          "tier": "secondary",
+          "price": 1099000.0
+        }
+      ]
+    },
+    "UT|secondary": {
+      "cap": 7.0,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in UT (secondary 3-mi pop tier).",
+      "comps": [
+        {
+          "id": 2783182,
+          "name": "Brigham Village Mobile Home Community",
+          "city": "Brigham City",
+          "state": "UT",
+          "cap": 7.0,
+          "url": "https://www.crexi.com/properties/2783182/utah-410-n-main-st",
+          "pop3": 19898,
+          "tier": "secondary",
+          "price": 3499000.0
+        }
+      ]
+    }
+  },
+  "state_caps": {
+    "IN": {
+      "cap": 9.35,
+      "n": 2,
+      "source": "Median listed cap of 2 on-market MHP(s) in IN.",
+      "comps": [
+        {
+          "id": 2786978,
+          "name": "Shady Rest Mobile Home Community",
+          "city": "Anderson",
+          "state": "IN",
+          "cap": 10.4,
+          "url": "https://www.crexi.com/properties/2786978/indiana-shady-rest-mobile-home-community",
+          "pop3": 33210,
+          "tier": "secondary",
+          "price": 1000000.0
+        },
+        {
+          "id": 2736859,
+          "name": "Willow Estates",
+          "city": "Hammond",
+          "state": "IN",
+          "cap": 8.3,
+          "url": "https://www.crexi.com/properties/2736859/indiana-willow-estates",
+          "pop3": 98608,
+          "tier": "metro",
+          "price": 2050000.0
+        }
+      ]
+    },
+    "MI": {
+      "cap": 8.16,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in MI.",
+      "comps": [
+        {
+          "id": 2825959,
+          "name": "Michigan Avenue Estates",
+          "city": "Jackson",
+          "state": "MI",
+          "cap": 8.16,
+          "url": "https://www.crexi.com/properties/2825959/michigan-michigan-avenue-estates",
+          "pop3": 37708,
+          "tier": "secondary",
+          "price": 1750000.0
+        }
+      ]
+    },
+    "CA": {
+      "cap": 7.37,
+      "n": 17,
+      "source": "Median listed cap of 17 on-market MHP(s) in CA.",
+      "comps": [
+        {
+          "id": 2492655,
+          "name": "Acton Country Mobile Home Park | 27 Spaces",
+          "city": "Acton",
+          "state": "CA",
+          "cap": 6.09,
+          "url": "https://www.crexi.com/properties/2492655/california-acton-country-mobile-home-park-27-spaces",
+          "pop3": 6676,
+          "tier": "secondary",
+          "price": 2700000.0
+        },
+        {
+          "id": 2649891,
+          "name": "Canyon Creek Mobile Home and RV Park",
+          "city": "Anderson",
+          "state": "CA",
+          "cap": 8.39,
+          "url": "https://www.crexi.com/properties/2649891/california-canyon-creek-mobile-home-and-rv-park",
+          "pop3": 14862,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2570939,
+          "name": "El Rey Mobile Home Park",
+          "city": "Stockton",
+          "state": "CA",
+          "cap": 5.81,
+          "url": "https://www.crexi.com/properties/2570939/california-el-rey-mobile-home-park",
+          "pop3": 125703,
+          "tier": "metro",
+          "price": 3720000.0
+        },
+        {
+          "id": 2661716,
+          "name": "Sunrise Estates",
+          "city": "Lancaster",
+          "state": "CA",
+          "cap": 5.5,
+          "url": "https://www.crexi.com/properties/2661716/california-sunrise-estates",
+          "pop3": 69922,
+          "tier": "metro",
+          "price": 2375000.0
+        },
+        {
+          "id": 2517653,
+          "name": "Shafter Mobile Home Park",
+          "city": "Shafter",
+          "state": "CA",
+          "cap": 8.0,
+          "url": "https://www.crexi.com/properties/2517653/california-shafter-mobile-home-park",
+          "pop3": 19296,
+          "tier": "secondary",
+          "price": 1800000.0
+        },
+        {
+          "id": 2356583,
+          "name": "Crystal Mobile Home Community",
+          "city": "Grass Valley",
+          "state": "CA",
+          "cap": 8.43,
+          "url": "https://www.crexi.com/properties/2356583/california-crystal-mobile-home-community",
+          "pop3": 19852,
+          "tier": "secondary",
+          "price": 1350000.0
+        },
+        {
+          "id": 2442228,
+          "name": "Auburn Ridge Woods",
+          "city": "Auburn",
+          "state": "CA",
+          "cap": 13.0,
+          "url": "https://www.crexi.com/properties/2442228/california-auburn-ridge-woods",
+          "pop3": 16192,
+          "tier": "secondary",
+          "price": 3600000.0
+        },
+        {
+          "id": 2517752,
+          "name": "Baker Mobile Home Park",
+          "city": "Baker",
+          "state": "CA",
+          "cap": 8.0,
+          "url": "https://www.crexi.com/properties/2517752/california-baker-mobile-home-park",
+          "pop3": 0,
+          "tier": "rural",
+          "price": 2299000.0
+        }
+      ]
+    },
+    "KY": {
+      "cap": 10.36,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in KY.",
+      "comps": [
+        {
+          "id": 2679326,
+          "name": "Heartland RV Park",
+          "city": "Campbellsville",
+          "state": "KY",
+          "cap": 10.36,
+          "url": "https://www.crexi.com/properties/2679326/kentucky-heartland-rv-park",
+          "pop3": 15317,
+          "tier": "secondary",
+          "price": 1150000.0
+        }
+      ]
+    },
+    "OH": {
+      "cap": 8.41,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in OH.",
+      "comps": [
+        {
+          "id": 2723748,
+          "name": "Johnson's Mobile Home Community",
+          "city": "Gallipolis",
+          "state": "OH",
+          "cap": 8.41,
+          "url": "https://www.crexi.com/properties/2723748/ohio-johnsons-mobile-home-community",
+          "pop3": 5666,
+          "tier": "secondary",
+          "price": 1850000.0
+        }
+      ]
+    },
+    "TX": {
+      "cap": 8.43,
+      "n": 18,
+      "source": "Median listed cap of 18 on-market MHP(s) in TX.",
+      "comps": [
+        {
+          "id": 2161782,
+          "name": "Indian Trails RV/MH Park & Mustang Storage",
+          "city": "Ingleside",
+          "state": "TX",
+          "cap": 9.37,
+          "url": "https://www.crexi.com/properties/2161782/texas-indian-trails-mustang-storage",
+          "pop3": 15158,
+          "tier": "secondary",
+          "price": 1175000.0
+        },
+        {
+          "id": 2825629,
+          "name": "Mobile Home Community - 25235 & 25245 Needham Lane",
+          "city": "Porter",
+          "state": "TX",
+          "cap": 8.56,
+          "url": "https://www.crexi.com/properties/2825629/texas-mobile-home-community-25235-and-25245-needham-lane",
+          "pop3": 75484,
+          "tier": "metro",
+          "price": null
+        },
+        {
+          "id": 565571,
+          "name": "Lost Lake RV Park",
+          "city": "Conroe",
+          "state": "TX",
+          "cap": 7.23,
+          "url": "https://www.crexi.com/properties/565571/texas-lost-lake-rv-park",
+          "pop3": 21024,
+          "tier": "secondary",
+          "price": 3500000.0
+        },
+        {
+          "id": 2701169,
+          "name": "Bridgeport Manufactured Home Park",
+          "city": "Bridgeport",
+          "state": "TX",
+          "cap": 10.22,
+          "url": "https://www.crexi.com/properties/2701169/texas-bridgeport-manufactured-home-park",
+          "pop3": 0,
+          "tier": "rural",
+          "price": 975000.0
+        },
+        {
+          "id": 2746880,
+          "name": "Gated RV Park",
+          "city": "Princeton",
+          "state": "TX",
+          "cap": 7.1,
+          "url": "https://www.crexi.com/properties/2746880/texas-gated-rv-park",
+          "pop3": 6620,
+          "tier": "secondary",
+          "price": 2850000.0
+        },
+        {
+          "id": 2624993,
+          "name": "307 E Lawson Rd, Dallas, TX, 75253",
+          "city": "Dallas",
+          "state": "TX",
+          "cap": 5.9,
+          "url": "https://www.crexi.com/properties/2624993/texas-307-e-lawson-rd-dallas-tx-75253",
+          "pop3": 61946,
+          "tier": "metro",
+          "price": 950000.0
+        },
+        {
+          "id": 2778751,
+          "name": "Amarillo Mobile Home Community Investment Opportunity",
+          "city": "Amarillo",
+          "state": "TX",
+          "cap": 8.5,
+          "url": "https://www.crexi.com/properties/2778751/texas-mobile-home-community-investment-opportunity",
+          "pop3": 43933,
+          "tier": "secondary",
+          "price": 2250000.0
+        },
+        {
+          "id": 2440154,
+          "name": "Capital Mobile Home Park",
+          "city": "San Antonio",
+          "state": "TX",
+          "cap": 7.25,
+          "url": "https://www.crexi.com/properties/2440154/texas-mobile-home-capital-mhp",
+          "pop3": 99786,
+          "tier": "metro",
+          "price": 945000.0
+        }
+      ]
+    },
+    "LA": {
+      "cap": 9.17,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in LA.",
+      "comps": [
+        {
+          "id": 2712600,
+          "name": "Willow Springs Mobile Home Court",
+          "city": "Livingston",
+          "state": "LA",
+          "cap": 6.0,
+          "url": "https://www.crexi.com/properties/2712600/louisiana-willow-springs-mobile-home-court",
+          "pop3": 8087,
+          "tier": "secondary",
+          "price": 1080000.0
+        },
+        {
+          "id": 2780043,
+          "name": "R & S Mobile Home & RV Park",
+          "city": "La Place",
+          "state": "LA",
+          "cap": 9.17,
+          "url": "https://www.crexi.com/properties/2780043/louisiana-r-and-s-mobile-home-and-rv-park",
+          "pop3": 19157,
+          "tier": "secondary",
+          "price": 3000000.0
+        },
+        {
+          "id": 1918593,
+          "name": "Mobile Home Park with 18 park-owned units Livingston Parish",
+          "city": "Denham Springs",
+          "state": "LA",
+          "cap": 10.2,
+          "url": "https://www.crexi.com/properties/1918593/louisiana-multi-family-trailer-park-for-sale",
+          "pop3": 27276,
+          "tier": "secondary",
+          "price": 1699000.0
+        },
+        {
+          "id": 2519424,
+          "name": "42553 Louisiana 42",
+          "city": "Prairieville",
+          "state": "LA",
+          "cap": 11.0,
+          "url": "https://www.crexi.com/properties/2519424/louisiana-42553-louisiana-42",
+          "pop3": 18546,
+          "tier": "secondary",
+          "price": 3000000.0
+        },
+        {
+          "id": 2634841,
+          "name": "Town & Country Village",
+          "city": "Ruston",
+          "state": "LA",
+          "cap": 7.3,
+          "url": "https://www.crexi.com/properties/2634841/louisiana-town-country-village",
+          "pop3": 16977,
+          "tier": "secondary",
+          "price": 2750000.0
+        }
+      ]
+    },
+    "SC": {
+      "cap": 8.8,
+      "n": 5,
+      "source": "Median listed cap of 5 on-market MHP(s) in SC.",
+      "comps": [
+        {
+          "id": 2783340,
+          "name": "Black River MHP",
+          "city": "Andrews",
+          "state": "SC",
+          "cap": 8.8,
+          "url": "https://www.crexi.com/properties/2783340/south-carolina-black-river-mhp",
+          "pop3": 5537,
+          "tier": "secondary",
+          "price": 1400000.0
+        },
+        {
+          "id": 2765404,
+          "name": "MHP: 4790 E Main St Ext",
+          "city": "Spartanburg",
+          "state": "SC",
+          "cap": 5.4,
+          "url": "https://www.crexi.com/properties/2765404/south-carolina-mhp-4790-e-main-st-ext",
+          "pop3": 10545,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2759093,
+          "name": "York County SC 2-Park Portfolio",
+          "city": "Catawba",
+          "state": "SC",
+          "cap": 10.6,
+          "url": "https://www.crexi.com/properties/2759093/south-carolina-york-county-sc-2-park-portfolio",
+          "pop3": 6483,
+          "tier": "secondary",
+          "price": 1975000.0
+        },
+        {
+          "id": 1959528,
+          "name": "9.3% CAP - Mobile Homes/Flea Market/Storage - Hwy 11, SC",
+          "city": "Westminster",
+          "state": "SC",
+          "cap": 9.3,
+          "url": "https://www.crexi.com/properties/1959528/south-carolina-cash-flowing---mobile-homesflea-marketstorage---hwy-11-sc",
+          "pop3": 5624,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2661179,
+          "name": "5 Cedar Ave",
+          "city": "Greenville",
+          "state": "SC",
+          "cap": 7.66,
+          "url": "https://www.crexi.com/properties/2661179/south-carolina-5-cedar-ave",
+          "pop3": 20918,
+          "tier": "secondary",
+          "price": 2250000.0
+        }
+      ]
+    },
+    "CO": {
+      "cap": 6.5,
+      "n": 4,
+      "source": "Median listed cap of 4 on-market MHP(s) in CO.",
+      "comps": [
+        {
+          "id": 2699591,
+          "name": "White River MHP",
+          "city": "Meeker",
+          "state": "CO",
+          "cap": 6.14,
+          "url": "https://www.crexi.com/properties/2699591/colorado-white-river-mhp",
+          "pop3": 2292,
+          "tier": "rural",
+          "price": 1305000.0
+        },
+        {
+          "id": 2738724,
+          "name": "Meadows Mobile Home Park",
+          "city": "Brush",
+          "state": "CO",
+          "cap": 5.96,
+          "url": "https://www.crexi.com/properties/2738724/colorado-meadows-mobile-home-park",
+          "pop3": 5882,
+          "tier": "secondary",
+          "price": 1250000.0
+        },
+        {
+          "id": 2824970,
+          "name": "766 1400 LN DELTA CO 81416",
+          "city": "Delta",
+          "state": "CO",
+          "cap": 8.0,
+          "url": "https://www.crexi.com/properties/2824970/colorado-766-1400-ln-a-delta-co-81416",
+          "pop3": 6827,
+          "tier": "secondary",
+          "price": 950000.0
+        },
+        {
+          "id": 1471980,
+          "name": "Bennett Homes & 460 Colfax Ave",
+          "city": "Bennett",
+          "state": "CO",
+          "cap": 6.87,
+          "url": "https://www.crexi.com/properties/1471980/colorado-bennett-homes-460-colfax-ave",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 2330000.0
+        }
+      ]
+    },
+    "GA": {
+      "cap": 8.1,
+      "n": 9,
+      "source": "Median listed cap of 9 on-market MHP(s) in GA.",
+      "comps": [
+        {
+          "id": 2617638,
+          "name": "Troup County Diversified Residential & Commercial Portfolio",
+          "city": "LaGrange",
+          "state": "GA",
+          "cap": 8.05,
+          "url": "https://www.crexi.com/properties/2617638/georgia-troup-county-diversified-residential-commercial-portfolio",
+          "pop3": 27914,
+          "tier": "secondary",
+          "price": 1360000.0
+        },
+        {
+          "id": 2614507,
+          "name": "Hunter MHP",
+          "city": "Savannah",
+          "state": "GA",
+          "cap": 9.33,
+          "url": "https://www.crexi.com/properties/2614507/georgia-hunter-mhp",
+          "pop3": 67403,
+          "tier": "metro",
+          "price": 1500000.0
+        },
+        {
+          "id": 2614466,
+          "name": "Oxford MHP",
+          "city": "Oxford",
+          "state": "GA",
+          "cap": 8.1,
+          "url": "https://www.crexi.com/properties/2614466/georgia-oxford-mhp",
+          "pop3": 8829,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2738987,
+          "name": "Vineyard Way Rentals",
+          "city": "Griffin",
+          "state": "GA",
+          "cap": 11.61,
+          "url": "https://www.crexi.com/properties/2738987/georgia-vineyard-way-rentals",
+          "pop3": 20108,
+          "tier": "secondary",
+          "price": 1600000.0
+        },
+        {
+          "id": 2614504,
+          "name": "Martin MHP",
+          "city": "Blackshear",
+          "state": "GA",
+          "cap": 7.1,
+          "url": "https://www.crexi.com/properties/2614504/georgia-martin-mhp",
+          "pop3": 7041,
+          "tier": "secondary",
+          "price": 1400000.0
+        },
+        {
+          "id": 2415148,
+          "name": "Hillside MHP",
+          "city": "Cartersville",
+          "state": "GA",
+          "cap": 10.36,
+          "url": "https://www.crexi.com/properties/2415148/georgia-hillside-mhp",
+          "pop3": 11812,
+          "tier": "secondary",
+          "price": 900000.0
+        },
+        {
+          "id": 2428630,
+          "name": "Pinederosa Park MHP",
+          "city": "Hephzibah",
+          "state": "GA",
+          "cap": 9.01,
+          "url": "https://www.crexi.com/properties/2428630/georgia-pinederosa-park-mhp",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1900000.0
+        },
+        {
+          "id": 2737086,
+          "name": "Milam Bridge MHP",
+          "city": "Euharlee",
+          "state": "GA",
+          "cap": 8.01,
+          "url": "https://www.crexi.com/properties/2737086/georgia-milam-bridge-mhp",
+          "pop3": 8221,
+          "tier": "secondary",
+          "price": 2700000.0
+        }
+      ]
+    },
+    "NC": {
+      "cap": 8.61,
+      "n": 6,
+      "source": "Median listed cap of 6 on-market MHP(s) in NC.",
+      "comps": [
+        {
+          "id": 2464760,
+          "name": "Cardinal Park",
+          "city": "Waxhaw",
+          "state": "NC",
+          "cap": 7.5,
+          "url": "https://www.crexi.com/properties/2464760/north-carolina-cardinal-park",
+          "pop3": 12975,
+          "tier": "secondary",
+          "price": 1590000.0
+        },
+        {
+          "id": 2771140,
+          "name": "Lunker Lodge and RV Park",
+          "city": "Hertford",
+          "state": "NC",
+          "cap": 8.37,
+          "url": "https://www.crexi.com/properties/2771140/north-carolina-lunker-lodge-and-rv-park",
+          "pop3": 1618,
+          "tier": "rural",
+          "price": 1200000.0
+        },
+        {
+          "id": 2745693,
+          "name": "Atlantic Mobile Home Park & Apartments",
+          "city": "Jacksonville",
+          "state": "NC",
+          "cap": 9.78,
+          "url": "https://www.crexi.com/properties/2745693/north-carolina-atlantic-mobile-home-park-apartments",
+          "pop3": 23583,
+          "tier": "secondary",
+          "price": 1782550.0
+        },
+        {
+          "id": 2186148,
+          "name": "Cornerstone & Smith Mobile Home Parks",
+          "city": "Jacksonville",
+          "state": "NC",
+          "cap": 11.0,
+          "url": "https://www.crexi.com/properties/2186148/north-carolina-cornerstone-smith-mobile-home-parks",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1147217.0
+        },
+        {
+          "id": 2628170,
+          "name": "37 Hicks Lake Dr - Mobile Home Community",
+          "city": "Hendersonville",
+          "state": "NC",
+          "cap": 7.32,
+          "url": "https://www.crexi.com/properties/2628170/north-carolina-37-hicks-lake-dr-mobile-home-community",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1300000.0
+        },
+        {
+          "id": 2709097,
+          "name": "Whispering Oaks & Washburn Place Portfolio",
+          "city": "Shelby",
+          "state": "NC",
+          "cap": 8.86,
+          "url": "https://www.crexi.com/properties/2709097/north-carolina-2-property-portfolio",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1100000.0
+        }
+      ]
+    },
+    "AZ": {
+      "cap": 6.11,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in AZ.",
+      "comps": [
+        {
+          "id": 2141128,
+          "name": "Mesquite Ranch RV Park",
+          "city": "Apache Junction",
+          "state": "AZ",
+          "cap": 6.11,
+          "url": "https://www.crexi.com/properties/2141128/arizona-mesquite-ranch-rv-park",
+          "pop3": 75291,
+          "tier": "metro",
+          "price": 1125000.0
+        }
+      ]
+    },
+    "NM": {
+      "cap": 8.89,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NM.",
+      "comps": [
+        {
+          "id": 2644524,
+          "name": "Alamogordo 3 Park Portfolio",
+          "city": "Alamogordo",
+          "state": "NM",
+          "cap": 8.89,
+          "url": "https://www.crexi.com/properties/2644524/new-mexico-alamogordo-portfolio",
+          "pop3": 26586,
+          "tier": "secondary",
+          "price": 2500000.0
+        }
+      ]
+    },
+    "FL": {
+      "cap": 8.79,
+      "n": 7,
+      "source": "Median listed cap of 7 on-market MHP(s) in FL.",
+      "comps": [
+        {
+          "id": 2513477,
+          "name": "Peace River RV & Mobile Home Park",
+          "city": "Punta Gorda",
+          "state": "FL",
+          "cap": 8.14,
+          "url": "https://www.crexi.com/properties/2513477/florida-peace-river-rv-mobile-home-park",
+          "pop3": 7836,
+          "tier": "secondary",
+          "price": 1995000.0
+        },
+        {
+          "id": 2711450,
+          "name": "Aenon Lane Mobile Home Park",
+          "city": "Tallahassee",
+          "state": "FL",
+          "cap": 8.79,
+          "url": "https://www.crexi.com/properties/2711450/florida-confidential-fl-listing-09182026",
+          "pop3": 28928,
+          "tier": "secondary",
+          "price": 1650000.0
+        },
+        {
+          "id": 2747792,
+          "name": "Tenoroc Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "cap": 8.01,
+          "url": "https://www.crexi.com/properties/2747792/florida-tenoroc-park",
+          "pop3": 15799,
+          "tier": "secondary",
+          "price": 2150000.0
+        },
+        {
+          "id": 2603182,
+          "name": "Chestnut Mobile Home Park",
+          "city": "Lakeland",
+          "state": "FL",
+          "cap": 10.15,
+          "url": "https://www.crexi.com/properties/2603182/florida-chestnut-mobile-home-park",
+          "pop3": 58709,
+          "tier": "metro",
+          "price": 1050000.0
+        },
+        {
+          "id": 2449493,
+          "name": "12300 Phillips Lane Mobile Home Park",
+          "city": "Gibsonton",
+          "state": "FL",
+          "cap": 7.8,
+          "url": "https://www.crexi.com/properties/2449493/florida-12300-phillips-lane-mobile-home-park",
+          "pop3": 31962,
+          "tier": "secondary",
+          "price": 1799000.0
+        },
+        {
+          "id": 2432030,
+          "name": "14-Unit Mobile Home Park & RV Park + 2 SFH | 11.6% CAP MHP",
+          "city": "Zephyrhills",
+          "state": "FL",
+          "cap": 11.6,
+          "url": "https://www.crexi.com/properties/2432030/florida-14-unit-mobile-home-park-rv-park-2-sfh-116-cap",
+          "pop3": 36653,
+          "tier": "secondary",
+          "price": 1149000.0
+        },
+        {
+          "id": 2754473,
+          "name": "16-Space MHP! Seller Financing",
+          "city": "Seffner",
+          "state": "FL",
+          "cap": 12.0,
+          "url": "https://www.crexi.com/properties/2754473/florida-16-space-mhp-seller-financing",
+          "pop3": 38475,
+          "tier": "secondary",
+          "price": null
+        }
+      ]
+    },
+    "IL": {
+      "cap": 11.4,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in IL.",
+      "comps": [
+        {
+          "id": 2697128,
+          "name": "Maple City MHP",
+          "city": "Geneseo",
+          "state": "IL",
+          "cap": 11.4,
+          "url": "https://www.crexi.com/properties/2697128/illinois-maple-city-mhp",
+          "pop3": 7175,
+          "tier": "secondary",
+          "price": 890000.0
+        }
+      ]
+    },
+    "AL": {
+      "cap": 9.65,
+      "n": 2,
+      "source": "Median listed cap of 2 on-market MHP(s) in AL.",
+      "comps": [
+        {
+          "id": 2749095,
+          "name": "140 Short Street",
+          "city": "Atmore",
+          "state": "AL",
+          "cap": 8.55,
+          "url": "https://www.crexi.com/properties/2749095/alabama-140-short-street",
+          "pop3": 9219,
+          "tier": "secondary",
+          "price": 1065000.0
+        },
+        {
+          "id": 2774302,
+          "name": "Southern Estates RV Park",
+          "city": "Theodore",
+          "state": "AL",
+          "cap": 10.75,
+          "url": "https://www.crexi.com/properties/2774302/alabama-southern-estates-rv-park",
+          "pop3": 22585,
+          "tier": "secondary",
+          "price": 950000.0
+        }
+      ]
+    },
+    "PA": {
+      "cap": 9.47,
+      "n": 3,
+      "source": "Median listed cap of 3 on-market MHP(s) in PA.",
+      "comps": [
+        {
+          "id": 2641585,
+          "name": "Lycoming Creek Portfolio",
+          "city": "Williamsport",
+          "state": "PA",
+          "cap": 9.47,
+          "url": "https://www.crexi.com/properties/2641585/pennsylvania-lycoming-creek-portfolio",
+          "pop3": 32246,
+          "tier": "secondary",
+          "price": 975000.0
+        },
+        {
+          "id": 2827170,
+          "name": "Wicklin Main Mobile Home Park",
+          "city": "Berwick",
+          "state": "PA",
+          "cap": 7.7,
+          "url": "https://www.crexi.com/properties/2827170/pennsylvania-wicklin-main-mobile-home-park",
+          "pop3": 15787,
+          "tier": "secondary",
+          "price": 3600000.0
+        },
+        {
+          "id": 1937028,
+          "name": "West Middlesex Estates MHC",
+          "city": "West Middlesex",
+          "state": "PA",
+          "cap": 10.19,
+          "url": "https://www.crexi.com/properties/1937028/pennsylvania-west-middlesex-estates-mhc",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1400000.0
+        }
+      ]
+    },
+    "AR": {
+      "cap": 8.98,
+      "n": 2,
+      "source": "Median listed cap of 2 on-market MHP(s) in AR.",
+      "comps": [
+        {
+          "id": 2516294,
+          "name": "Buffalo River Mobile Home Community",
+          "city": "Mountain Home",
+          "state": "AR",
+          "cap": 7.7,
+          "url": "https://www.crexi.com/properties/2516294/arkansas-buffalo-river-mobile-home-community",
+          "pop3": 14810,
+          "tier": "secondary",
+          "price": 1259777.0
+        },
+        {
+          "id": 2448248,
+          "name": "3300 Blue Hill Road",
+          "city": "Rogers",
+          "state": "AR",
+          "cap": 10.27,
+          "url": "https://www.crexi.com/properties/2448248/arkansas-3300-blue-hill-road",
+          "pop3": 20054,
+          "tier": "secondary",
+          "price": 900000.0
+        }
+      ]
+    },
+    "NV": {
+      "cap": 8.22,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NV.",
+      "comps": [
+        {
+          "id": 1010772,
+          "name": "Park Place",
+          "city": "Las Vegas",
+          "state": "NV",
+          "cap": 8.22,
+          "url": "https://www.crexi.com/properties/1010772/nevada-park-place",
+          "pop3": 133357,
+          "tier": "metro",
+          "price": 3750000.0
+        }
+      ]
+    },
+    "WA": {
+      "cap": 7.13,
+      "n": 3,
+      "source": "Median listed cap of 3 on-market MHP(s) in WA.",
+      "comps": [
+        {
+          "id": 2745663,
+          "name": "Sultan Mobile Home Park - Multifamily",
+          "city": "Sultan",
+          "state": "WA",
+          "cap": 7.7,
+          "url": "https://www.crexi.com/properties/2745663/washington-sultan-mobile-home-park---multifamily",
+          "pop3": 7504,
+          "tier": "secondary",
+          "price": 825000.0
+        },
+        {
+          "id": 2715715,
+          "name": "Willows Trailer Village",
+          "city": "Moses Lake",
+          "state": "WA",
+          "cap": 7.13,
+          "url": "https://www.crexi.com/properties/2715715/washington-willows-trailer-village",
+          "pop3": 1010,
+          "tier": "rural",
+          "price": 2595000.0
+        },
+        {
+          "id": 2567509,
+          "name": "2625 W MAPLEWOOD AVE TRLR 2 BELLINGHAM WA 98225-8805",
+          "city": "Bellingham",
+          "state": "WA",
+          "cap": 6.0,
+          "url": "https://www.crexi.com/properties/2567509/washington-2625-w-maplewood-ave-trlr-2-bellingham-wa-98225-8805",
+          "pop3": 59433,
+          "tier": "metro",
+          "price": 2200000.0
+        }
+      ]
+    },
+    "NY": {
+      "cap": 7.63,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in NY.",
+      "comps": [
+        {
+          "id": 1937165,
+          "name": "Shady Grove Trailer Park",
+          "city": "Rome",
+          "state": "NY",
+          "cap": 7.63,
+          "url": "https://www.crexi.com/properties/1937165/new-york-shady-grove-trailer-park",
+          "pop3": 23423,
+          "tier": "secondary",
+          "price": 1395000.0
+        }
+      ]
+    },
+    "IA": {
+      "cap": 10.57,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in IA.",
+      "comps": [
+        {
+          "id": 2662970,
+          "name": "The Oaks Mobile Home & RV Park",
+          "city": "Independence",
+          "state": "IA",
+          "cap": 10.57,
+          "url": "https://www.crexi.com/properties/2662970/iowa-the-oaks-mobile-home-rv-park",
+          "pop3": 7272,
+          "tier": "secondary",
+          "price": 1100000.0
+        }
+      ]
+    },
+    "VA": {
+      "cap": 7.5,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in VA.",
+      "comps": [
+        {
+          "id": 2759893,
+          "name": "Collinsville Mobile Home Park",
+          "city": "Collinsville",
+          "state": "VA",
+          "cap": 7.5,
+          "url": "https://www.crexi.com/properties/2759893/virginia-collinsville-mobile-home-park",
+          "pop3": 13481,
+          "tier": "secondary",
+          "price": 2075000.0
+        }
+      ]
+    },
+    "OR": {
+      "cap": 7.5,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in OR.",
+      "comps": [
+        {
+          "id": 2723241,
+          "name": "Winterview Estates",
+          "city": "Grants Pass",
+          "state": "OR",
+          "cap": 7.5,
+          "url": "https://www.crexi.com/properties/2723241/oregon-winterview-estates",
+          "pop3": 39152,
+          "tier": "secondary",
+          "price": 2950000.0
+        }
+      ]
+    },
+    "TN": {
+      "cap": 9.39,
+      "n": 3,
+      "source": "Median listed cap of 3 on-market MHP(s) in TN.",
+      "comps": [
+        {
+          "id": 2430009,
+          "name": "0 Nicholas Long Drive",
+          "city": "Columbia",
+          "state": "TN",
+          "cap": 7.8,
+          "url": "https://www.crexi.com/properties/2430009/tennessee-0-nicholas-long-drive",
+          "pop3": 26676,
+          "tier": "secondary",
+          "price": 1200000.0
+        },
+        {
+          "id": 2648773,
+          "name": "Tennessee - Georgia Manufactured Housing Portfolio",
+          "city": "Dayton",
+          "state": "TN",
+          "cap": 11.4,
+          "url": "https://www.crexi.com/properties/2648773/tennessee-dayton-tn-and-armuchee-ga-manufactured-housing-portfolio",
+          "pop3": 8127,
+          "tier": "secondary",
+          "price": 1225000.0
+        },
+        {
+          "id": 2197328,
+          "name": "Mayfield Mobile Home Park",
+          "city": "Helenwood",
+          "state": "TN",
+          "cap": 9.39,
+          "url": "https://www.crexi.com/properties/2197328/tennessee-mayfield-mobile-home-park",
+          "pop3": null,
+          "tier": "secondary",
+          "price": 1650000.0
+        }
+      ]
+    },
+    "MT": {
+      "cap": 6.6,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in MT.",
+      "comps": [
+        {
+          "id": 1982551,
+          "name": "Shady Nook Court",
+          "city": "Dillon",
+          "state": "MT",
+          "cap": 6.6,
+          "url": "https://www.crexi.com/properties/1982551/montana-shady-nook-court",
+          "pop3": 5127,
+          "tier": "secondary",
+          "price": 1099000.0
+        }
+      ]
+    },
+    "UT": {
+      "cap": 7.0,
+      "n": 1,
+      "source": "Median listed cap of 1 on-market MHP(s) in UT.",
+      "comps": [
+        {
+          "id": 2783182,
+          "name": "Brigham Village Mobile Home Community",
+          "city": "Brigham City",
+          "state": "UT",
+          "cap": 7.0,
+          "url": "https://www.crexi.com/properties/2783182/utah-410-n-main-st",
+          "pop3": 19898,
+          "tier": "secondary",
+          "price": 3499000.0
+        }
+      ]
+    }
+  },
+  "state_ppl": {
+    "GA": {
+      "ppl": 57143,
+      "n": 7,
+      "source": "Median asking price per pad from 7 buy-box / saved MHP(s) in GA."
+    },
+    "TX": {
+      "ppl": 86886,
+      "n": 8,
+      "source": "Median asking price per pad from 8 buy-box / saved MHP(s) in TX."
+    },
+    "KY": {
+      "ppl": 45455,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in KY."
+    },
+    "FL": {
+      "ppl": 79333,
+      "n": 3,
+      "source": "Median asking price per pad from 3 buy-box / saved MHP(s) in FL."
+    },
+    "LA": {
+      "ppl": 94389,
+      "n": 3,
+      "source": "Median asking price per pad from 3 buy-box / saved MHP(s) in LA."
+    },
+    "WA": {
+      "ppl": 129340,
+      "n": 2,
+      "source": "Median asking price per pad from 2 buy-box / saved MHP(s) in WA."
+    },
+    "AK": {
+      "ppl": 70000,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in AK."
+    },
+    "IN": {
+      "ppl": 43435,
+      "n": 3,
+      "source": "Median asking price per pad from 3 buy-box / saved MHP(s) in IN."
+    },
+    "IL": {
+      "ppl": 50391,
+      "n": 2,
+      "source": "Median asking price per pad from 2 buy-box / saved MHP(s) in IL."
+    },
+    "KS": {
+      "ppl": 54348,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in KS."
+    },
+    "MO": {
+      "ppl": 56250,
+      "n": 2,
+      "source": "Median asking price per pad from 2 buy-box / saved MHP(s) in MO."
+    },
+    "AR": {
+      "ppl": 10366,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in AR."
+    },
+    "VA": {
+      "ppl": 42888,
+      "n": 2,
+      "source": "Median asking price per pad from 2 buy-box / saved MHP(s) in VA."
+    },
+    "TN": {
+      "ppl": 76562,
+      "n": 5,
+      "source": "Median asking price per pad from 5 buy-box / saved MHP(s) in TN."
+    },
+    "CO": {
+      "ppl": 92308,
+      "n": 5,
+      "source": "Median asking price per pad from 5 buy-box / saved MHP(s) in CO."
+    },
+    "OR": {
+      "ppl": 159091,
+      "n": 3,
+      "source": "Median asking price per pad from 3 buy-box / saved MHP(s) in OR."
+    },
+    "SC": {
+      "ppl": 120000,
+      "n": 3,
+      "source": "Median asking price per pad from 3 buy-box / saved MHP(s) in SC."
+    },
+    "WV": {
+      "ppl": 43750,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in WV."
+    },
+    "PA": {
+      "ppl": 37838,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in PA."
+    },
+    "MT": {
+      "ppl": 109900,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in MT."
+    },
+    "NC": {
+      "ppl": 99536,
+      "n": 4,
+      "source": "Median asking price per pad from 4 buy-box / saved MHP(s) in NC."
+    },
+    "ID": {
+      "ppl": 141363,
+      "n": 2,
+      "source": "Median asking price per pad from 2 buy-box / saved MHP(s) in ID."
+    },
+    "UT": {
+      "ppl": 94568,
+      "n": 1,
+      "source": "Median asking price per pad from 1 buy-box / saved MHP(s) in UT."
+    }
+  },
+  "listings": {
+    "2179448": {
+      "id": 2179448,
+      "pads": 30,
+      "pads_source": "Listing text: 30 existing mobile homes (capacity for 10 more, not counted)."
+    },
+    "2668876": {
+      "id": 2668876,
+      "pads": 13,
+      "occupied": 13,
+      "occupied_source": "Listing text: 13 occupied / income-producing mobile homes (plus a taxidermy shop, not valued as pads)."
+    },
+    "2466363": {
+      "id": 2466363,
+      "occupied": 19,
+      "occupied_source": "Listing text: 18 occupied homes and 1 lot renter (19 occupied)."
+    },
+    "2661179": {
+      "id": 2661179,
+      "pads": 26,
+      "pads_source": "Crexi saved / listing details: 26 pads."
+    },
+    "2783182": {
+      "id": 2783182,
+      "pads": 37,
+      "occupancy_pct": 97.3,
+      "lot_rent": 675,
+      "lot_rent_source": "Listing text: lot rent is $675.",
+      "pads_source": "Crexi saved / listing details: 37 pads, 97.3% occupied."
+    },
+    "2747792": {
+      "id": 2747792,
+      "pads": 29,
+      "lot_rent": 729,
+      "lot_rent_source": "Listing text: lot rent of $729.",
+      "pads_source": "Listing text: currently 12 TOH + 7 rent-to-own + 8 POH + 2 single-family homes (29 in-place units). Approved expansion of 23 lots is not counted.",
+      "toh": 12,
+      "poh": 8
+    },
+    "2746646": {
+      "id": 2746646,
+      "pads": 9,
+      "pads_source": "Listing text: 9 existing lots (expansion potential to 15 is not counted)."
+    },
+    "2746636": {
+      "id": 2746636,
+      "pads": 8,
+      "gross_annual": 120000,
+      "gross_source": "Listing text: approximately $10,000 in gross monthly rental income (includes 8 POH plus a duplex and cottage).",
+      "poh": 8,
+      "pads_source": "Listing text: 8-lot mobile home community with all park-owned homes, plus a duplex and cottage."
+    },
+    "2430009": {
+      "id": 2430009,
+      "pads": 11,
+      "pads_source": "Listing text: lots 300–309 and 311 (11 lots).",
+      "listing_cap": 7.8,
+      "listing_cap_source": "Listing text: 2025 income and expense statement revealed a 7.8% cap rate."
+    },
+    "2768233": {
+      "id": 2768233,
+      "pads": 44,
+      "toh": 6,
+      "poh": 38,
+      "pads_source": "Listing text: 44 lots; seller owns 38 homes and 6 are tenant-owned."
+    },
+    "2567509": {
+      "id": 2567509,
+      "pads": 11,
+      "noi": 131000,
+      "noi_source": "Listing text: net income exceeding $131,000 annually (11-unit park).",
+      "pads_source": "Listing text: 11-unit mobile home park (one duplex, five POH, four space rents)."
+    },
+    "2607650": {
+      "id": 2607650,
+      "pads": 26,
+      "pads_source": "Listing name/text: portfolio of 26 residential rentals (mix of mobile homes, houses, and land). Mixed-asset — low confidence."
+    },
+    "2320430": {
+      "id": 2320430,
+      "pads": 10,
+      "pads_source": "Listing text: approximately 1.17 acres improved with one single-family residence and nine mobile home units."
+    },
+    "2604388": {
+      "id": 2604388,
+      "pads": 35,
+      "occupied": 32,
+      "pads_source": "Listing text: 32-unit / 35-pad mobile home park (plus a retail building and a house)."
+    },
+    "2724205": {
+      "id": 2724205,
+      "pads": 12,
+      "pads_source": "Listing text: 12 existing mobile home sites / pads; lot-rent / TOH community."
+    },
+    "2749095": {
+      "id": 2749095,
+      "pads": 12,
+      "occupancy_pct": 100,
+      "noi": 91057,
+      "noi_source": "Listing text: net income after all expenses is $91,057. Annual gross rents $123,660. Twelve units fully rented.",
+      "pads_source": "Listing text: twelve-unit complex; eleven mobile homes and one house.",
+      "gross_annual": 123660
+    },
+    "2144594": {
+      "id": 2144594,
+      "pads": 20,
+      "occupancy_pct": 100,
+      "poh": 20,
+      "toh": 0,
+      "pads_source": "Listing text: 20 rentable spaces, 100% park-owned homes."
+    },
+    "2768257": {
+      "id": 2768257,
+      "pads": 88,
+      "toh": 19,
+      "poh": 69,
+      "pads_source": "Listing text: 88 lots; land plus 69 homes owned, 19 tenant-owned homes paying a per-lot fee. Do not use the $900–$1,000 2/3-bed home rents as lot rent."
+    },
+    "2602126": {
+      "id": 2602126,
+      "noi": 90928,
+      "noi_source": "Listing text: NOI $90,928."
+    },
+    "2825629": {
+      "id": 2825629,
+      "noi": 68475,
+      "noi_source": "Listing text: NOI $68,474.52 (rounded). Gross $90,505."
+    },
+    "2648773": {
+      "id": 2648773,
+      "noi": 60596,
+      "noi_source": "Listing text: NOI $60,596."
+    },
+    "2519424": {
+      "id": 2519424,
+      "gross_annual": 414000,
+      "gross_source": "Listing text: annual gross rents $414,000."
+    },
+    "2319316": {
+      "id": 2319316,
+      "listing_cap": 6.33,
+      "listing_cap_source": "Listing states 6.33% cap (also 6.71% in the body) on a value-add multifamily / self-storage property; MH component is unclear. Low confidence.",
+      "mixed_use": true
+    },
+    "2745693": {
+      "id": 2745693,
+      "pads": 50,
+      "listing_cap": 9.78,
+      "pads_source": "Listing text: 50-unit MH and apartment community. Trailer rents of $450–$600 are home rents, not lot rents.",
+      "listing_cap_source": "Listing states a 9.78% cap rate.",
+      "mixed_use": true
+    }
+  },
+  "rent_comps": [
+    {
+      "id": 2740809,
+      "name": "1033 Leblanc Drive",
+      "city": "Breaux Bridge",
+      "state": "LA",
+      "rent": 400.0,
+      "detail": "lot rents are $400",
+      "url": "https://www.crexi.com/properties/2740809/louisiana-1033-leblanc-drive",
+      "pop3": 5690
+    },
+    {
+      "id": 2736683,
+      "name": "43-Lot Mobile Home Park with Development Upside",
+      "city": "Myrtle Beach",
+      "state": "SC",
+      "rent": 450.0,
+      "detail": "lot rent $450",
+      "url": "https://www.crexi.com/properties/2736683/new-jersey-43-lot-mobile-home-park-with-development-upside",
+      "pop3": 47133
+    },
+    {
+      "id": 1937028,
+      "name": "West Middlesex Estates MHC",
+      "city": "West Middlesex",
+      "state": "PA",
+      "rent": 425.0,
+      "detail": "$425 per month in lot rent",
+      "url": "https://www.crexi.com/properties/1937028/pennsylvania-west-middlesex-estates-mhc",
+      "pop3": 10015
+    },
+    {
+      "id": 2712600,
+      "name": "Willow Springs Mobile Home Court",
+      "city": "Livingston",
+      "state": "LA",
+      "rent": 450.0,
+      "detail": "lot rents at $450",
+      "url": "https://www.crexi.com/properties/2712600/louisiana-willow-springs-mobile-home-court",
+      "pop3": 8087
+    },
+    {
+      "id": 2745572,
+      "name": "Acre MHP",
+      "city": "Brunswick",
+      "state": "GA",
+      "rent": 450.0,
+      "detail": "$450 Monthly Lot Rent",
+      "url": "https://www.crexi.com/properties/2745572/georgia-acre-mhp",
+      "pop3": 23667
+    },
+    {
+      "id": 2783340,
+      "name": "Black River MHP",
+      "city": "Andrews",
+      "state": "SC",
+      "rent": 312.0,
+      "detail": "$312/month in lot rent",
+      "url": "https://www.crexi.com/properties/2783340/south-carolina-black-river-mhp",
+      "pop3": 5537
+    },
+    {
+      "id": 2811304,
+      "name": "109 Snyder Court",
+      "city": "Hawesville",
+      "state": "KY",
+      "rent": 200.0,
+      "detail": "$200 per month in lot rent",
+      "url": "https://www.crexi.com/properties/2811304/kentucky-109-snyder-court",
+      "pop3": 5037
+    },
+    {
+      "id": 2141128,
+      "name": "Mesquite Ranch RV Park",
+      "city": "Apache Junction",
+      "state": "AZ",
+      "rent": 650.0,
+      "detail": "Site Rent of $650",
+      "url": "https://www.crexi.com/properties/2141128/arizona-mesquite-ranch-rv-park",
+      "pop3": 75291
+    },
+    {
+      "id": 2626641,
+      "name": "Cedar Pines Mobile Home Park",
+      "city": "Lake City",
+      "state": "FL",
+      "rent": 500.0,
+      "detail": "$500 per month in lot rent",
+      "url": "https://www.crexi.com/properties/2626641/florida-cedar-pines-mobile-home-park",
+      "pop3": 15241
+    },
+    {
+      "id": 2759056,
+      "name": "2957 KINGS HWY SUFFOLK VA 23435",
+      "city": "Suffolk",
+      "state": "VA",
+      "rent": 610.0,
+      "detail": "$610 lot rents",
+      "url": "https://www.crexi.com/properties/2759056/virginia-2957-kings-hwy-suffolk-va-23435",
+      "pop3": 12714
+    },
+    {
+      "id": 2634837,
+      "name": "Presque Isle MHP",
+      "city": "Presque Isle",
+      "state": "ME",
+      "rent": 350.0,
+      "detail": "$350 lot rents",
+      "url": "https://www.crexi.com/properties/2634837/maine-presque-isle-mhp",
+      "pop3": 7829
+    },
+    {
+      "id": 2655575,
+      "name": "Sun Creek RV Park",
+      "city": "Cuero",
+      "state": "TX",
+      "rent": 375.0,
+      "detail": "site rents of $375,",
+      "url": "https://www.crexi.com/properties/2655575/texas-sun-creek-rv-park",
+      "pop3": 6961
+    },
+    {
+      "id": 2448130,
+      "name": "Well-Located, Stabilized Kansas MHC - 46 Spaces",
+      "city": "Ottawa",
+      "state": "KS",
+      "rent": 437.5,
+      "detail": "Lot Rents are $425 to $450",
+      "url": "https://www.crexi.com/properties/2448130/kansas-well-located-stabilized-kansas-mhc---46-spaces",
+      "pop3": 13107
+    },
+    {
+      "id": 2697128,
+      "name": "Maple City MHP",
+      "city": "Geneseo",
+      "state": "IL",
+      "rent": 346.0,
+      "detail": "lot rent of $346",
+      "url": "https://www.crexi.com/properties/2697128/illinois-maple-city-mhp",
+      "pop3": 7175
+    },
+    {
+      "id": 2827186,
+      "name": "Edgewood MHP & Apartments",
+      "city": "Martinsville",
+      "state": "VA",
+      "rent": 250.0,
+      "detail": "lot rents are $250",
+      "url": "https://www.crexi.com/properties/2827186/virginia-edgewood-mhp-and-apartments",
+      "pop3": 14335
+    },
+    {
+      "id": 2657251,
+      "name": "Southwind Estates MHP",
+      "city": "Robinson",
+      "state": "IL",
+      "rent": 347.5,
+      "detail": "Lot Rents: $310–$385",
+      "url": "https://www.crexi.com/properties/2657251/illinois-southwind-estates-mhp",
+      "pop3": 8156
+    },
+    {
+      "id": 2778547,
+      "name": "Alabama 5-Park Portfolio",
+      "city": "Trussville",
+      "state": "AL",
+      "rent": 430.0,
+      "detail": "lot rent of $430",
+      "url": "https://www.crexi.com/properties/2778547/alabama-alabama-5-park-portfolio",
+      "pop3": 12923
+    },
+    {
+      "id": 2783182,
+      "name": "410 N Main St",
+      "city": "Brigham City",
+      "state": "UT",
+      "rent": 675.0,
+      "detail": "Lot rent is $675",
+      "url": "https://www.crexi.com/properties/2783182/utah-410-n-main-st",
+      "pop3": 19898
+    },
+    {
+      "id": 2440154,
+      "name": "Capital Mobile Home Park",
+      "city": "San Antonio",
+      "state": "TX",
+      "rent": 450.0,
+      "detail": "$450 per month in lot rent",
+      "url": "https://www.crexi.com/properties/2440154/texas-mobile-home-capital-mhp",
+      "pop3": 99786
+    },
+    {
+      "id": 2745322,
+      "name": "Sabattus Estates",
+      "city": "Sabattus",
+      "state": "ME",
+      "rent": 550.0,
+      "detail": "lot rent of $550",
+      "url": "https://www.crexi.com/properties/2745322/maine-4-houle-street",
+      "pop3": 12000
+    },
+    {
+      "id": 2747792,
+      "name": "Tenoroc Park",
+      "city": "Lakeland",
+      "state": "FL",
+      "rent": 729.0,
+      "detail": "lot rent of $729",
+      "url": "https://www.crexi.com/properties/2747792/florida-tenoroc-park",
+      "pop3": 15799
+    },
+    {
+      "id": 2516294,
+      "name": "Buffalo River Mobile Home Community",
+      "city": "Mountain Home",
+      "state": "AR",
+      "rent": 375.0,
+      "detail": "lot rent of $375",
+      "url": "https://www.crexi.com/properties/2516294/arkansas-buffalo-river-mobile-home-community",
+      "pop3": 14810
+    },
+    {
+      "id": 2684066,
+      "name": "Victoria Gardens MHP",
+      "city": "Apopka",
+      "state": "FL",
+      "rent": 750.0,
+      "detail": "lot rent of $750",
+      "url": "https://www.crexi.com/properties/2684066/florida-victoria-gardens-mhp",
+      "pop3": 61269
+    },
+    {
+      "id": 2716444,
+      "name": "Happy Hollow MH & RV Park",
+      "city": "Lakeland",
+      "state": "FL",
+      "rent": 525.0,
+      "detail": "lot rents of $525",
+      "url": "https://www.crexi.com/properties/2716444/florida-happy-hollow-mh-rv-park",
+      "pop3": 26243
+    },
+    {
+      "id": 2722591,
+      "name": "Rambling Rose MP & Knotty Estates",
+      "city": "Oroville",
+      "state": "CA",
+      "rent": 445.0,
+      "detail": "site rents are $445,",
+      "url": "https://www.crexi.com/properties/2722591/california-rambling-rose-mp-knotty-estates",
+      "pop3": 18344
+    },
+    {
+      "id": 2646954,
+      "name": "Chateau Mobile Home Community",
+      "city": "Anchorage",
+      "state": "AK",
+      "rent": 620.0,
+      "detail": "Lot rent $620",
+      "url": "https://www.crexi.com/properties/2646954/alaska-chateau-mobile-home-community",
+      "pop3": 93218
+    },
+    {
+      "id": 2654055,
+      "name": "Specialville Estates",
+      "city": "Chicago",
+      "state": "IL",
+      "rent": 711.0,
+      "detail": "$711/month in lot rent",
+      "url": "https://www.crexi.com/properties/2654055/illinois-specialville-estates",
+      "pop3": 99872
+    },
+    {
+      "id": 2370616,
+      "name": "5 Points Mobile Home Park For Sale",
+      "city": "Rockingham",
+      "state": "NC",
+      "rent": 275.0,
+      "detail": "Lot Rent: $275",
+      "url": "https://www.crexi.com/properties/2370616/north-carolina-5-points-mobile-home-park-for-sale",
+      "pop3": 13858
+    },
+    {
+      "id": 2827170,
+      "name": "Wicklin Main Mobile Home Park",
+      "city": "Berwick",
+      "state": "PA",
+      "rent": 460.0,
+      "detail": "lot rents at $460",
+      "url": "https://www.crexi.com/properties/2827170/pennsylvania-wicklin-main-mobile-home-park",
+      "pop3": 15787
+    },
+    {
+      "id": 2759011,
+      "name": "Sylvester, GA 2-Park Portfolio",
+      "city": "Sylvester",
+      "state": "GA",
+      "rent": 365.0,
+      "detail": "lot rents are $365",
+      "url": "https://www.crexi.com/properties/2759011/georgia-sylvester-ga-2-park-portfolio",
+      "pop3": 7208
+    },
+    {
+      "id": 1913521,
+      "name": "Genesee Forest Estates",
+      "city": "Flint",
+      "state": "MI",
+      "rent": 500.0,
+      "detail": "$500/month in pad rent",
+      "url": "https://www.crexi.com/properties/1913521/michigan-genesee-forest-estates",
+      "pop3": 37765
+    },
+    {
+      "id": 2232027,
+      "name": "Nauvoo Mobile Home Park",
+      "city": "Nauvoo",
+      "state": "IL",
+      "rent": 300.0,
+      "detail": "pad rent is $300",
+      "url": "https://www.crexi.com/properties/2232027/illinois-nauvoo-mobile-home-park",
+      "pop3": 1672
+    },
+    {
+      "id": 2467812,
+      "name": "Bedrock MHC",
+      "city": "Ulysses",
+      "state": "KS",
+      "rent": 265.0,
+      "detail": "$265 Lot Rent",
+      "url": "https://www.crexi.com/properties/2467812/kansas-bedrock-mhc",
+      "pop3": 5975
+    },
+    {
+      "id": 2759093,
+      "name": "York County SC 2-Park Portfolio",
+      "city": "Catawba",
+      "state": "SC",
+      "rent": 600.0,
+      "detail": "$600 lot rents",
+      "url": "https://www.crexi.com/properties/2759093/south-carolina-york-county-sc-2-park-portfolio",
+      "pop3": 6483
+    },
+    {
+      "id": 2784899,
+      "name": "Rocky Mount, NC MHP",
+      "city": "Rocky Mount",
+      "state": "NC",
+      "rent": 300.0,
+      "detail": "Lot rent is $300",
+      "url": "https://www.crexi.com/properties/2784899/north-carolina-rocky-mount-nc-mhp",
+      "pop3": 13772
+    },
+    {
+      "id": 2739940,
+      "name": "Three Bridges Estates MHP",
+      "city": "Jacksonville",
+      "state": "NC",
+      "rent": 250.0,
+      "detail": "$250 lot rent",
+      "url": "https://www.crexi.com/properties/2739940/north-carolina-three-bridges-estates-mhp",
+      "pop3": 8839
+    },
+    {
+      "id": 2657252,
+      "name": "Vista Grande MHP",
+      "city": "Terre Haute",
+      "state": "IN",
+      "rent": 400.0,
+      "detail": "Lot Rent: $400",
+      "url": "https://www.crexi.com/properties/2657252/indiana-vista-grande-mhp",
+      "pop3": 19734
+    },
+    {
+      "id": 2722914,
+      "name": "Wesleyville MHP",
+      "city": "Erie",
+      "state": "PA",
+      "rent": 491.0,
+      "detail": "site rent of $491",
+      "url": "https://www.crexi.com/properties/2722914/pennsylvania-wesleyville-mhp",
+      "pop3": 53803
+    },
+    {
+      "id": 2724459,
+      "name": "Anniston Oxford AL 2-Park Portfolio",
+      "city": "Weaver",
+      "state": "AL",
+      "rent": 350.0,
+      "detail": "lot rents are $350",
+      "url": "https://www.crexi.com/properties/2724459/alabama-anniston-oxford-al-2-park-portfolio",
+      "pop3": 17665
+    },
+    {
+      "id": 2780624,
+      "name": "Northgate Mobile Home Park",
+      "city": "Odessa",
+      "state": "TX",
+      "rent": 480.0,
+      "detail": "lot rent is $480",
+      "url": "https://www.crexi.com/properties/2780624/texas-northgate-mobile-home-park",
+      "pop3": 58090
+    },
+    {
+      "id": 2719492,
+      "name": "Lamplighter Village Mobile Home Park",
+      "city": "Jacksonville",
+      "state": "AR",
+      "rent": 425.0,
+      "detail": "$425/month in lot rent",
+      "url": "https://www.crexi.com/properties/2719492/arkansas-lamplighter-village-mobile-home-park",
+      "pop3": 23448
+    },
+    {
+      "id": 2299707,
+      "name": "Adel Manufactured Housing Community",
+      "city": "Adel",
+      "state": "GA",
+      "rent": 350.0,
+      "detail": "Tracker note: $350 lot rent",
+      "url": "https://www.crexi.com/properties/2299707/georgia-adel-manufactured-housing-community",
+      "pop3": 5030
+    },
+    {
+      "id": 2759893,
+      "name": "Collinsville Mobile Home Park",
+      "city": "Collinsville",
+      "state": "VA",
+      "rent": 270.0,
+      "detail": "Tracker note: $270 lot rent",
+      "url": "https://www.crexi.com/properties/2759893/virginia-collinsville-mobile-home-park",
+      "pop3": 13481
+    }
+  ],
+  "cap_comps": [
+    {
+      "id": 2786978,
+      "name": "Shady Rest Mobile Home Community",
+      "city": "Anderson",
+      "state": "IN",
+      "cap": 10.4,
+      "url": "https://www.crexi.com/properties/2786978/indiana-shady-rest-mobile-home-community",
+      "pop3": 33210,
+      "tier": "secondary",
+      "price": 1000000.0
+    },
+    {
+      "id": 2825959,
+      "name": "Michigan Avenue Estates",
+      "city": "Jackson",
+      "state": "MI",
+      "cap": 8.16,
+      "url": "https://www.crexi.com/properties/2825959/michigan-michigan-avenue-estates",
+      "pop3": 37708,
+      "tier": "secondary",
+      "price": 1750000.0
+    },
+    {
+      "id": 2492655,
+      "name": "Acton Country Mobile Home Park | 27 Spaces",
+      "city": "Acton",
+      "state": "CA",
+      "cap": 6.09,
+      "url": "https://www.crexi.com/properties/2492655/california-acton-country-mobile-home-park-27-spaces",
+      "pop3": 6676,
+      "tier": "secondary",
+      "price": 2700000.0
+    },
+    {
+      "id": 2679326,
+      "name": "Heartland RV Park",
+      "city": "Campbellsville",
+      "state": "KY",
+      "cap": 10.36,
+      "url": "https://www.crexi.com/properties/2679326/kentucky-heartland-rv-park",
+      "pop3": 15317,
+      "tier": "secondary",
+      "price": 1150000.0
+    },
+    {
+      "id": 2723748,
+      "name": "Johnson's Mobile Home Community",
+      "city": "Gallipolis",
+      "state": "OH",
+      "cap": 8.41,
+      "url": "https://www.crexi.com/properties/2723748/ohio-johnsons-mobile-home-community",
+      "pop3": 5666,
+      "tier": "secondary",
+      "price": 1850000.0
+    },
+    {
+      "id": 2161782,
+      "name": "Indian Trails RV/MH Park & Mustang Storage",
+      "city": "Ingleside",
+      "state": "TX",
+      "cap": 9.37,
+      "url": "https://www.crexi.com/properties/2161782/texas-indian-trails-mustang-storage",
+      "pop3": 15158,
+      "tier": "secondary",
+      "price": 1175000.0
+    },
+    {
+      "id": 2712600,
+      "name": "Willow Springs Mobile Home Court",
+      "city": "Livingston",
+      "state": "LA",
+      "cap": 6.0,
+      "url": "https://www.crexi.com/properties/2712600/louisiana-willow-springs-mobile-home-court",
+      "pop3": 8087,
+      "tier": "secondary",
+      "price": 1080000.0
+    },
+    {
+      "id": 2783340,
+      "name": "Black River MHP",
+      "city": "Andrews",
+      "state": "SC",
+      "cap": 8.8,
+      "url": "https://www.crexi.com/properties/2783340/south-carolina-black-river-mhp",
+      "pop3": 5537,
+      "tier": "secondary",
+      "price": 1400000.0
+    },
+    {
+      "id": 2699591,
+      "name": "White River MHP",
+      "city": "Meeker",
+      "state": "CO",
+      "cap": 6.14,
+      "url": "https://www.crexi.com/properties/2699591/colorado-white-river-mhp",
+      "pop3": 2292,
+      "tier": "rural",
+      "price": 1305000.0
+    },
+    {
+      "id": 2617638,
+      "name": "Troup County Diversified Residential & Commercial Portfolio",
+      "city": "LaGrange",
+      "state": "GA",
+      "cap": 8.05,
+      "url": "https://www.crexi.com/properties/2617638/georgia-troup-county-diversified-residential-commercial-portfolio",
+      "pop3": 27914,
+      "tier": "secondary",
+      "price": 1360000.0
+    },
+    {
+      "id": 2825629,
+      "name": "Mobile Home Community - 25235 & 25245 Needham Lane",
+      "city": "Porter",
+      "state": "TX",
+      "cap": 8.56,
+      "url": "https://www.crexi.com/properties/2825629/texas-mobile-home-community-25235-and-25245-needham-lane",
+      "pop3": 75484,
+      "tier": "metro",
+      "price": null
+    },
+    {
+      "id": 565571,
+      "name": "Lost Lake RV Park",
+      "city": "Conroe",
+      "state": "TX",
+      "cap": 7.23,
+      "url": "https://www.crexi.com/properties/565571/texas-lost-lake-rv-park",
+      "pop3": 21024,
+      "tier": "secondary",
+      "price": 3500000.0
+    },
+    {
+      "id": 2464760,
+      "name": "Cardinal Park",
+      "city": "Waxhaw",
+      "state": "NC",
+      "cap": 7.5,
+      "url": "https://www.crexi.com/properties/2464760/north-carolina-cardinal-park",
+      "pop3": 12975,
+      "tier": "secondary",
+      "price": 1590000.0
+    },
+    {
+      "id": 2141128,
+      "name": "Mesquite Ranch RV Park",
+      "city": "Apache Junction",
+      "state": "AZ",
+      "cap": 6.11,
+      "url": "https://www.crexi.com/properties/2141128/arizona-mesquite-ranch-rv-park",
+      "pop3": 75291,
+      "tier": "metro",
+      "price": 1125000.0
+    },
+    {
+      "id": 2644524,
+      "name": "Alamogordo 3 Park Portfolio",
+      "city": "Alamogordo",
+      "state": "NM",
+      "cap": 8.89,
+      "url": "https://www.crexi.com/properties/2644524/new-mexico-alamogordo-portfolio",
+      "pop3": 26586,
+      "tier": "secondary",
+      "price": 2500000.0
+    },
+    {
+      "id": 2649891,
+      "name": "Canyon Creek Mobile Home and RV Park",
+      "city": "Anderson",
+      "state": "CA",
+      "cap": 8.39,
+      "url": "https://www.crexi.com/properties/2649891/california-canyon-creek-mobile-home-and-rv-park",
+      "pop3": 14862,
+      "tier": "secondary",
+      "price": 1200000.0
+    },
+    {
+      "id": 2780043,
+      "name": "R & S Mobile Home & RV Park",
+      "city": "La Place",
+      "state": "LA",
+      "cap": 9.17,
+      "url": "https://www.crexi.com/properties/2780043/louisiana-r-and-s-mobile-home-and-rv-park",
+      "pop3": 19157,
+      "tier": "secondary",
+      "price": 3000000.0
+    },
+    {
+      "id": 2771140,
+      "name": "Lunker Lodge and RV Park",
+      "city": "Hertford",
+      "state": "NC",
+      "cap": 8.37,
+      "url": "https://www.crexi.com/properties/2771140/north-carolina-lunker-lodge-and-rv-park",
+      "pop3": 1618,
+      "tier": "rural",
+      "price": 1200000.0
+    },
+    {
+      "id": 2570939,
+      "name": "El Rey Mobile Home Park",
+      "city": "Stockton",
+      "state": "CA",
+      "cap": 5.81,
+      "url": "https://www.crexi.com/properties/2570939/california-el-rey-mobile-home-park",
+      "pop3": 125703,
+      "tier": "metro",
+      "price": 3720000.0
+    },
+    {
+      "id": 2736859,
+      "name": "Willow Estates",
+      "city": "Hammond",
+      "state": "IN",
+      "cap": 8.3,
+      "url": "https://www.crexi.com/properties/2736859/indiana-willow-estates",
+      "pop3": 98608,
+      "tier": "metro",
+      "price": 2050000.0
+    },
+    {
+      "id": 2661716,
+      "name": "Sunrise Estates",
+      "city": "Lancaster",
+      "state": "CA",
+      "cap": 5.5,
+      "url": "https://www.crexi.com/properties/2661716/california-sunrise-estates",
+      "pop3": 69922,
+      "tier": "metro",
+      "price": 2375000.0
+    },
+    {
+      "id": 2701169,
+      "name": "Bridgeport Manufactured Home Park",
+      "city": "Bridgeport",
+      "state": "TX",
+      "cap": 10.22,
+      "url": "https://www.crexi.com/properties/2701169/texas-bridgeport-manufactured-home-park",
+      "pop3": 0,
+      "tier": "rural",
+      "price": 975000.0
+    },
+    {
+      "id": 1918593,
+      "name": "Mobile Home Park with 18 park-owned units Livingston Parish",
+      "city": "Denham Springs",
+      "state": "LA",
+      "cap": 10.2,
+      "url": "https://www.crexi.com/properties/1918593/louisiana-multi-family-trailer-park-for-sale",
+      "pop3": 27276,
+      "tier": "secondary",
+      "price": 1699000.0
+    },
+    {
+      "id": 2517653,
+      "name": "Shafter Mobile Home Park",
+      "city": "Shafter",
+      "state": "CA",
+      "cap": 8.0,
+      "url": "https://www.crexi.com/properties/2517653/california-shafter-mobile-home-park",
+      "pop3": 19296,
+      "tier": "secondary",
+      "price": 1800000.0
+    },
+    {
+      "id": 2513477,
+      "name": "Peace River RV & Mobile Home Park",
+      "city": "Punta Gorda",
+      "state": "FL",
+      "cap": 8.14,
+      "url": "https://www.crexi.com/properties/2513477/florida-peace-river-rv-mobile-home-park",
+      "pop3": 7836,
+      "tier": "secondary",
+      "price": 1995000.0
+    },
+    {
+      "id": 2356583,
+      "name": "Crystal Mobile Home Community",
+      "city": "Grass Valley",
+      "state": "CA",
+      "cap": 8.43,
+      "url": "https://www.crexi.com/properties/2356583/california-crystal-mobile-home-community",
+      "pop3": 19852,
+      "tier": "secondary",
+      "price": 1350000.0
+    },
+    {
+      "id": 2697128,
+      "name": "Maple City MHP",
+      "city": "Geneseo",
+      "state": "IL",
+      "cap": 11.4,
+      "url": "https://www.crexi.com/properties/2697128/illinois-maple-city-mhp",
+      "pop3": 7175,
+      "tier": "secondary",
+      "price": 890000.0
+    },
+    {
+      "id": 2442228,
+      "name": "Auburn Ridge Woods",
+      "city": "Auburn",
+      "state": "CA",
+      "cap": 13.0,
+      "url": "https://www.crexi.com/properties/2442228/california-auburn-ridge-woods",
+      "pop3": 16192,
+      "tier": "secondary",
+      "price": 3600000.0
+    },
+    {
+      "id": 2746880,
+      "name": "Gated RV Park",
+      "city": "Princeton",
+      "state": "TX",
+      "cap": 7.1,
+      "url": "https://www.crexi.com/properties/2746880/texas-gated-rv-park",
+      "pop3": 6620,
+      "tier": "secondary",
+      "price": 2850000.0
+    },
+    {
+      "id": 2749095,
+      "name": "140 Short Street",
+      "city": "Atmore",
+      "state": "AL",
+      "cap": 8.55,
+      "url": "https://www.crexi.com/properties/2749095/alabama-140-short-street",
+      "pop3": 9219,
+      "tier": "secondary",
+      "price": 1065000.0
+    },
+    {
+      "id": 2624993,
+      "name": "307 E Lawson Rd, Dallas, TX, 75253",
+      "city": "Dallas",
+      "state": "TX",
+      "cap": 5.9,
+      "url": "https://www.crexi.com/properties/2624993/texas-307-e-lawson-rd-dallas-tx-75253",
+      "pop3": 61946,
+      "tier": "metro",
+      "price": 950000.0
+    },
+    {
+      "id": 2641585,
+      "name": "Lycoming Creek Portfolio",
+      "city": "Williamsport",
+      "state": "PA",
+      "cap": 9.47,
+      "url": "https://www.crexi.com/properties/2641585/pennsylvania-lycoming-creek-portfolio",
+      "pop3": 32246,
+      "tier": "secondary",
+      "price": 975000.0
+    },
+    {
+      "id": 2517752,
+      "name": "Baker Mobile Home Park",
+      "city": "Baker",
+      "state": "CA",
+      "cap": 8.0,
+      "url": "https://www.crexi.com/properties/2517752/california-baker-mobile-home-park",
+      "pop3": 0,
+      "tier": "rural",
+      "price": 2299000.0
+    },
+    {
+      "id": 2711450,
+      "name": "Aenon Lane Mobile Home Park",
+      "city": "Tallahassee",
+      "state": "FL",
+      "cap": 8.79,
+      "url": "https://www.crexi.com/properties/2711450/florida-confidential-fl-listing-09182026",
+      "pop3": 28928,
+      "tier": "secondary",
+      "price": 1650000.0
+    },
+    {
+      "id": 2738724,
+      "name": "Meadows Mobile Home Park",
+      "city": "Brush",
+      "state": "CO",
+      "cap": 5.96,
+      "url": "https://www.crexi.com/properties/2738724/colorado-meadows-mobile-home-park",
+      "pop3": 5882,
+      "tier": "secondary",
+      "price": 1250000.0
+    },
+    {
+      "id": 2614507,
+      "name": "Hunter MHP",
+      "city": "Savannah",
+      "state": "GA",
+      "cap": 9.33,
+      "url": "https://www.crexi.com/properties/2614507/georgia-hunter-mhp",
+      "pop3": 67403,
+      "tier": "metro",
+      "price": 1500000.0
+    },
+    {
+      "id": 2778751,
+      "name": "Amarillo Mobile Home Community Investment Opportunity",
+      "city": "Amarillo",
+      "state": "TX",
+      "cap": 8.5,
+      "url": "https://www.crexi.com/properties/2778751/texas-mobile-home-community-investment-opportunity",
+      "pop3": 43933,
+      "tier": "secondary",
+      "price": 2250000.0
+    },
+    {
+      "id": 2614466,
+      "name": "Oxford MHP",
+      "city": "Oxford",
+      "state": "GA",
+      "cap": 8.1,
+      "url": "https://www.crexi.com/properties/2614466/georgia-oxford-mhp",
+      "pop3": 8829,
+      "tier": "secondary",
+      "price": 1200000.0
+    },
+    {
+      "id": 2682838,
+      "name": "California Palms Mobile Home Park",
+      "city": "San Jacinto",
+      "state": "CA",
+      "cap": 7.67,
+      "url": "https://www.crexi.com/properties/2682838/california-california-palms-mobile-home-park",
+      "pop3": 90020,
+      "tier": "metro",
+      "price": 2850000.0
+    },
+    {
+      "id": 2440154,
+      "name": "Capital Mobile Home Park",
+      "city": "San Antonio",
+      "state": "TX",
+      "cap": 7.25,
+      "url": "https://www.crexi.com/properties/2440154/texas-mobile-home-capital-mhp",
+      "pop3": 99786,
+      "tier": "metro",
+      "price": 945000.0
+    },
+    {
+      "id": 2747792,
+      "name": "Tenoroc Park",
+      "city": "Lakeland",
+      "state": "FL",
+      "cap": 8.01,
+      "url": "https://www.crexi.com/properties/2747792/florida-tenoroc-park",
+      "pop3": 15799,
+      "tier": "secondary",
+      "price": 2150000.0
+    },
+    {
+      "id": 2516294,
+      "name": "Buffalo River Mobile Home Community",
+      "city": "Mountain Home",
+      "state": "AR",
+      "cap": 7.7,
+      "url": "https://www.crexi.com/properties/2516294/arkansas-buffalo-river-mobile-home-community",
+      "pop3": 14810,
+      "tier": "secondary",
+      "price": 1259777.0
+    },
+    {
+      "id": 2765404,
+      "name": "MHP: 4790 E Main St Ext",
+      "city": "Spartanburg",
+      "state": "SC",
+      "cap": 5.4,
+      "url": "https://www.crexi.com/properties/2765404/south-carolina-mhp-4790-e-main-st-ext",
+      "pop3": 10545,
+      "tier": "secondary",
+      "price": 1200000.0
+    },
+    {
+      "id": 2603182,
+      "name": "Chestnut Mobile Home Park",
+      "city": "Lakeland",
+      "state": "FL",
+      "cap": 10.15,
+      "url": "https://www.crexi.com/properties/2603182/florida-chestnut-mobile-home-park",
+      "pop3": 58709,
+      "tier": "metro",
+      "price": 1050000.0
+    },
+    {
+      "id": 1010772,
+      "name": "Park Place",
+      "city": "Las Vegas",
+      "state": "NV",
+      "cap": 8.22,
+      "url": "https://www.crexi.com/properties/1010772/nevada-park-place",
+      "pop3": 133357,
+      "tier": "metro",
+      "price": 3750000.0
+    },
+    {
+      "id": 2608845,
+      "name": "Eagle's Nest Village RV Park",
+      "city": "Goldthwaite",
+      "state": "TX",
+      "cap": 10.0,
+      "url": "https://www.crexi.com/properties/2608845/texas-eagles-nest-village-rv-park",
+      "pop3": 2704,
+      "tier": "rural",
+      "price": null
+    },
+    {
+      "id": 2449493,
+      "name": "12300 Phillips Lane Mobile Home Park",
+      "city": "Gibsonton",
+      "state": "FL",
+      "cap": 7.8,
+      "url": "https://www.crexi.com/properties/2449493/florida-12300-phillips-lane-mobile-home-park",
+      "pop3": 31962,
+      "tier": "secondary",
+      "price": 1799000.0
+    },
+    {
+      "id": 2824970,
+      "name": "766 1400 LN DELTA CO 81416",
+      "city": "Delta",
+      "state": "CO",
+      "cap": 8.0,
+      "url": "https://www.crexi.com/properties/2824970/colorado-766-1400-ln-a-delta-co-81416",
+      "pop3": 6827,
+      "tier": "secondary",
+      "price": 950000.0
+    },
+    {
+      "id": 2745663,
+      "name": "Sultan Mobile Home Park - Multifamily",
+      "city": "Sultan",
+      "state": "WA",
+      "cap": 7.7,
+      "url": "https://www.crexi.com/properties/2745663/washington-sultan-mobile-home-park---multifamily",
+      "pop3": 7504,
+      "tier": "secondary",
+      "price": 825000.0
+    },
+    {
+      "id": 2722591,
+      "name": "Rambling Rose MP & Knotty Estates",
+      "city": "Oroville",
+      "state": "CA",
+      "cap": 7.49,
+      "url": "https://www.crexi.com/properties/2722591/california-rambling-rose-mp-knotty-estates",
+      "pop3": 18344,
+      "tier": "secondary",
+      "price": 1700000.0
+    },
+    {
+      "id": 2758675,
+      "name": "Corning RV Park",
+      "city": "Corning",
+      "state": "CA",
+      "cap": 7.66,
+      "url": "https://www.crexi.com/properties/2758675/california-corning-rv-park",
+      "pop3": 9912,
+      "tier": "secondary",
+      "price": 2750000.0
+    },
+    {
+      "id": 1937165,
+      "name": "Shady Grove Trailer Park",
+      "city": "Rome",
+      "state": "NY",
+      "cap": 7.63,
+      "url": "https://www.crexi.com/properties/1937165/new-york-shady-grove-trailer-park",
+      "pop3": 23423,
+      "tier": "secondary",
+      "price": 1395000.0
+    },
+    {
+      "id": 2738987,
+      "name": "Vineyard Way Rentals",
+      "city": "Griffin",
+      "state": "GA",
+      "cap": 11.61,
+      "url": "https://www.crexi.com/properties/2738987/georgia-vineyard-way-rentals",
+      "pop3": 20108,
+      "tier": "secondary",
+      "price": 1600000.0
+    },
+    {
+      "id": 2566806,
+      "name": "Marlins RV Park",
+      "city": "Martinez",
+      "state": "CA",
+      "cap": 7.25,
+      "url": "https://www.crexi.com/properties/2566806/california-381-arthur-rd",
+      "pop3": 56168,
+      "tier": "metro",
+      "price": 2450000.0
+    },
+    {
+      "id": 2491015,
+      "name": "Rancho Valley MHP",
+      "city": "Live Oak",
+      "state": "CA",
+      "cap": 6.72,
+      "url": "https://www.crexi.com/properties/2491015/california-rancho-valley-mhp",
+      "pop3": 11149,
+      "tier": "secondary",
+      "price": 2095000.0
+    },
+    {
+      "id": 2715715,
+      "name": "Willows Trailer Village",
+      "city": "Moses Lake",
+      "state": "WA",
+      "cap": 7.13,
+      "url": "https://www.crexi.com/properties/2715715/washington-willows-trailer-village",
+      "pop3": 1010,
+      "tier": "rural",
+      "price": 2595000.0
+    },
+    {
+      "id": 2827170,
+      "name": "Wicklin Main Mobile Home Park",
+      "city": "Berwick",
+      "state": "PA",
+      "cap": 7.7,
+      "url": "https://www.crexi.com/properties/2827170/pennsylvania-wicklin-main-mobile-home-park",
+      "pop3": 15787,
+      "tier": "secondary",
+      "price": 3600000.0
+    },
+    {
+      "id": 2774302,
+      "name": "Southern Estates RV Park",
+      "city": "Theodore",
+      "state": "AL",
+      "cap": 10.75,
+      "url": "https://www.crexi.com/properties/2774302/alabama-southern-estates-rv-park",
+      "pop3": 22585,
+      "tier": "secondary",
+      "price": 950000.0
+    },
+    {
+      "id": 2614504,
+      "name": "Martin MHP",
+      "city": "Blackshear",
+      "state": "GA",
+      "cap": 7.1,
+      "url": "https://www.crexi.com/properties/2614504/georgia-martin-mhp",
+      "pop3": 7041,
+      "tier": "secondary",
+      "price": 1400000.0
+    },
+    {
+      "id": 2696461,
+      "name": "Traveller's Park",
+      "city": "Ukiah",
+      "state": "CA",
+      "cap": 7.37,
+      "url": "https://www.crexi.com/properties/2696461/california-travellers-park",
+      "pop3": 12917,
+      "tier": "secondary",
+      "price": 2500000.0
+    },
+    {
+      "id": 1756270,
+      "name": "50 site RV Park on 9 acres",
+      "city": "Crosby",
+      "state": "TX",
+      "cap": 8.36,
+      "url": "https://www.crexi.com/properties/1756270/texas-dell-creek-rv-park",
+      "pop3": 21312,
+      "tier": "secondary",
+      "price": 1400000.0
+    },
+    {
+      "id": 2432030,
+      "name": "14-Unit Mobile Home Park & RV Park + 2 SFH | 11.6% CAP MHP",
+      "city": "Zephyrhills",
+      "state": "FL",
+      "cap": 11.6,
+      "url": "https://www.crexi.com/properties/2432030/florida-14-unit-mobile-home-park-rv-park-2-sfh-116-cap",
+      "pop3": 36653,
+      "tier": "secondary",
+      "price": 1149000.0
+    },
+    {
+      "id": 2745693,
+      "name": "Atlantic Mobile Home Park & Apartments",
+      "city": "Jacksonville",
+      "state": "NC",
+      "cap": 9.78,
+      "url": "https://www.crexi.com/properties/2745693/north-carolina-atlantic-mobile-home-park-apartments",
+      "pop3": 23583,
+      "tier": "secondary",
+      "price": 1782550.0
+    },
+    {
+      "id": 2759093,
+      "name": "York County SC 2-Park Portfolio",
+      "city": "Catawba",
+      "state": "SC",
+      "cap": 10.6,
+      "url": "https://www.crexi.com/properties/2759093/south-carolina-york-county-sc-2-park-portfolio",
+      "pop3": 6483,
+      "tier": "secondary",
+      "price": 1975000.0
+    },
+    {
+      "id": 2662970,
+      "name": "The Oaks Mobile Home & RV Park",
+      "city": "Independence",
+      "state": "IA",
+      "cap": 10.57,
+      "url": "https://www.crexi.com/properties/2662970/iowa-the-oaks-mobile-home-rv-park",
+      "pop3": 7272,
+      "tier": "secondary",
+      "price": 1100000.0
+    },
+    {
+      "id": 2769114,
+      "name": "Fair Park Estates",
+      "city": "Harlingen",
+      "state": "TX",
+      "cap": 8.27,
+      "url": "https://www.crexi.com/properties/2769114/texas-fair-park-estates",
+      "pop3": 65818,
+      "tier": "metro",
+      "price": 1500000.0
+    },
+    {
+      "id": 2759893,
+      "name": "Collinsville Mobile Home Park",
+      "city": "Collinsville",
+      "state": "VA",
+      "cap": 7.5,
+      "url": "https://www.crexi.com/properties/2759893/virginia-collinsville-mobile-home-park",
+      "pop3": 13481,
+      "tier": "secondary",
+      "price": 2075000.0
+    },
+    {
+      "id": 2554354,
+      "name": "8345 Trout Avenue",
+      "city": "Kings Beach",
+      "state": "CA",
+      "cap": 6.19,
+      "url": "https://www.crexi.com/properties/2554354/california-8345-trout-avenue",
+      "pop3": 6779,
+      "tier": "secondary",
+      "price": 2900000.0
+    },
+    {
+      "id": 2567509,
+      "name": "2625 W MAPLEWOOD AVE TRLR 2 BELLINGHAM WA 98225-8805",
+      "city": "Bellingham",
+      "state": "WA",
+      "cap": 6.0,
+      "url": "https://www.crexi.com/properties/2567509/washington-2625-w-maplewood-ave-trlr-2-bellingham-wa-98225-8805",
+      "pop3": 59433,
+      "tier": "metro",
+      "price": 2200000.0
+    },
+    {
+      "id": 2723241,
+      "name": "Winterview Estates",
+      "city": "Grants Pass",
+      "state": "OR",
+      "cap": 7.5,
+      "url": "https://www.crexi.com/properties/2723241/oregon-winterview-estates",
+      "pop3": 39152,
+      "tier": "secondary",
+      "price": 2950000.0
+    },
+    {
+      "id": 1959528,
+      "name": "9.3% CAP - Mobile Homes/Flea Market/Storage - Hwy 11, SC",
+      "city": "Westminster",
+      "state": "SC",
+      "cap": 9.3,
+      "url": "https://www.crexi.com/properties/1959528/south-carolina-cash-flowing---mobile-homesflea-marketstorage---hwy-11-sc",
+      "pop3": 5624,
+      "tier": "secondary",
+      "price": 1200000.0
+    },
+    {
+      "id": 2319316,
+      "name": "Seller Financing Carry | Value-Add | Add More Units",
+      "city": "Canyon Lake",
+      "state": "TX",
+      "cap": 6.33,
+      "url": "https://www.crexi.com/properties/2319316/texas-value-add-multifamily-storage-potential-to-add-more-units",
+      "pop3": 10384,
+      "tier": "secondary",
+      "price": 2150000.0
+    },
+    {
+      "id": 2661179,
+      "name": "5 Cedar Ave",
+      "city": "Greenville",
+      "state": "SC",
+      "cap": 7.66,
+      "url": "https://www.crexi.com/properties/2661179/south-carolina-5-cedar-ave",
+      "pop3": 20918,
+      "tier": "secondary",
+      "price": 2250000.0
+    },
+    {
+      "id": 2157085,
+      "name": "Green Acres Mobile Home Park",
+      "city": "Burnet",
+      "state": "TX",
+      "cap": 9.5,
+      "url": "https://www.crexi.com/properties/2157085/texas-green-acres-mobile-home-park",
+      "pop3": 7165,
+      "tier": "secondary",
+      "price": 1150000.0
+    },
+    {
+      "id": 2227592,
+      "name": "Harbor RV Park",
+      "city": "Aransas Pass",
+      "state": "TX",
+      "cap": 9.7,
+      "url": "https://www.crexi.com/properties/2227592/texas-harbor-rv-park",
+      "pop3": 9120,
+      "tier": "secondary",
+      "price": 850000.0
+    },
+    {
+      "id": 2430009,
+      "name": "0 Nicholas Long Drive",
+      "city": "Columbia",
+      "state": "TN",
+      "cap": 7.8,
+      "url": "https://www.crexi.com/properties/2430009/tennessee-0-nicholas-long-drive",
+      "pop3": 26676,
+      "tier": "secondary",
+      "price": 1200000.0
+    },
+    {
+      "id": 2415148,
+      "name": "Hillside MHP",
+      "city": "Cartersville",
+      "state": "GA",
+      "cap": 10.36,
+      "url": "https://www.crexi.com/properties/2415148/georgia-hillside-mhp",
+      "pop3": 11812,
+      "tier": "secondary",
+      "price": 900000.0
+    },
+    {
+      "id": 2448248,
+      "name": "3300 Blue Hill Road",
+      "city": "Rogers",
+      "state": "AR",
+      "cap": 10.27,
+      "url": "https://www.crexi.com/properties/2448248/arkansas-3300-blue-hill-road",
+      "pop3": 20054,
+      "tier": "secondary",
+      "price": 900000.0
+    },
+    {
+      "id": 2648773,
+      "name": "Tennessee - Georgia Manufactured Housing Portfolio",
+      "city": "Dayton",
+      "state": "TN",
+      "cap": 11.4,
+      "url": "https://www.crexi.com/properties/2648773/tennessee-dayton-tn-and-armuchee-ga-manufactured-housing-portfolio",
+      "pop3": 8127,
+      "tier": "secondary",
+      "price": 1225000.0
+    },
+    {
+      "id": 2187264,
+      "name": "Mobile Home Park Investment",
+      "city": "Weatherford",
+      "state": "TX",
+      "cap": 10.56,
+      "url": "https://www.crexi.com/properties/2187264/texas-mobile-home-park-investment",
+      "pop3": 19544,
+      "tier": "secondary",
+      "price": 971000.0
+    },
+    {
+      "id": 2754473,
+      "name": "16-Space MHP! Seller Financing",
+      "city": "Seffner",
+      "state": "FL",
+      "cap": 12.0,
+      "url": "https://www.crexi.com/properties/2754473/florida-16-space-mhp-seller-financing",
+      "pop3": 38475,
+      "tier": "secondary",
+      "price": null
+    },
+    {
+      "id": 2738995,
+      "name": "1060 N Main Street",
+      "city": "Lakeport",
+      "state": "CA",
+      "cap": 5.64,
+      "url": "https://www.crexi.com/properties/2738995/california-1060-n-main-street",
+      "pop3": 9219,
+      "tier": "secondary",
+      "price": 1650000.0
+    },
+    {
+      "id": 1982551,
+      "name": "Shady Nook Court",
+      "city": "Dillon",
+      "state": "MT",
+      "cap": 6.6,
+      "url": "https://www.crexi.com/properties/1982551/montana-shady-nook-court",
+      "pop3": 5127,
+      "tier": "secondary",
+      "price": 1099000.0
+    },
+    {
+      "id": 1825914,
+      "name": "Summer Breeze RV Park Resort- Kemah",
+      "city": "San Leon",
+      "state": "TX",
+      "cap": 9.6,
+      "url": "https://www.crexi.com/properties/1825914/texas-summer-breeze-rv-park-resort--kemah",
+      "pop3": 14892,
+      "tier": "secondary",
+      "price": 3500000.0
+    },
+    {
+      "id": 2599499,
+      "name": "Trailerland Trailer Park",
+      "city": "Paramount",
+      "state": "CA",
+      "cap": 6.9,
+      "url": "https://www.crexi.com/properties/2599499/california-trailerland-trailer-park",
+      "pop3": 340512,
+      "tier": "metro",
+      "price": 2300000.0
+    },
+    {
+      "id": 2519424,
+      "name": "42553 Louisiana 42",
+      "city": "Prairieville",
+      "state": "LA",
+      "cap": 11.0,
+      "url": "https://www.crexi.com/properties/2519424/louisiana-42553-louisiana-42",
+      "pop3": 18546,
+      "tier": "secondary",
+      "price": 3000000.0
+    },
+    {
+      "id": 2634841,
+      "name": "Town & Country Village",
+      "city": "Ruston",
+      "state": "LA",
+      "cap": 7.3,
+      "url": "https://www.crexi.com/properties/2634841/louisiana-town-country-village",
+      "pop3": 16977,
+      "tier": "secondary",
+      "price": 2750000.0
+    },
+    {
+      "id": 2780624,
+      "name": "Northgate Mobile Home Park",
+      "city": "Odessa",
+      "state": "TX",
+      "cap": 8.31,
+      "url": "https://www.crexi.com/properties/2780624/texas-northgate-mobile-home-park",
+      "pop3": 58090,
+      "tier": "metro",
+      "price": 1650000.0
+    },
+    {
+      "id": 2414645,
+      "name": "5805 Blue Bluff",
+      "city": "Austin",
+      "state": "TX",
+      "cap": 7.52,
+      "url": "https://www.crexi.com/properties/2414645/texas-5805-blue-bluff",
+      "pop3": 27770,
+      "tier": "secondary",
+      "price": 1899900.0
+    },
+    {
+      "id": 1937028,
+      "name": "West Middlesex Estates MHC",
+      "city": "West Middlesex",
+      "state": "PA",
+      "cap": 10.19,
+      "url": "https://www.crexi.com/properties/1937028/pennsylvania-west-middlesex-estates-mhc",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 1400000.0
+    },
+    {
+      "id": 2186148,
+      "name": "Cornerstone & Smith Mobile Home Parks",
+      "city": "Jacksonville",
+      "state": "NC",
+      "cap": 11.0,
+      "url": "https://www.crexi.com/properties/2186148/north-carolina-cornerstone-smith-mobile-home-parks",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 1147217.0
+    },
+    {
+      "id": 1471980,
+      "name": "Bennett Homes & 460 Colfax Ave",
+      "city": "Bennett",
+      "state": "CO",
+      "cap": 6.87,
+      "url": "https://www.crexi.com/properties/1471980/colorado-bennett-homes-460-colfax-ave",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 2330000.0
+    },
+    {
+      "id": 2197328,
+      "name": "Mayfield Mobile Home Park",
+      "city": "Helenwood",
+      "state": "TN",
+      "cap": 9.39,
+      "url": "https://www.crexi.com/properties/2197328/tennessee-mayfield-mobile-home-park",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 1650000.0
+    },
+    {
+      "id": 2628170,
+      "name": "37 Hicks Lake Dr - Mobile Home Community",
+      "city": "Hendersonville",
+      "state": "NC",
+      "cap": 7.32,
+      "url": "https://www.crexi.com/properties/2628170/north-carolina-37-hicks-lake-dr-mobile-home-community",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 1300000.0
+    },
+    {
+      "id": 2428630,
+      "name": "Pinederosa Park MHP",
+      "city": "Hephzibah",
+      "state": "GA",
+      "cap": 9.01,
+      "url": "https://www.crexi.com/properties/2428630/georgia-pinederosa-park-mhp",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 1900000.0
+    },
+    {
+      "id": 2709097,
+      "name": "Whispering Oaks & Washburn Place Portfolio",
+      "city": "Shelby",
+      "state": "NC",
+      "cap": 8.86,
+      "url": "https://www.crexi.com/properties/2709097/north-carolina-2-property-portfolio",
+      "pop3": null,
+      "tier": "secondary",
+      "price": 1100000.0
+    },
+    {
+      "id": 2737086,
+      "name": "Milam Bridge MHP",
+      "city": "Euharlee",
+      "state": "GA",
+      "cap": 8.01,
+      "url": "https://www.crexi.com/properties/2737086/georgia-milam-bridge-mhp",
+      "pop3": 8221,
+      "tier": "secondary",
+      "price": 2700000.0
+    },
+    {
+      "id": 2783182,
+      "name": "Brigham Village Mobile Home Community",
+      "city": "Brigham City",
+      "state": "UT",
+      "cap": 7.0,
+      "url": "https://www.crexi.com/properties/2783182/utah-410-n-main-st",
+      "pop3": 19898,
+      "tier": "secondary",
+      "price": 3499000.0
+    },
+    {
+      "id": 2299707,
+      "name": "Adel Manufactured Housing Community",
+      "city": "Adel",
+      "state": "GA",
+      "cap": 5.22,
+      "url": "https://www.crexi.com/properties/2299707/georgia-adel-manufactured-housing-community",
+      "pop3": 5030,
+      "tier": "secondary",
+      "price": 1250000.0
+    }
+  ]
+}
