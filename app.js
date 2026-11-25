@@ -746,6 +746,7 @@ function firstNum(s) {
   const m = String(s).replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
   return m ? parseFloat(m[0]) : null;
 }
+function byId(id) { return document.getElementById(id); }
 function esc(s) {
   return String(s == null ? "" : s)
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -1758,10 +1759,17 @@ function applyCardSize() {
 
 function renderToolbarState() {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
-  document.getElementById("viewCards").classList.toggle("active", view === "cards");
-  document.getElementById("viewTable").classList.toggle("active", view === "table");
-  document.getElementById("modeMulti").classList.toggle("active", sortMode === "multi");
-  document.getElementById("modeSingle").classList.toggle("active", sortMode === "single");
+  const viewCards = byId("viewCards"); if (viewCards) viewCards.classList.toggle("active", view === "cards");
+  const viewTable = byId("viewTable"); if (viewTable) viewTable.classList.toggle("active", view === "table");
+  const modeMulti = byId("modeMulti"); if (modeMulti) modeMulti.classList.toggle("active", sortMode === "multi");
+  const modeSingle = byId("modeSingle"); if (modeSingle) modeSingle.classList.toggle("active", sortMode === "single");
+  const sortState = byId("sortState");
+  if (sortState) {
+    const label = sorts.length
+      ? sorts.map((s, i) => (i + 1) + ". " + ((COLS[s.key] && COLS[s.key].label) || s.key) + (s.dir === "asc" ? " ↑" : " ↓")).join(" · ")
+      : "Default: price (high to low)";
+    sortState.textContent = (sortMode === "multi" ? "Multi-sort: " : "Single sort: ") + label;
+  }
   const wrap = document.getElementById("savedGroupWrap");
   if (wrap) wrap.hidden = tab !== "crexi_saved";
   const nDel = deletedInUniverse().length;
@@ -1785,7 +1793,7 @@ function renderToolbarState() {
 function render() {
   renderToolbarState();
   const rows = filtered();
-  document.getElementById("shown").textContent = `${rows.length} shown`;
+  const shown = byId("shown"); if (shown) shown.textContent = `${rows.length} shown`;
   renderList(rows);
   updateMap(rows);
 }
