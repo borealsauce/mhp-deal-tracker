@@ -60,9 +60,13 @@
           <button type="button" class="btn size" data-card-size="m">M</button>
           <button type="button" class="btn size" data-card-size="l">L</button>
         </span>
+        <label class="map-width-ctrl" id="mapWidthWrap" title="Width of the map on the right">
+          <span class="seg-label">Map</span>
+          <input type="range" id="mapWidth" min="20" max="70" step="1" aria-label="Map width">
+        </label>
       </div>
     </div>
-    <div class="sort-mode" id="sortState"></div>
+    <div class="sort-bar" id="sortBar"></div>
   </div>
 
   <div id="toast" class="toast" hidden>
@@ -70,7 +74,7 @@
     <button type="button" class="btn" id="toastUndo">Undo</button>
   </div>
 
-  <div class="split">
+  <div class="split" id="split">
     <div class="list-pane" id="list"></div>
     <div class="map-pane">
       <div id="map"></div>

@@ -12,6 +12,7 @@ const LS = {
   colOrder: "mhpDealTracker.colOrder.v1",
   colWidths: "mhpDealTracker.colWidths.v1",
   cardSize: "mhpDealTracker.cardSize.v1",
+  mapWidth: "mhpDealTracker.mapWidth.v1",
   notes: "mhpDealTracker.notes.v1",
   cap: "mhpDealTracker.capOverride.v1",
   deleted: "mhpDealTracker.deleted.v1",
@@ -81,9 +82,21 @@ const COLS = {
   market_cap: { label: "Market Cap", type: "pct" },
   vs_ask: { label: "Value vs Ask", type: "num" },
   mynotes: { label: "My Notes", type: "notes" },
+  noi: { label: "NOI", type: "num" },
+  ppl: { label: "Price / pad", type: "num" },
+  acres: { label: "Acres", type: "num" },
+  added: { label: "Date added", type: "num" },
   sel: { label: "", type: "sel" },
   act: { label: "", type: "act" },
 };
+
+/* Fields shown in the sort dropdown (card and table). */
+const SORT_FIELDS = [
+  "price","est_value","purchase_cap","market_cap","vs_ask","score",
+  "pads","toh","poh","occupancy","cap","noi","ppl","acres","pop3",
+  "city","state","name","is_new","added","mynotes","note",
+  "utilities","sf_terms","status","type","missing","broker","chase",
+];
 
 const MAIN_COLS = ["sel","status","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","is_new","note","mynotes","act"];
 const MISS_COLS = ["sel","chase","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","missing","broker","phone","email","pads","toh","poh","score","occupancy","utilities","pop3","is_new","note","mynotes","act"];
@@ -101,6 +114,7 @@ let tab = "all_qualified";
 let colOrder = { main: null, miss: null };
 let colWidths = {};
 let cardSize = "m";
+let mapWidth = 48;
 let showDeleted = false;
 let selectedKeys = new Set();
 let toastTimer = null;
@@ -133,6 +147,23 @@ function setScoreOverride(id, v) {
 function money(p) {
   if (p == null || p === "") return "Unpriced";
   return "$" + Number(p).toLocaleString("en-US", { maximumFractionDigits: 0 });
+}
+function moneyCompact(p) {
+  if (p == null || p === "" || isNaN(Number(p))) return "Unpriced";
+  const v = Number(p);
+  const sign = v < 0 ? "-" : "";
+  const abs = Math.abs(v);
+  if (abs >= 1000000) {
+    const m = abs / 1000000;
+    const s = (m >= 10 ? m.toFixed(1) : m.toFixed(2)).replace(/\.?0+$/, "");
+    return sign + "$" + s + "M";
+  }
+  if (abs >= 1000) {
+    const k = abs / 1000;
+    const s = (k >= 100 ? String(Math.round(k)) : k.toFixed(k >= 10 ? 0 : 1)).replace(/\.0$/, "");
+    return sign + "$" + s + "k";
+  }
+  return sign + "$" + Math.round(abs).toLocaleString("en-US");
 }
 function listingKey(row) {
   if (row && row.id != null && row.id !== "") return String(row.id);
@@ -1037,6 +1068,23 @@ function sortValue(row, key) {
     return info.vsAsk;
   }
   if (key === "mynotes") return (getNotes(row) || "").toLowerCase();
+  if (key === "noi") {
+    const fromRow = parseMoneyish(row.noi);
+    if (fromRow != null) return fromRow;
+    const ev = estValueInfo(row);
+    return ev && ev.noi != null ? ev.noi : null;
+  }
+  if (key === "ppl") {
+    const price = row.price;
+    const pads = firstNum(row.pads);
+    if (price == null || price === "" || pads == null || pads <= 0) return null;
+    return price / pads;
+  }
+  if (key === "acres") return firstNum(row.acres);
+  if (key === "added") {
+    const n = Number(row.id);
+    return isNaN(n) ? null : n;
+  }
   const v = row[key];
   return v == null ? "" : String(v).toLowerCase();
 }
@@ -1083,7 +1131,7 @@ function onHeaderClick(key) {
 }
 
 function defaultDir(key) {
-  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask" || key === "purchase_cap" || key === "market_cap") ? "desc" : "asc";
+  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask" || key === "purchase_cap" || key === "market_cap" || key === "noi" || key === "ppl" || key === "acres" || key === "added") ? "desc" : "asc";
 }
 function clearSorts() { sorts = []; saveJSON(LS.sorts, sorts); render(); }
 function setSortMode(mode) {
@@ -1153,8 +1201,16 @@ function cardHTML(row) {
   if (row.acres) facts.push(row.acres + " ac");
   const flagLines = (row.score_flags || []).map(f => `<div class="flag-line">${esc(f)}</div>`).join("");
   const ev = estValueInfo(row);
-  const vsCls = ev.insufficient ? "" : ("vs-ask " + (ev.edited ? "edited" : (ev.color || "")));
-  const vs = ev.insufficient ? "" : `<span class="${vsCls}" title="${esc(ev.tooltip)}">${esc(vsAskLabel(ev))}</span>`;
+  const vsCls = ev.insufficient ? "" : ("vs-ask pct " + (ev.edited ? "edited" : (ev.color || "")));
+  const estCls = ev.insufficient ? "est-bit" : ("est-bit vs-ask " + (ev.edited ? "edited" : (ev.color || "")));
+  const askLabel = moneyCompact(row.price);
+  let compare;
+  if (ev.insufficient) {
+    compare = `<div class="price-compare"><span class="ask">${esc(askLabel)}</span></div>`;
+  } else {
+    const pct = ev.vsAsk == null ? "" : ` <span class="${vsCls}">· ${esc(vsAskLabel(ev))}</span>`;
+    compare = `<div class="price-compare" title="${esc(ev.tooltip)}"><span class="ask">${esc(askLabel)}</span><span class="sep">/</span><button type="button" class="${estCls}" data-value-edit="${esc(listingKey(row))}" onclick="event.stopPropagation()">Est. ${esc(moneyCompact(ev.value))}</button>${pct}</div>`;
+  }
   const resetBtn = ev.edited ? ` <button type="button" class="reset-est" data-est-reset="${esc(listingKey(row))}" title="Reset to calculated value" onclick="event.stopPropagation()">Reset</button>` : "";
   const editedMark = ev.edited ? ` <span class="edited-mark">edited</span>` : "";
   const estLine = ev.insufficient
@@ -1173,7 +1229,7 @@ function cardHTML(row) {
       <div class="card-media-pills">${pills(row)}</div>
     </div>
     <div class="card-body">
-      <div class="price-row"><div class="price">${money(row.price)}</div>${vs}</div>
+      <div class="price-row">${compare}</div>
       <h3><a href="${esc(row.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(row.name)}</a></h3>
       <div class="meta">${esc(row.city)}, ${esc(row.state)}${row.address ? " · " + esc(row.address) : ""}</div>
       <div class="facts">${facts.map(f => `<span>${esc(f)}</span>`).join("")}</div>
@@ -1606,6 +1662,90 @@ function renderCounts() {
     `<span><i class="dot" style="background:#6B4C9A"></i>Crexi saved ${savedCount}</span>`;
 }
 
+function clampMapWidth(n) {
+  const v = Number(n);
+  if (isNaN(v)) return 48;
+  return Math.max(20, Math.min(70, Math.round(v)));
+}
+function applyMapWidth() {
+  const split = document.getElementById("split") || document.querySelector(".split");
+  if (split) split.style.setProperty("--map-width", mapWidth + "%");
+  const slider = document.getElementById("mapWidth");
+  if (slider && String(slider.value) !== String(mapWidth)) slider.value = String(mapWidth);
+  if (map && typeof map.invalidateSize === "function") {
+    setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 40);
+  }
+}
+
+function visibleSorts() {
+  return sorts.length ? sorts.slice() : [{ key: "price", dir: "desc", implicit: true }];
+}
+function materializeSorts() {
+  if (!sorts.length) sorts = [{ key: "price", dir: "desc" }];
+}
+function sortOptionsHTML(selected, used) {
+  return SORT_FIELDS.filter(k => COLS[k] && COLS[k].label).map(k => {
+    const disabled = k !== selected && used[k] ? " disabled" : "";
+    const sel = k === selected ? " selected" : "";
+    return `<option value="${esc(k)}"${sel}${disabled}>${esc(COLS[k].label)}</option>`;
+  }).join("");
+}
+function renderSortBar() {
+  const bar = document.getElementById("sortBar");
+  if (!bar) return;
+  const list = visibleSorts();
+  const used = {};
+  list.forEach(s => { used[s.key] = true; });
+  const chips = list.map((s, i) => {
+    const num = sortMode === "multi" ? `<span class="sort-num">${i + 1}.</span>` : "";
+    const arrow = s.dir === "asc" ? "↑" : "↓";
+    const dirTitle = s.dir === "asc" ? "Ascending — click for descending" : "Descending — click for ascending";
+    const remove = (sortMode === "multi" && sorts.length) ? `<button type="button" class="sort-remove" data-sort-remove="${i}" title="Remove this sort" aria-label="Remove sort">×</button>` : "";
+    return `<div class="sort-chip">${num}<select data-sort-index="${i}" aria-label="Sort field">${sortOptionsHTML(s.key, used)}</select><button type="button" class="sort-dir" data-sort-dir="${i}" title="${esc(dirTitle)}" aria-label="Sort direction">${arrow}</button>${remove}</div>`;
+  }).join("");
+  const add = sortMode === "multi"
+    ? `<button type="button" class="sort-add" id="addSort">+ Add sort</button>`
+    : "";
+  bar.innerHTML = `<span class="sort-label">Sort</span>${chips}${add}`;
+}
+function setSortAt(index, key) {
+  materializeSorts();
+  if (sortMode === "single") {
+    sorts = [{ key, dir: sorts[0] && sorts[0].key === key ? sorts[0].dir : defaultDir(key) }];
+  } else {
+    if (index < 0 || index >= sorts.length) return;
+    const used = new Set(sorts.map(s => s.key));
+    used.delete(sorts[index].key);
+    if (used.has(key)) return;
+    sorts[index] = { key, dir: defaultDir(key) };
+  }
+  saveJSON(LS.sorts, sorts);
+  render();
+}
+function toggleSortDir(index) {
+  materializeSorts();
+  if (index < 0 || index >= sorts.length) return;
+  sorts[index].dir = sorts[index].dir === "asc" ? "desc" : "asc";
+  saveJSON(LS.sorts, sorts);
+  render();
+}
+function removeSortAt(index) {
+  materializeSorts();
+  if (index < 0 || index >= sorts.length) return;
+  sorts.splice(index, 1);
+  saveJSON(LS.sorts, sorts);
+  render();
+}
+function addSort() {
+  materializeSorts();
+  const used = new Set(sorts.map(s => s.key));
+  const next = SORT_FIELDS.find(k => COLS[k] && COLS[k].label && !used.has(k));
+  if (!next) return;
+  sorts.push({ key: next, dir: defaultDir(next) });
+  saveJSON(LS.sorts, sorts);
+  render();
+}
+
 function applyCardSize() {
   document.body.classList.remove("card-s", "card-m", "card-l", "map-hidden");
   document.body.classList.add("card-" + (cardSize === "s" || cardSize === "l" ? cardSize : "m"));
@@ -1624,10 +1764,6 @@ function renderToolbarState() {
   document.getElementById("modeSingle").classList.toggle("active", sortMode === "single");
   const wrap = document.getElementById("savedGroupWrap");
   if (wrap) wrap.hidden = tab !== "crexi_saved";
-  const label = sorts.length
-    ? sorts.map((s,i) => `${i+1}. ${COLS[s.key]?.label || s.key} ${s.dir==="asc"?"↑":"↓"}`).join(" · ")
-    : "Default: price (high to low)";
-  document.getElementById("sortState").textContent = (sortMode === "multi" ? "Multi-sort: " : "Single sort: ") + label;
   const nDel = deletedInUniverse().length;
   const showDel = document.getElementById("showDeleted");
   if (showDel) {
@@ -1642,6 +1778,8 @@ function renderToolbarState() {
     delSel.hidden = showDeleted;
   }
   applyCardSize();
+  applyMapWidth();
+  renderSortBar();
 }
 
 function render() {
@@ -1698,6 +1836,33 @@ function bindChrome() {
       applyCardSize();
     });
   });
+  const sortBar = document.getElementById("sortBar");
+  if (sortBar) {
+    sortBar.addEventListener("change", ev => {
+      const sel = ev.target.closest("select[data-sort-index]");
+      if (!sel) return;
+      setSortAt(+sel.dataset.sortIndex, sel.value);
+    });
+    sortBar.addEventListener("click", ev => {
+      const dir = ev.target.closest("[data-sort-dir]");
+      if (dir) { toggleSortDir(+dir.dataset.sortDir); return; }
+      const rm = ev.target.closest("[data-sort-remove]");
+      if (rm) { removeSortAt(+rm.dataset.sortRemove); return; }
+      if (ev.target.closest("#addSort")) addSort();
+    });
+  }
+  const mapSlider = document.getElementById("mapWidth");
+  if (mapSlider) {
+    mapSlider.addEventListener("input", () => {
+      mapWidth = clampMapWidth(mapSlider.value);
+      applyMapWidth();
+    });
+    mapSlider.addEventListener("change", () => {
+      mapWidth = clampMapWidth(mapSlider.value);
+      saveJSON(LS.mapWidth, mapWidth);
+      applyMapWidth();
+    });
+  }
   const showDel = document.getElementById("showDeleted");
   if (showDel) {
     showDel.addEventListener("click", () => {
@@ -1818,6 +1983,7 @@ function main() {
   } catch (e) {}
   const savedSize = loadJSON(LS.cardSize, "m");
   cardSize = (savedSize === "s" || savedSize === "l") ? savedSize : "m";
+  mapWidth = clampMapWidth(loadJSON(LS.mapWidth, 48));
   showDeleted = loadJSON(LS.showDeleted, false) === true;
   return Promise.all([
     fetch(DATA_URL).then(res => {
