@@ -49,7 +49,7 @@ button, select, input { font: inherit; }
   flex-direction: column;
   gap: 8px;
 }
-.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .tab {
   border: 1px solid var(--line);
   background: #fff;
@@ -62,6 +62,25 @@ button, select, input { font: inherit; }
 .tab:hover { border-color: #c5cad1; }
 .tab.active { background: #0f1720; color: #fff; border-color: #0f1720; }
 .tab .n { font-weight: 650; margin-left: 4px; }
+.seg-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fff;
+}
+.seg-tabs .tab {
+  border: 0;
+  border-radius: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+}
+.seg-tabs .tab:last-child { border-right: 0; }
+.seg-tabs .tab:hover { background: #f3f4f6; }
+.seg-tabs .tab.active { background: #0f1720; color: #fff; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .filters input[type="search"], .filters input[type="number"], .filters select {
   border: 1px solid var(--line);
@@ -244,6 +263,26 @@ body.card-s .pill { font-size: 10px; padding: 1px 5px; }
 .score-none { background: #e5e7eb; color: #4b5563; }
 .score-badge.overridden { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0f1720; }
 .score-badge.in-table.overridden { box-shadow: 0 0 0 2px #0f1720; }
+
+.dom-badge {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 32, .82);
+  color: #fff;
+  line-height: 1.2;
+  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  white-space: nowrap;
+  pointer-events: auto;
+}
+body.card-s .dom-badge { left: 6px; bottom: 6px; font-size: 10px; padding: 2px 6px; }
+body.card-m .dom-badge { left: 8px; bottom: 8px; }
 
 .table-wrap { overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
 table.grid { width: 100%; min-width: 1100px; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
@@ -459,15 +498,31 @@ table.grid tbody tr.deleted { opacity: .7; background: #faf7f5; }
 }
 .sort-dir:hover, .sort-remove:hover, .sort-add:hover { background: #f3f4f6; }
 .sort-add { color: var(--blue); font-weight: 650; border: 1px dashed var(--line); background: #fff; }
+.map-ctrls {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: 4px;
+}
 .map-width-ctrl {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-size: 12px;
   color: var(--muted);
-  margin-left: 4px;
 }
 .map-width-ctrl input[type="range"] { width: 90px; accent-color: #0f1720; cursor: pointer; }
+#mapToggle.active { background: #0f1720; color: #fff; border-color: #0f1720; }
+#onlyOnMapWrap[hidden], #mapWidthWrap[hidden] { display: none !important; }
+
+/* Map off: list takes the full width; cards reflow into more columns. Map stays a right-hand pane when on. */
+body.map-off .split { grid-template-columns: 1fr; }
+body.map-off .map-pane { display: none !important; }
+body.map-off .cards { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+body.map-off.card-s .cards { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+body.map-off.card-m .cards { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+body.map-off.card-l .cards { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 .price-compare {
   display: flex;
   flex-wrap: wrap;
@@ -493,6 +548,10 @@ body.card-s .price-compare .pct { font-size: 12px; }
   .filters input[type="search"] { width: 100%; }
   .map-width-ctrl { display: none !important; }
   body.card-s .cards, body.card-m .cards, body.card-l .cards {
+    grid-template-columns: 1fr;
+  }
+  body.map-off .split { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+  body.map-off.card-s .cards, body.map-off.card-m .cards, body.map-off.card-l .cards {
     grid-template-columns: 1fr;
   }
 }

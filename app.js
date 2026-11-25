@@ -13,6 +13,8 @@ const LS = {
   colWidths: "mhpDealTracker.colWidths.v1",
   cardSize: "mhpDealTracker.cardSize.v1",
   mapWidth: "mhpDealTracker.mapWidth.v1",
+  showMap: "mhpDealTracker.showMap.v2",
+  onlyOnMap: "mhpDealTracker.onlyOnMap.v1",
   notes: "mhpDealTracker.notes.v1",
   cap: "mhpDealTracker.capOverride.v1",
   deleted: "mhpDealTracker.deleted.v1",
@@ -22,7 +24,7 @@ const LS = {
 
 const GROUPS = {
   seller_financing: { label: "Seller financing", color: "#12875A", pill: "sf", short: "Seller financing" },
-  other_passes: { label: "Other passes", color: "#2B6CB0", pill: "pass", short: "Other pass" },
+  other_passes: { label: "No seller financing", color: "#2B6CB0", pill: "pass", short: "No SF" },
   missing_info: { label: "Missing info — chase broker", color: "#C05621", pill: "miss", short: "Missing info" },
   saved_mhp: { label: "Crexi saved — MHP", color: "#12875A", pill: "sf", short: "Saved MHP" },
   saved_nnn: { label: "Crexi saved — NNN", color: "#6B4C9A", pill: "nnn", short: "Saved NNN" },
@@ -86,21 +88,22 @@ const COLS = {
   ppl: { label: "Price / pad", type: "num" },
   acres: { label: "Acres", type: "num" },
   added: { label: "Date added", type: "num" },
+  dom: { label: "Days on Mkt", type: "num" },
   sel: { label: "", type: "sel" },
   act: { label: "", type: "act" },
 };
 
 /* Fields shown in the sort dropdown (card and table). */
 const SORT_FIELDS = [
-  "price","est_value","purchase_cap","market_cap","vs_ask","score",
+  "price","est_value","purchase_cap","market_cap","vs_ask","score","dom",
   "pads","toh","poh","occupancy","cap","noi","ppl","acres","pop3",
   "city","state","name","is_new","added","mynotes","note",
   "utilities","sf_terms","status","type","missing","broker","chase",
 ];
 
-const MAIN_COLS = ["sel","status","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","is_new","note","mynotes","act"];
-const MISS_COLS = ["sel","chase","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","missing","broker","phone","email","pads","toh","poh","score","occupancy","utilities","pop3","is_new","note","mynotes","act"];
-const SAVED_COLS = ["sel","status","name","type","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","cap","occupancy","utilities","pop3","sf_terms","note","mynotes","act"];
+const MAIN_COLS = ["sel","status","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","dom","cap","occupancy","utilities","pop3","sf_terms","is_new","note","mynotes","act"];
+const MISS_COLS = ["sel","chase","name","city","state","price","est_value","purchase_cap","market_cap","vs_ask","missing","broker","phone","email","pads","toh","poh","score","dom","occupancy","utilities","pop3","is_new","note","mynotes","act"];
+const SAVED_COLS = ["sel","status","name","type","city","state","price","est_value","purchase_cap","market_cap","vs_ask","pads","toh","poh","score","dom","cap","occupancy","utilities","pop3","sf_terms","note","mynotes","act"];
 const SKIP_SORT = { sel: true, act: true };
 
 let DATA = { listings: [], saved: [], as_of_label: "" };
@@ -115,6 +118,9 @@ let colOrder = { main: null, miss: null };
 let colWidths = {};
 let cardSize = "m";
 let mapWidth = 48;
+let showMap = true;
+let onlyOnMap = false;
+let lastMapIdKey = "";
 let showDeleted = false;
 let selectedKeys = new Set();
 let toastTimer = null;
@@ -806,12 +812,17 @@ function savedGroupValue() {
   return el ? el.value : "MHP";
 }
 
-function filtered() {
-  const q = (document.getElementById("q").value || "").trim().toLowerCase();
-  const st = document.getElementById("state").value;
-  const pmin = firstNum(document.getElementById("pmin").value);
-  const pmax = firstNum(document.getElementById("pmax").value);
-  const onlyNew = document.getElementById("onlyNew").checked;
+function filterCore() {
+  const qEl = byId("q");
+  const stEl = byId("state");
+  const pminEl = byId("pmin");
+  const pmaxEl = byId("pmax");
+  const onlyNewEl = byId("onlyNew");
+  const q = ((qEl && qEl.value) || "").trim().toLowerCase();
+  const st = stEl ? stEl.value : "";
+  const pmin = firstNum(pminEl ? pminEl.value : "");
+  const pmax = firstNum(pmaxEl ? pmaxEl.value : "");
+  const onlyNew = !!(onlyNewEl && onlyNewEl.checked);
   let list;
   if (tab === "crexi_saved") {
     list = (DATA.saved || []).slice();
@@ -833,6 +844,21 @@ function filtered() {
     });
   }
   return sortList(list);
+}
+function inMapViewport(row) {
+  if (!map || row.lat == null || row.lng == null) return false;
+  try {
+    return map.getBounds().contains([row.lat, row.lng]);
+  } catch (e) {
+    return false;
+  }
+}
+function applyMapViewportFilter(list) {
+  if (!onlyOnMap || !showMap) return list;
+  return list.filter(inMapViewport);
+}
+function filtered() {
+  return applyMapViewportFilter(filterCore());
 }
 
 /* ---------- Deal score ---------- */
@@ -1031,6 +1057,40 @@ function promptScore(row) {
   render();
 }
 
+function parseListedOn(row) {
+  const s = row && row.listed_on;
+  if (!s) return null;
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d;
+}
+function daysOnMarket(row) {
+  const d = parseListedOn(row);
+  if (!d) return null;
+  const now = new Date();
+  const start = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const days = Math.round((today - start) / 86400000);
+  return days < 0 ? 0 : days;
+}
+function listedOnLabel(d) {
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+function domTooltip(row) {
+  const d = parseListedOn(row);
+  const n = daysOnMarket(row);
+  if (d == null || n == null) {
+    return "Days on market unknown — no Crexi list date (activatedOn) in the data.";
+  }
+  const src = row.listed_on_source || "Crexi activatedOn";
+  const unit = n === 1 ? "day" : "days";
+  return n + " " + unit + " on market. Listed " + listedOnLabel(d) + " (" + src + "). Counted from that date to today.";
+}
+function domBadgeHTML(row) {
+  const n = daysOnMarket(row);
+  if (n == null) return "";
+  return `<span class="dom-badge" title="${esc(domTooltip(row))}">${n} DOM</span>`;
+}
+
 function scoreBadgeHTML(row, extraClass) {
   const info = scoreInfo(row);
   const v = info.value;
@@ -1086,6 +1146,7 @@ function sortValue(row, key) {
     const n = Number(row.id);
     return isNaN(n) ? null : n;
   }
+  if (key === "dom") return daysOnMarket(row);
   const v = row[key];
   return v == null ? "" : String(v).toLowerCase();
 }
@@ -1132,7 +1193,7 @@ function onHeaderClick(key) {
 }
 
 function defaultDir(key) {
-  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask" || key === "purchase_cap" || key === "market_cap" || key === "noi" || key === "ppl" || key === "acres" || key === "added") ? "desc" : "asc";
+  return (key === "price" || key === "cap" || key === "occupancy" || key === "pop3" || key === "is_new" || key === "score" || key === "toh" || key === "poh" || key === "est_value" || key === "vs_ask" || key === "purchase_cap" || key === "market_cap" || key === "noi" || key === "ppl" || key === "acres" || key === "added" || key === "dom") ? "desc" : "asc";
 }
 function clearSorts() { sorts = []; saveJSON(LS.sorts, sorts); render(); }
 function setSortMode(mode) {
@@ -1226,6 +1287,7 @@ function cardHTML(row) {
     <div class="card-media">
       ${cardPhoto(row)}
       ${scoreBadgeHTML(row, "on-photo")}
+      ${domBadgeHTML(row)}
       ${delBtn}
       <div class="card-media-pills">${pills(row)}</div>
     </div>
@@ -1285,6 +1347,11 @@ function cellHTML(row, k) {
   if (k === "pads") return esc(dash(row.pads));
   if (k === "toh" || k === "poh") return esc(countFmt(row[k]));
   if (k === "score") return scoreBadgeHTML(row, "in-table");
+  if (k === "dom") {
+    const n = daysOnMarket(row);
+    if (n == null) return `<span title="${esc(domTooltip(row))}">—</span>`;
+    return `<span title="${esc(domTooltip(row))}">${n}</span>`;
+  }
   if (k === "cap") return esc(dash(row.cap));
   if (k === "occupancy") return esc(dash(row.occupancy));
   if (k === "utilities") return esc(dash(row.utilities));
@@ -1340,7 +1407,7 @@ function popupHTML(row) {
     <div class="p">${money(row.price)}</div>
     <div class="n">${esc(row.name)}</div>
     <div class="meta">${esc(row.city)}, ${esc(row.state)}</div>
-    <div class="facts"><span>${dash(row.pads)} pads</span><span>TOH ${countFmt(row.toh)}</span><span>POH ${countFmt(row.poh)}</span><span>Score ${esc(score)}</span>${estValueInfo(row).value!=null?`<span>Est. ${esc(money(Math.round(estValueInfo(row).value)))}</span>`:""}</div>
+    <div class="facts"><span>${dash(row.pads)} pads</span><span>TOH ${countFmt(row.toh)}</span><span>POH ${countFmt(row.poh)}</span><span>Score ${esc(score)}</span>${daysOnMarket(row)!=null?`<span>${daysOnMarket(row)} DOM</span>`:""}${estValueInfo(row).value!=null?`<span>Est. ${esc(money(Math.round(estValueInfo(row).value)))}</span>`:""}</div>
     ${miss}
     <div style="margin-top:6px"><a href="${esc(row.url)}" target="_blank" rel="noopener">Open on Crexi</a></div>
   </div>`;
@@ -1558,6 +1625,10 @@ function exportCell(row, k) {
     const info = scoreInfo(row);
     return info.value == null ? "" : info.value;
   }
+  if (k === "dom") {
+    const n = daysOnMarket(row);
+    return n == null ? "" : n;
+  }
   if (k === "type") return row.property_type || row.type || "";
   if (k === "est_value") {
     const ev = estValueInfo(row);
@@ -1618,9 +1689,11 @@ function updateMap(rows) {
     markerById[row.id] = m;
     pts.push([row.lat, row.lng]);
   });
-  if (pts.length) {
-    const b = L.latLngBounds(pts);
-    if (!selectedId) map.fitBounds(b.pad(0.15));
+  const idKey = rows.map(r => r.id).slice().sort().join(",");
+  const idsChanged = idKey !== lastMapIdKey;
+  lastMapIdKey = idKey;
+  if (pts.length && !selectedId && idsChanged) {
+    map.fitBounds(L.latLngBounds(pts).pad(0.15));
   }
   if (selectedId && markerById[selectedId]) {
     markerById[selectedId].setIcon(pinIcon((GROUPS[(findRow(selectedId)||{}).group]||{}).color || "#666", true));
@@ -1649,18 +1722,21 @@ function selectListing(id, fromList) {
 function renderCounts() {
   const all = (DATA.listings || []).filter(x => !isDeleted(x));
   const n = g => all.filter(x => x.group === g).length;
-  document.getElementById("n-all").textContent = n("seller_financing") + n("other_passes");
-  document.getElementById("n-sf").textContent = n("seller_financing");
-  document.getElementById("n-pass").textContent = n("other_passes");
-  document.getElementById("n-miss").textContent = n("missing_info");
+  const setTxt = (id, val) => { const el = byId(id); if (el) el.textContent = val; };
+  setTxt("n-all", n("seller_financing") + n("other_passes"));
+  setTxt("n-sf", n("seller_financing"));
+  setTxt("n-pass", n("other_passes"));
+  setTxt("n-miss", n("missing_info"));
   const savedCount = (DATA.saved || []).filter(x => !isDeleted(x)).length;
-  const savedEl = document.getElementById("n-saved");
-  if (savedEl) savedEl.textContent = savedCount;
-  document.getElementById("hdr-counts").innerHTML =
-    `<span><i class="dot" style="background:#12875A"></i>Seller financing ${n("seller_financing")}</span>` +
-    `<span><i class="dot" style="background:#2B6CB0"></i>Other passes ${n("other_passes")}</span>` +
-    `<span><i class="dot" style="background:#C05621"></i>Missing info ${n("missing_info")}</span>` +
-    `<span><i class="dot" style="background:#6B4C9A"></i>Crexi saved ${savedCount}</span>`;
+  setTxt("n-saved", savedCount);
+  const hdr = byId("hdr-counts");
+  if (hdr) {
+    hdr.innerHTML =
+      `<span><i class="dot" style="background:#12875A"></i>Seller financing ${n("seller_financing")}</span>` +
+      `<span><i class="dot" style="background:#2B6CB0"></i>No seller financing ${n("other_passes")}</span>` +
+      `<span><i class="dot" style="background:#C05621"></i>Missing info ${n("missing_info")}</span>` +
+      `<span><i class="dot" style="background:#6B4C9A"></i>Crexi saved ${savedCount}</span>`;
+  }
 }
 
 function clampMapWidth(n) {
@@ -1673,9 +1749,26 @@ function applyMapWidth() {
   if (split) split.style.setProperty("--map-width", mapWidth + "%");
   const slider = document.getElementById("mapWidth");
   if (slider && String(slider.value) !== String(mapWidth)) slider.value = String(mapWidth);
-  if (map && typeof map.invalidateSize === "function") {
+  if (showMap && map && typeof map.invalidateSize === "function") {
     setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 40);
   }
+}
+function applyMapVisibility() {
+  document.body.classList.toggle("map-off", !showMap);
+  document.body.classList.remove("map-hidden");
+  const btn = byId("mapToggle");
+  if (btn) {
+    btn.textContent = showMap ? "Map: On" : "Map: Off";
+    btn.setAttribute("aria-pressed", showMap ? "true" : "false");
+    btn.classList.toggle("active", showMap);
+  }
+  const widthWrap = byId("mapWidthWrap");
+  if (widthWrap) widthWrap.hidden = !showMap;
+  const onlyWrap = byId("onlyOnMapWrap");
+  if (onlyWrap) onlyWrap.hidden = !showMap;
+  const onlyBox = byId("onlyOnMap");
+  if (onlyBox && onlyBox.checked !== !!onlyOnMap) onlyBox.checked = !!onlyOnMap;
+  if (showMap) applyMapWidth();
 }
 
 function visibleSorts() {
@@ -1786,16 +1879,22 @@ function renderToolbarState() {
     delSel.hidden = showDeleted;
   }
   applyCardSize();
-  applyMapWidth();
+  applyMapVisibility();
   renderSortBar();
 }
 
 function render() {
   renderToolbarState();
-  const rows = filtered();
-  const shown = byId("shown"); if (shown) shown.textContent = `${rows.length} shown`;
+  const core = filterCore();
+  const rows = applyMapViewportFilter(core);
+  const shown = byId("shown");
+  if (shown) {
+    shown.textContent = (onlyOnMap && showMap)
+      ? `${rows.length} shown on map`
+      : `${rows.length} shown`;
+  }
   renderList(rows);
-  updateMap(rows);
+  updateMap(core);
 }
 
 function fillStates() {
@@ -1818,6 +1917,14 @@ function initMap() {
   }).addTo(map);
   map.setView([39.5, -98.35], 4);
   markersLayer = L.layerGroup().addTo(map);
+  map.on("moveend zoomend", () => {
+    if (!onlyOnMap || !showMap) return;
+    const core = filterCore();
+    const rows = applyMapViewportFilter(core);
+    const shown = byId("shown");
+    if (shown) shown.textContent = `${rows.length} shown on map`;
+    renderList(rows);
+  });
 }
 
 function bindChrome() {
@@ -1869,6 +1976,24 @@ function bindChrome() {
       mapWidth = clampMapWidth(mapSlider.value);
       saveJSON(LS.mapWidth, mapWidth);
       applyMapWidth();
+    });
+  }
+  const mapToggle = byId("mapToggle");
+  if (mapToggle) {
+    mapToggle.addEventListener("click", () => {
+      showMap = !showMap;
+      saveJSON(LS.showMap, showMap);
+      lastMapIdKey = "";
+      applyMapVisibility();
+      render();
+    });
+  }
+  const onlyBox = byId("onlyOnMap");
+  if (onlyBox) {
+    onlyBox.addEventListener("change", () => {
+      onlyOnMap = !!onlyBox.checked;
+      saveJSON(LS.onlyOnMap, onlyOnMap);
+      render();
     });
   }
   const showDel = document.getElementById("showDeleted");
@@ -1985,13 +2110,12 @@ function main() {
   tab = loadJSON(LS.tab, "all_qualified") || "all_qualified";
   colOrder = loadJSON(LS.colOrder, { main: null, miss: null, saved: null }) || { main: null, miss: null, saved: null };
   colWidths = loadJSON(LS.colWidths, {}) || {};
-  try {
-    localStorage.removeItem("mhpDealTracker.showMap.v1");
-    localStorage.removeItem("mhpDealTracker.mapWidth.v1");
-  } catch (e) {}
+  try { localStorage.removeItem("mhpDealTracker.showMap.v1"); } catch (e) {}
   const savedSize = loadJSON(LS.cardSize, "m");
   cardSize = (savedSize === "s" || savedSize === "l") ? savedSize : "m";
   mapWidth = clampMapWidth(loadJSON(LS.mapWidth, 48));
+  showMap = loadJSON(LS.showMap, true) !== false;
+  onlyOnMap = loadJSON(LS.onlyOnMap, false) === true;
   showDeleted = loadJSON(LS.showDeleted, false) === true;
   return Promise.all([
     fetch(DATA_URL).then(res => {
@@ -2005,7 +2129,7 @@ function main() {
       DATA.saved = saved.listings || saved.saved || [];
       if (est && typeof est === "object") EST = Object.assign(EST, est);
       enrichFromSaved();
-      document.getElementById("asof").textContent = "As of " + (DATA.as_of_label || DATA.as_of || "");
+      const asof = byId("asof"); if (asof) asof.textContent = "As of " + (DATA.as_of_label || DATA.as_of || "");
       fillStates();
       renderCounts();
       initMap();
@@ -2016,6 +2140,7 @@ function main() {
 }
 
 main().catch(err => {
-  document.getElementById("list").innerHTML = `<div class="empty">Could not load listings.json. ${esc(err.message)}</div>`;
+  const pane = byId("list");
+  if (pane) pane.innerHTML = `<div class="empty">Could not load listings.json. ${esc(err.message)}</div>`;
   console.error(err);
 });

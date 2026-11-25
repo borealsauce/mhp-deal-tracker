@@ -38,7 +38,9 @@
       "poh": 13,
       "noi": "$142,715",
       "acres": "7.23",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2025-05-27T13:11:13.552Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 1982551,
@@ -75,7 +77,9 @@
       "poh": null,
       "noi": "$72,380",
       "acres": "2.94",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2025-06-24T20:16:12.815Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2186148,
@@ -114,7 +118,9 @@
       "acres": "1.68 + 5.71",
       "score_flags": [
         "Two-park portfolio (Cornerstone & Smith). 21 pads combined; NOI is combined."
-      ]
+      ],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2464760,
@@ -151,7 +157,9 @@
       "poh": 9,
       "noi": null,
       "acres": "3.94",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-04-21T20:30:45.471Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 1471980,
@@ -188,7 +196,9 @@
       "poh": 13,
       "noi": "$160,048",
       "acres": "1.32",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-05-12T22:35:31.068Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2550939,
@@ -225,7 +235,9 @@
       "poh": null,
       "noi": null,
       "acres": "8.00",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2551491,
@@ -262,7 +274,9 @@
       "poh": null,
       "noi": null,
       "acres": "1.86",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-05-29T12:25:17.488Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2197328,
@@ -301,7 +315,9 @@
       "acres": "4.00-5.00",
       "score_flags": [
         "Occupancy recorded as 83% (25 of 30 lots occupied per the listing description; the listing field said 100%)."
-      ]
+      ],
+      "listed_on": "2025-10-05T16:59:02.12Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2628170,
@@ -338,7 +354,9 @@
       "poh": null,
       "noi": null,
       "acres": "5.63",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-07-17T13:43:43.227Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2428630,
@@ -375,7 +393,9 @@
       "poh": 16,
       "noi": "$171,267 (2025)",
       "acres": "31.00",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2709097,
@@ -412,7 +432,9 @@
       "poh": null,
       "noi": "$99,679",
       "acres": "7.88",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-09-16T19:02:52.256Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2754473,
@@ -449,7 +471,9 @@
       "poh": 12,
       "noi": "$204,980",
       "acres": "3.28",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-10-19T12:43:19.868Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2737086,
@@ -486,7 +510,9 @@
       "poh": null,
       "noi": "$216,275",
       "acres": "12.18",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-10-06T21:34:02.112Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2655774,
@@ -523,7 +549,9 @@
       "poh": 0,
       "noi": null,
       "acres": "3.60",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-08-07T20:37:26.976Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2783182,
@@ -560,7 +588,9 @@
       "poh": null,
       "noi": null,
       "acres": "3.09",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-11-11T19:18:59.118Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2661179,
@@ -597,7 +627,9 @@
       "poh": 26,
       "noi": null,
       "acres": "2.97",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2026-08-13T13:44:39.275Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2299707,
@@ -634,7 +666,9 @@
       "poh": null,
       "noi": "$65,268",
       "acres": "5.85",
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": "2025-12-11T15:50:45.104Z",
+      "listed_on_source": "Crexi activatedOn"
     },
     {
       "id": 2439090,
@@ -671,7 +705,9 @@
       "poh": null,
       "noi": null,
       "acres": null,
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2319236,
@@ -708,7 +744,9 @@
       "poh": null,
       "noi": null,
       "acres": null,
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2674868,
@@ -745,7 +783,9 @@
       "poh": null,
       "noi": null,
       "acres": null,
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2567252,
@@ -782,7 +822,9 @@
       "poh": null,
       "noi": null,
       "acres": null,
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     },
     {
       "id": 2707509,
@@ -819,7 +861,9 @@
       "poh": null,
       "noi": null,
       "acres": null,
-      "score_flags": []
+      "score_flags": [],
+      "listed_on": null,
+      "listed_on_source": null
     }
   ],
   "as_of_label": "November 22, 2026"

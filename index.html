@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,650;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="styles.css?v=20261124g">
+  <link rel="stylesheet" href="styles.css?v=20261124h">
 </head>
 <body class="card-m">
   <header class="top">
@@ -20,9 +20,11 @@
 
   <div class="toolbar">
     <div class="tabs" role="tablist">
-      <button type="button" class="tab" data-tab="all_qualified">Qualified <span class="n" id="n-all">0</span></button>
-      <button type="button" class="tab" data-tab="seller_financing">Seller financing <span class="n" id="n-sf">0</span></button>
-      <button type="button" class="tab" data-tab="other_passes">Other passes <span class="n" id="n-pass">0</span></button>
+      <div class="seg-tabs" role="group" aria-label="Seller financing filter">
+        <button type="button" class="tab" data-tab="all_qualified">All <span class="n" id="n-all">0</span></button>
+        <button type="button" class="tab" data-tab="seller_financing">Seller financing <span class="n" id="n-sf">0</span></button>
+        <button type="button" class="tab" data-tab="other_passes">No seller financing <span class="n" id="n-pass">0</span></button>
+      </div>
       <button type="button" class="tab" data-tab="missing_info">Missing info — chase broker <span class="n" id="n-miss">0</span></button>
       <button type="button" class="tab" data-tab="crexi_saved">Crexi Saved <span class="n" id="n-saved">0</span></button>
     </div>
@@ -60,10 +62,16 @@
           <button type="button" class="btn size" data-card-size="m">M</button>
           <button type="button" class="btn size" data-card-size="l">L</button>
         </span>
-        <label class="map-width-ctrl" id="mapWidthWrap" title="Width of the map on the right">
-          <span class="seg-label">Map</span>
-          <input type="range" id="mapWidth" min="20" max="70" step="1" aria-label="Map width">
-        </label>
+        <span class="map-ctrls" id="mapCtrls">
+          <button type="button" class="btn" id="mapToggle" aria-pressed="true" title="Show or hide the map">Map: On</button>
+          <label class="map-width-ctrl" id="mapWidthWrap" title="Width of the map on the right">
+            <span class="seg-label">Width</span>
+            <input type="range" id="mapWidth" min="20" max="70" step="1" aria-label="Map width">
+          </label>
+          <label class="chk" id="onlyOnMapWrap" title="Limit the list to parks currently visible on the map">
+            <input type="checkbox" id="onlyOnMap"> Show only what's on map
+          </label>
+        </span>
       </div>
     </div>
     <div class="sort-bar" id="sortBar"></div>
@@ -80,7 +88,7 @@
       <div id="map"></div>
       <div class="map-legend">
         <div><i class="dot" style="background:#12875A"></i>Seller financing</div>
-        <div><i class="dot" style="background:#2B6CB0"></i>Other passes</div>
+        <div><i class="dot" style="background:#2B6CB0"></i>No seller financing</div>
         <div><i class="dot" style="background:#C05621"></i>Missing info — chase broker</div>
         <div><i class="dot" style="background:#12875A"></i>Crexi saved — MHP</div>
         <div><i class="dot" style="background:#6B4C9A"></i>Crexi saved — NNN</div>
@@ -89,6 +97,6 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="app.js?v=20261124g"></script>
+  <script src="app.js?v=20261124h"></script>
 </body>
 </html>
